@@ -15,6 +15,10 @@ namespace ProyectoFinal
         public Form1()
         {
             InitializeComponent();
+            //poner el forms en el centro de la pantalla
+            this.StartPosition = FormStartPosition.Manual;
+            this.Location = new Point(250, 10); // Cambia a la posición deseada
+
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -55,5 +59,7 @@ namespace ProyectoFinal
             MessageBox.Show("Creado por el equipo: NyE Squad");
             Application.Exit();
         }
+
+       
     }
 }
