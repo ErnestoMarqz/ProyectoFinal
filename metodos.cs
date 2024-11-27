@@ -11,5 +11,10 @@ namespace ProyectoFinal
     internal class metodos
     {
 
+
+        private void Baraja()
+        {
+
+        }
     }
 }

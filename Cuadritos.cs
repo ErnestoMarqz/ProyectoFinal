@@ -69,21 +69,7 @@ namespace ProyectoFinal
             parent.ResumeLayout();
 
             return cuadro;
-        }
-
-        // Método para generar un color único
-        private Color GenerarColorUnico(List<Color> coloresUsados, Random random)
-        {
-            Color nuevoColor;
-            do
-            {
-                nuevoColor = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
-            } while (coloresUsados.Contains(nuevoColor));
-
-            coloresUsados.Add(nuevoColor);
-            return nuevoColor;
-        }
-
+        }       
 
         // Método para generar un color único
         private Color GenerarColorUnico()
