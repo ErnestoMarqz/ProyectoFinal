@@ -26,5 +26,32 @@ namespace ProyectoFinal
         {
 
         }
+
+        private void BTNCrear_Click(object sender, EventArgs e)
+        {
+            // Limpiar el FlowLayoutPanel antes de agregar nuevos cuadros
+            flowLayoutPanel1.Controls.Clear();
+
+            // Obtener el número ingresado por el usuario
+            int cantidad = (int)numericUpDown1.Value;
+
+            // Crear una lista de números y desordenarlos
+            Random random = new Random();
+            var numeros = Enumerable.Range(1, cantidad).OrderBy(x => random.Next()).ToList();
+
+            // Crear y agregar los cuadros al FlowLayoutPanel
+            Cuadritos creador = new Cuadritos();
+            foreach (int numero in numeros)
+            {
+                var cuadro = creador.CrearCuadro(numero);
+                flowLayoutPanel1.Controls.Add(cuadro);
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Creado por el equipo: NyE Squad");
+            Application.Exit();
+        }
     }
 }
