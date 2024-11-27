@@ -43,7 +43,8 @@ namespace ProyectoFinal
             Cuadritos creador = new Cuadritos();
             foreach (int numero in numeros)
             {
-                var cuadro = creador.CrearCuadro(numero);
+                var cuadro = creador.CrearCuadroAnimado(flowLayoutPanel1, numero);
+                flowLayoutPanel1.Invalidate();
                 flowLayoutPanel1.Controls.Add(cuadro);
             }
         }
