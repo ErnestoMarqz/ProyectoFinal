@@ -58,39 +58,6 @@ namespace ProyectoFinal
             return cuadro;
         }
 
-        public void CambiarColor(Panel cuadro, Color color)
-        {
-            cuadro.BackColor = color;
-            cuadro.Refresh();
-        }
-
-        public void IntercambiarCuadros(Panel cuadro1, Panel cuadro2)
-        {
-            cuadro1.SuspendLayout();
-            cuadro2.SuspendLayout();
-
-            // Intercambiar colores para la animación
-            Color tempColor = cuadro1.BackColor;
-            cuadro1.BackColor = cuadro2.BackColor;
-            cuadro2.BackColor = tempColor;
-
-            // Intercambiar textos de las etiquetas
-            Label label1 = cuadro1.Controls[0] as Label;
-            Label label2 = cuadro2.Controls[0] as Label;
-
-            string tempText = label1.Text;
-            label1.Text = label2.Text;
-            label2.Text = tempText;
-
-            // Intercambiar tamaños (opcional, si aplicas el tamaño proporcional al número)
-            Size tempSize = cuadro1.Size;
-            cuadro1.Size = cuadro2.Size;
-            cuadro2.Size = tempSize;
-
-            cuadro1.ResumeLayout();
-            cuadro2.ResumeLayout();
-        }
-
         public Color GenerarColorUnico()
         {
             Color nuevoColor;
@@ -101,6 +68,49 @@ namespace ProyectoFinal
 
             coloresUsados.Add(nuevoColor);
             return nuevoColor;
+        }
+
+        public static void IntercambiarCuadrosAnimado(FlowLayoutPanel parent, int indiceA, int indiceB)
+        {
+            // Lógica de animación de intercambio (sin cambios)
+            Panel cuadroA = parent.Controls[indiceA] as Panel;
+            Panel cuadroB = parent.Controls[indiceB] as Panel;
+
+            if (cuadroA == null || cuadroB == null) return;
+
+            int numeroA = int.Parse((cuadroA.Controls[0] as Label).Text);
+            int numeroB = int.Parse((cuadroB.Controls[0] as Label).Text);
+
+            Size tamañoInicialA = cuadroA.Size;
+            Size tamañoFinalA = new Size(numeroB * 10, numeroB * 10);
+            Size tamañoInicialB = cuadroB.Size;
+            Size tamañoFinalB = new Size(numeroA * 10, numeroA * 10);
+
+            int pasos = 20;
+            for (int i = 0; i <= pasos; i++)
+            {
+                cuadroA.Size = new Size(
+                    Interpolar(tamañoInicialA.Width, tamañoFinalA.Width, i, pasos),
+                    Interpolar(tamañoInicialA.Height, tamañoFinalA.Height, i, pasos)
+                );
+
+                cuadroB.Size = new Size(
+                    Interpolar(tamañoInicialB.Width, tamañoFinalB.Width, i, pasos),
+                    Interpolar(tamañoInicialB.Height, tamañoFinalB.Height, i, pasos)
+                );
+
+                (cuadroA.Controls[0] as Label).Text = numeroB.ToString();
+                (cuadroB.Controls[0] as Label).Text = numeroA.ToString();
+
+                cuadroA.Refresh();
+                cuadroB.Refresh();
+                Thread.Sleep(50);
+            }
+        }
+
+        private static int Interpolar(int inicio, int fin, int pasoActual, int totalPasos)
+        {
+            return inicio + (fin - inicio) * pasoActual / totalPasos;
         }
     }
 }
