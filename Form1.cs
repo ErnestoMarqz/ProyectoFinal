@@ -34,6 +34,23 @@ namespace ProyectoFinal
 
         private void BTNCrear_Click(object sender, EventArgs e)
         {
+          
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Creado por el equipo: NyE Squad");
+            Application.Exit();
+        }
+
+        private void btnIniciar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCrear_Click_1(object sender, EventArgs e)
+        {
             // Limpiar el FlowLayoutPanel antes de agregar nuevos cuadros
             flowLayoutPanel1.Controls.Clear();
 
@@ -55,18 +72,6 @@ namespace ProyectoFinal
                 var cuadro = creador.CrearCuadroAnimadoEnLayout(flowLayoutPanel1, numero);
                 flowLayoutPanel1.Controls.Add(cuadro);
             }
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Creado por el equipo: NyE Squad");
-            Application.Exit();
-        }
-
-        private void btnIniciar_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
