@@ -42,7 +42,7 @@
             this.btnCrear = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
+            this.cbMetodo = new System.Windows.Forms.ComboBox();
             this.button8 = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -68,7 +68,6 @@
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Opciones";
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // numericUpDown2
             // 
@@ -182,7 +181,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.comboBox4);
+            this.groupBox2.Controls.Add(this.cbMetodo);
             this.groupBox2.Controls.Add(this.button8);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.label9);
@@ -195,10 +194,10 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Ordenar";
             // 
-            // comboBox4
+            // cbMetodo
             // 
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Items.AddRange(new object[] {
+            this.cbMetodo.FormattingEnabled = true;
+            this.cbMetodo.Items.AddRange(new object[] {
             "Burbuja",
             "Burbuja Mejorado",
             "Merges",
@@ -210,10 +209,10 @@
             "Radix Sort",
             "Heap Sort",
             "Baraja"});
-            this.comboBox4.Location = new System.Drawing.Point(15, 44);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(121, 21);
-            this.comboBox4.TabIndex = 10;
+            this.cbMetodo.Location = new System.Drawing.Point(15, 44);
+            this.cbMetodo.Name = "cbMetodo";
+            this.cbMetodo.Size = new System.Drawing.Size(121, 21);
+            this.cbMetodo.TabIndex = 10;
             // 
             // button8
             // 
@@ -223,6 +222,7 @@
             this.button8.TabIndex = 9;
             this.button8.Text = "Iniciar";
             this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // label8
             // 
@@ -277,7 +277,6 @@
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "Form1";
             this.Text = "form";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
@@ -305,7 +304,7 @@
         private System.Windows.Forms.Button btnCrear;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.ComboBox comboBox4;
+        private System.Windows.Forms.ComboBox cbMetodo;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;

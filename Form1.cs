@@ -21,32 +21,10 @@ namespace ProyectoFinal
             this.Location = new Point(250, 10); // Cambia a la posición deseada
 
         }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void BTNCrear_Click(object sender, EventArgs e)
-        {
-          
-
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Creado por el equipo: NyE Squad");
             Application.Exit();
-        }
-
-        private void btnIniciar_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void btnCrear_Click_1(object sender, EventArgs e)
@@ -71,6 +49,62 @@ namespace ProyectoFinal
                 flowLayoutPanel1.Invalidate();
                 var cuadro = creador.CrearCuadroAnimadoEnLayout(flowLayoutPanel1, numero);
                 flowLayoutPanel1.Controls.Add(cuadro);
+            }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            if (cbMetodo.SelectedItem == null) 
+            {
+                MessageBox.Show("Seleciona un metodo");
+                return;
+            }
+
+            string opcion = cbMetodo.SelectedItem.ToString();
+
+            switch(opcion) 
+            {
+                case "Burbuja":
+                    MessageBox.Show("sa");
+                    break;
+
+                case "Burbuja Mejorada":
+                    MessageBox.Show("sa");
+                    break;
+
+                case "Merges":
+                    MessageBox.Show("sa");
+                    break;
+
+                case "Shell":
+                    MessageBox.Show("sa");
+                    break;
+
+                case "Inter. Directa":
+                    MessageBox.Show("sa");
+                    break;
+
+                case "Quick Sort":
+                    MessageBox.Show("sa");
+                    break;
+
+                case "Cubeta":
+                    MessageBox.Show("sa");
+                    break;
+
+                case "Inter. Binaria":
+                    MessageBox.Show("sa");
+                    break;
+
+                case "Radix Sort":
+                    MessageBox.Show("sa");
+                    break;
+                case "Heap Sort":
+                    MessageBox.Show("sa");
+                    break;
+                case "Baraja":
+                    MessageBox.Show("sa");
+                    break;
             }
         }
     }
