@@ -16,15 +16,13 @@ namespace ProyectoFinal
 
         public Panel CrearCuadroAnimadoEnLayout(FlowLayoutPanel parent, int numero)
         {
-            // Crear el panel inicial
             Panel cuadro = new Panel
             {
-                Size = new Size(5, 5), // Tamaño inicial
+                Size = new Size(5, 5),
                 BackColor = GenerarColorUnico(),
-                Margin = new Padding(5) // Asegurar un margen agradable dentro del FlowLayoutPanel
+                Margin = new Padding(5)
             };
 
-            // Crear la etiqueta
             Label etiqueta = new Label
             {
                 Text = numero.ToString(),
@@ -36,43 +34,64 @@ namespace ProyectoFinal
             };
 
             cuadro.Controls.Add(etiqueta);
-
-            // Agregar el cuadro al contenedor principal
             parent.Controls.Add(cuadro);
 
-            // Tamaño final del cuadro
             Size tamañoFinal = new Size(numero * 10, numero * 10);
 
-            // Deshabilitar la disposición automática
             parent.SuspendLayout();
-
-            // Animar el crecimiento del cuadro
             int incremento = 4;
+
             while (cuadro.Width < tamañoFinal.Width || cuadro.Height < tamañoFinal.Height)
             {
-                // Incrementar tamaño gradualmente
                 if (cuadro.Width < tamañoFinal.Width)
                     cuadro.Width = Math.Min(cuadro.Width + incremento, tamañoFinal.Width);
 
                 if (cuadro.Height < tamañoFinal.Height)
                     cuadro.Height = Math.Min(cuadro.Height + incremento, tamañoFinal.Height);
 
-                // Forzar la actualización del control
-                cuadro.Refresh(); // Redibuja solo el cuadro
-                parent.Refresh(); // Redibuja el contenedor
-
-                // Pausa para crear el efecto de animación
-                Thread.Sleep(70); // Ajustar para la velocidad deseada
+                cuadro.Refresh();
+                parent.Refresh();
+                Thread.Sleep(70);
             }
 
-            // Rehabilitar la disposición automática
             parent.ResumeLayout();
-
             return cuadro;
-        }       
+        }
 
-        // Método para generar un color único
-        private Color GenerarColorUnico()
+        public void CambiarColor(Panel cuadro, Color color)
+        {
+            cuadro.BackColor = color;
+            cuadro.Refresh();
+        }
+
+        public void IntercambiarCuadros(Panel cuadro1, Panel cuadro2)
+        {
+            cuadro1.SuspendLayout();
+            cuadro2.SuspendLayout();
+
+            // Intercambiar colores para la animación
+            Color tempColor = cuadro1.BackColor;
+            cuadro1.BackColor = cuadro2.BackColor;
+            cuadro2.BackColor = tempColor;
+
+            // Intercambiar textos de las etiquetas
+            Label label1 = cuadro1.Controls[0] as Label;
+            Label label2 = cuadro2.Controls[0] as Label;
+
+            string tempText = label1.Text;
+            label1.Text = label2.Text;
+            label2.Text = tempText;
+
+            // Intercambiar tamaños (opcional, si aplicas el tamaño proporcional al número)
+            Size tempSize = cuadro1.Size;
+            cuadro1.Size = cuadro2.Size;
+            cuadro2.Size = tempSize;
+
+            cuadro1.ResumeLayout();
+            cuadro2.ResumeLayout();
+        }
+
+        public Color GenerarColorUnico()
         {
             Color nuevoColor;
             do
