@@ -66,7 +66,67 @@ namespace ProyectoFinal
 
         private void btnIniciar_Click(object sender, EventArgs e)
         {
-            
+
+        }
+
+        private int BusquedaBinaria(int[] arreglo, int objetivo)
+        {
+            int izquierda = 0;
+            int derecha = arreglo.Length - 1;
+
+            while (izquierda <= derecha)
+            {
+                int medio = (izquierda + derecha) / 2;
+
+                if (arreglo[medio] == objetivo)
+                {
+                    return medio; // Número encontrado
+                }
+                else if (arreglo[medio] < objetivo)
+                {
+                    izquierda = medio + 1; // Buscar en el lado derecho
+                }
+                else
+                {
+                    derecha = medio - 1; // Buscar en el lado izquierdo
+                }
+            }
+
+            return -1; // Número no encontrado
+        }
+
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (arreglo == null || arreglo.Length == 0)
+            {
+                MessageBox.Show("Primero genera una lista de números.", "Advertencia");
+                return;
+            }
+
+            // Ordenar el arreglo antes de la búsqueda binaria
+            //Array.Sort(arreglo);
+
+            // Obtener el número a buscar desde un cuadro de texto
+            if (int.TryParse(numericUpDown2.Text, out int numeroBuscar))
+            {
+                // Llamar al método de búsqueda binaria
+                int indice = BusquedaBinaria(arreglo, numeroBuscar);
+
+                // Mostrar el resultado
+                if (indice != -1)
+                {
+                    MessageBox.Show($"Número {numeroBuscar} encontrado en el índice {indice}.", "Resultado");
+                }
+                else
+                {
+                    MessageBox.Show($"Número {numeroBuscar} no encontrado.", "Resultado");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Por favor, ingresa un número válido para buscar.", "Error");
+            }
         }
     }
 }
