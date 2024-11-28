@@ -198,6 +198,18 @@
             // comboBox4
             // 
             this.comboBox4.FormattingEnabled = true;
+            this.comboBox4.Items.AddRange(new object[] {
+            "Burbuja",
+            "Burbuja Mejorado",
+            "Merges",
+            "Shell",
+            "Inter. Directa",
+            "Quick Sort",
+            "Cubeta",
+            "Inter. Binaria",
+            "Radix Sort",
+            "Heap Sort",
+            "Baraja"});
             this.comboBox4.Location = new System.Drawing.Point(15, 44);
             this.comboBox4.Name = "comboBox4";
             this.comboBox4.Size = new System.Drawing.Size(121, 21);
