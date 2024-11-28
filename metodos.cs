@@ -10,7 +10,10 @@ namespace ProyectoFinal
 {
     internal class metodos
     {
+        private void Burbuja()
+        {
 
+        }
 
         private void Baraja()
         {
