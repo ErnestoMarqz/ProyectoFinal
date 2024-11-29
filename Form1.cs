@@ -52,7 +52,7 @@ namespace ProyectoFinal
             }
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private async Task button8_ClickAsync(object sender, EventArgs e)
         {
             if (arreglo == null) 
             {
@@ -83,7 +83,7 @@ namespace ProyectoFinal
                     break;
 
                 case "Shell":
-                    MessageBox.Show("sa");
+                    await ShellSortSimplificado(arreglo, flowLayoutPanel1);
                     break;
 
                 case "Inter. Directa":
@@ -111,6 +111,63 @@ namespace ProyectoFinal
                 case "Baraja":
                     MessageBox.Show("sa");
                     break;
+            }
+        }
+        private async Task ShellSortSimplificado(int[] arreglo, FlowLayoutPanel panel)
+        {
+            int n = arreglo.Length;
+
+            // Inicializamos el intervalo (gap) en la mitad del tamaño del arreglo
+            for (int gap = n / 2; gap > 0; gap /= 2)
+            {
+                // Recorremos los elementos separados por el intervalo
+                for (int i = gap; i < n; i++)
+                {
+                    int temp = arreglo[i];
+                    int j;
+
+                    // Ordenamos los elementos dentro de este intervalo
+                    for (j = i; j >= gap && arreglo[j - gap] > temp; j -= gap)
+                    {
+                        arreglo[j] = arreglo[j - gap];
+                    }
+
+                    arreglo[j] = temp;
+
+                    // Actualizamos la interfaz gráfica en cada iteración importante
+                    ActualizarInterfaz(panel, arreglo);
+                    await Task.Delay(100); // Breve pausa para visualizar el cambio
+                }
+            }
+
+            MessageBox.Show("Ordenamiento por Shell completado.");
+        }
+
+        private void ActualizarInterfaz(FlowLayoutPanel panel, int[] arreglo)
+        {
+            // Limpiar el FlowLayoutPanel
+            panel.Controls.Clear();
+
+            // Crear y agregar cuadros al panel
+            foreach (int valor in arreglo)
+            {
+                Panel cuadro = new Panel
+                {
+                    Size = new Size(valor * 10, 20), // Tamaño basado en el valor
+                    BackColor = Color.FromArgb(100, valor * 5 % 255, valor * 3 % 255),
+                    Margin = new Padding(5)
+                };
+
+                Label etiqueta = new Label
+                {
+                    Text = valor.ToString(),
+                    Dock = DockStyle.Fill,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    ForeColor = Color.White
+                };
+
+                cuadro.Controls.Add(etiqueta);
+                panel.Controls.Add(cuadro);
             }
         }
     }
