@@ -46,33 +46,41 @@ namespace ProyectoFinal
             // Deshabilitar la disposición automática
             parent.SuspendLayout();
 
-            // Animar el crecimiento del cuadro
-            int incremento = 4;
-            while (cuadro.Width < tamañoFinal.Width || cuadro.Height < tamañoFinal.Height)
-            {
-                // Incrementar tamaño gradualmente
-                if (cuadro.Width < tamañoFinal.Width)
-                    cuadro.Width = Math.Min(cuadro.Width + incremento, tamañoFinal.Width);
-
-                if (cuadro.Height < tamañoFinal.Height)
-                    cuadro.Height = Math.Min(cuadro.Height + incremento, tamañoFinal.Height);
-
-                // Forzar la actualización del control
-                cuadro.Refresh(); // Redibuja solo el cuadro
-                parent.Refresh(); // Redibuja el contenedor
-
-                // Pausa para crear el efecto de animación
-                Thread.Sleep(70); // Ajustar para la velocidad deseada
-            }
-
+            AnimarCambioDeTamaño(cuadro, numero);
             // Rehabilitar la disposición automática
             parent.ResumeLayout();
 
             return cuadro;
-        }       
+        }
+        public void AnimarCambioDeTamaño(Panel cuadro, int numero)
+        {
+            Size tamañoFinal = new Size(numero * 10, numero * 10);
+            int incremento = 4;
+
+            while (cuadro.Width != tamañoFinal.Width || cuadro.Height != tamañoFinal.Height)
+            {
+                // Calcular el próximo tamaño
+                int nuevoAncho = cuadro.Width < tamañoFinal.Width
+                    ? Math.Min(cuadro.Width + incremento, tamañoFinal.Width)
+                    : Math.Max(cuadro.Width - incremento, tamañoFinal.Width);
+
+                int nuevoAlto = cuadro.Height < tamañoFinal.Height
+                    ? Math.Min(cuadro.Height + incremento, tamañoFinal.Height)
+                    : Math.Max(cuadro.Height - incremento, tamañoFinal.Height);
+
+                // Actualizar el tamaño del cuadro
+                cuadro.Size = new Size(nuevoAncho, nuevoAlto);
+                cuadro.Refresh();
+
+                // Forzar actualización visual
+                Application.DoEvents();
+                Thread.Sleep(70); // Pausa para que la animación sea visible
+            }
+        }
+
 
         // Método para generar un color único
-        private Color GenerarColorUnico()
+        public Color GenerarColorUnico()
         {
             Color nuevoColor;
             do

@@ -13,6 +13,7 @@ namespace ProyectoFinal
     public partial class Form1 : Form
     {
         int[] arreglo;
+        metodos metodos = new metodos();
         public Form1()
         {
             InitializeComponent();
@@ -66,7 +67,9 @@ namespace ProyectoFinal
 
         private void btnIniciar_Click(object sender, EventArgs e)
         {
-            
+
+             metodos.InsertaMonticuloAnimado(arreglo, flowLayoutPanel1);
+
         }
     }
 }
