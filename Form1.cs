@@ -157,7 +157,6 @@ namespace ProyectoFinal
                 // Revertimos el color de fondo
                 textBox2.Invoke((MethodInvoker)(() =>
                 {
-                    textBox2 = textBox2; // Revertimos el color de fondo
                 }));
             });
         }

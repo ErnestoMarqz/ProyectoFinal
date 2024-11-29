@@ -16,15 +16,13 @@ namespace ProyectoFinal
 
         public Panel CrearCuadroAnimadoEnLayout(FlowLayoutPanel parent, int numero)
         {
-            // Crear el panel inicial
             Panel cuadro = new Panel
             {
-                Size = new Size(5, 5), // Tamaño inicial
+                Size = new Size(5, 5),
                 BackColor = GenerarColorUnico(),
-                Margin = new Padding(5) // Asegurar un margen agradable dentro del FlowLayoutPanel
+                Margin = new Padding(5)
             };
 
-            // Crear la etiqueta
             Label etiqueta = new Label
             {
                 Text = numero.ToString(),
@@ -36,43 +34,31 @@ namespace ProyectoFinal
             };
 
             cuadro.Controls.Add(etiqueta);
-
-            // Agregar el cuadro al contenedor principal
             parent.Controls.Add(cuadro);
 
-            // Tamaño final del cuadro
             Size tamañoFinal = new Size(numero * 10, numero * 10);
 
-            // Deshabilitar la disposición automática
             parent.SuspendLayout();
-
-            // Animar el crecimiento del cuadro
             int incremento = 4;
+
             while (cuadro.Width < tamañoFinal.Width || cuadro.Height < tamañoFinal.Height)
             {
-                // Incrementar tamaño gradualmente
                 if (cuadro.Width < tamañoFinal.Width)
                     cuadro.Width = Math.Min(cuadro.Width + incremento, tamañoFinal.Width);
 
                 if (cuadro.Height < tamañoFinal.Height)
                     cuadro.Height = Math.Min(cuadro.Height + incremento, tamañoFinal.Height);
 
-                // Forzar la actualización del control
-                cuadro.Refresh(); // Redibuja solo el cuadro
-                parent.Refresh(); // Redibuja el contenedor
-
-                // Pausa para crear el efecto de animación
-                Thread.Sleep(70); // Ajustar para la velocidad deseada
+                cuadro.Refresh();
+                parent.Refresh();
+                Thread.Sleep(70);
             }
 
-            // Rehabilitar la disposición automática
             parent.ResumeLayout();
-
             return cuadro;
         }
 
-        // Método para generar un color único
-        private Color GenerarColorUnico()
+        public Color GenerarColorUnico()
         {
             Color nuevoColor;
             do
@@ -82,6 +68,49 @@ namespace ProyectoFinal
 
             coloresUsados.Add(nuevoColor);
             return nuevoColor;
+        }
+
+        public static void IntercambiarCuadrosAnimado(FlowLayoutPanel parent, int indiceA, int indiceB)
+        {
+            // Lógica de animación de intercambio (sin cambios)
+            Panel cuadroA = parent.Controls[indiceA] as Panel;
+            Panel cuadroB = parent.Controls[indiceB] as Panel;
+
+            if (cuadroA == null || cuadroB == null) return;
+
+            int numeroA = int.Parse((cuadroA.Controls[0] as Label).Text);
+            int numeroB = int.Parse((cuadroB.Controls[0] as Label).Text);
+
+            Size tamañoInicialA = cuadroA.Size;
+            Size tamañoFinalA = new Size(numeroB * 10, numeroB * 10);
+            Size tamañoInicialB = cuadroB.Size;
+            Size tamañoFinalB = new Size(numeroA * 10, numeroA * 10);
+
+            int pasos = 20;
+            for (int i = 0; i <= pasos; i++)
+            {
+                cuadroA.Size = new Size(
+                    Interpolar(tamañoInicialA.Width, tamañoFinalA.Width, i, pasos),
+                    Interpolar(tamañoInicialA.Height, tamañoFinalA.Height, i, pasos)
+                );
+
+                cuadroB.Size = new Size(
+                    Interpolar(tamañoInicialB.Width, tamañoFinalB.Width, i, pasos),
+                    Interpolar(tamañoInicialB.Height, tamañoFinalB.Height, i, pasos)
+                );
+
+                (cuadroA.Controls[0] as Label).Text = numeroB.ToString();
+                (cuadroB.Controls[0] as Label).Text = numeroA.ToString();
+
+                cuadroA.Refresh();
+                cuadroB.Refresh();
+                Thread.Sleep(50);
+            }
+        }
+
+        private static int Interpolar(int inicio, int fin, int pasoActual, int totalPasos)
+        {
+            return inicio + (fin - inicio) * pasoActual / totalPasos;
         }
     }
 }
