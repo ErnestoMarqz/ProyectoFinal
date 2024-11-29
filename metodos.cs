@@ -147,7 +147,7 @@ namespace ProyectoFinal
                 // Actualizamos visualmente el tamaño y el color
                 int nuevoValor = temp[k];
                 Size tamañoInicial = cuadro.Size;
-                Size tamañoFinal = new Size(nuevoValor * 20, nuevoValor * 20);
+                Size tamañoFinal = new Size(nuevoValor * 10, nuevoValor * 10);
 
                 // Animar el cambio de tamaño
                 int pasos = 20;

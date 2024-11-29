@@ -58,19 +58,19 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(26, 35);
+            this.label1.Location = new System.Drawing.Point(23, 28);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(167, 20);
+            this.label1.Size = new System.Drawing.Size(141, 16);
             this.label1.TabIndex = 0;
             this.label1.Text = "Seleccione un Metodo";
             // 
             // BTNCrear
             // 
-            this.BTNCrear.Location = new System.Drawing.Point(65, 108);
-            this.BTNCrear.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.BTNCrear.Location = new System.Drawing.Point(58, 86);
+            this.BTNCrear.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.BTNCrear.Name = "BTNCrear";
-            this.BTNCrear.Size = new System.Drawing.Size(112, 35);
+            this.BTNCrear.Size = new System.Drawing.Size(100, 28);
             this.BTNCrear.TabIndex = 1;
             this.BTNCrear.Text = "Crear";
             this.BTNCrear.UseVisualStyleBackColor = true;
@@ -79,10 +79,10 @@
             // rbAsendente
             // 
             this.rbAsendente.AutoSize = true;
-            this.rbAsendente.Location = new System.Drawing.Point(44, 134);
-            this.rbAsendente.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.rbAsendente.Location = new System.Drawing.Point(39, 107);
+            this.rbAsendente.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.rbAsendente.Name = "rbAsendente";
-            this.rbAsendente.Size = new System.Drawing.Size(112, 24);
+            this.rbAsendente.Size = new System.Drawing.Size(93, 20);
             this.rbAsendente.TabIndex = 3;
             this.rbAsendente.TabStop = true;
             this.rbAsendente.Text = "Asendente";
@@ -91,10 +91,10 @@
             // rbDesendente
             // 
             this.rbDesendente.AutoSize = true;
-            this.rbDesendente.Location = new System.Drawing.Point(44, 170);
-            this.rbDesendente.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.rbDesendente.Location = new System.Drawing.Point(39, 136);
+            this.rbDesendente.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.rbDesendente.Name = "rbDesendente";
-            this.rbDesendente.Size = new System.Drawing.Size(122, 24);
+            this.rbDesendente.Size = new System.Drawing.Size(102, 20);
             this.rbDesendente.TabIndex = 4;
             this.rbDesendente.TabStop = true;
             this.rbDesendente.Text = "Desendente";
@@ -103,20 +103,20 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(82, 110);
+            this.label2.Location = new System.Drawing.Point(73, 88);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(56, 20);
+            this.label2.Size = new System.Drawing.Size(47, 16);
             this.label2.TabIndex = 5;
             this.label2.Text = "Origen";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(61, 42);
+            this.label3.Location = new System.Drawing.Point(54, 34);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(117, 20);
+            this.label3.Size = new System.Drawing.Size(98, 16);
             this.label3.TabIndex = 6;
             this.label3.Text = "No. Elementos ";
             // 
@@ -126,11 +126,11 @@
             this.groupBox1.Controls.Add(this.numericUpDown1);
             this.groupBox1.Controls.Add(this.BTNCrear);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Location = new System.Drawing.Point(1173, 45);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox1.Location = new System.Drawing.Point(460, 445);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox1.Size = new System.Drawing.Size(224, 161);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Size = new System.Drawing.Size(199, 129);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Crear ";
@@ -138,8 +138,8 @@
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(45, 68);
-            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.numericUpDown1.Location = new System.Drawing.Point(40, 54);
+            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             15,
             0,
@@ -151,7 +151,7 @@
             0,
             0});
             this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(156, 26);
+            this.numericUpDown1.Size = new System.Drawing.Size(139, 22);
             this.numericUpDown1.TabIndex = 13;
             this.numericUpDown1.Value = new decimal(new int[] {
             1,
@@ -162,19 +162,19 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(58, 36);
+            this.label5.Location = new System.Drawing.Point(52, 29);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(113, 20);
+            this.label5.Size = new System.Drawing.Size(94, 16);
             this.label5.TabIndex = 19;
             this.label5.Text = "Dato a buscar:";
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(27, 191);
-            this.button4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button4.Location = new System.Drawing.Point(24, 153);
+            this.button4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(165, 35);
+            this.button4.Size = new System.Drawing.Size(147, 28);
             this.button4.TabIndex = 15;
             this.button4.Text = "Buscar";
             this.button4.UseVisualStyleBackColor = true;
@@ -194,39 +194,39 @@
             "Radix Sort",
             "Heap Sort",
             "Baraja"});
-            this.comboBox1.Location = new System.Drawing.Point(21, 60);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.comboBox1.Location = new System.Drawing.Point(19, 48);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(180, 28);
+            this.comboBox1.Size = new System.Drawing.Size(160, 24);
             this.comboBox1.TabIndex = 10;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(25, 102);
-            this.button3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button3.Location = new System.Drawing.Point(22, 82);
+            this.button3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(165, 35);
+            this.button3.Size = new System.Drawing.Size(147, 28);
             this.button3.TabIndex = 12;
             this.button3.Text = "Crear Ordenado";
             this.button3.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(25, 146);
-            this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button2.Location = new System.Drawing.Point(22, 117);
+            this.button2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(165, 35);
+            this.button2.Size = new System.Drawing.Size(147, 28);
             this.button2.TabIndex = 11;
             this.button2.Text = "Crear Desordenado";
             this.button2.UseVisualStyleBackColor = true;
             // 
             // btnIniciar
             // 
-            this.btnIniciar.Location = new System.Drawing.Point(58, 205);
-            this.btnIniciar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnIniciar.Location = new System.Drawing.Point(52, 164);
+            this.btnIniciar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnIniciar.Name = "btnIniciar";
-            this.btnIniciar.Size = new System.Drawing.Size(112, 35);
+            this.btnIniciar.Size = new System.Drawing.Size(100, 28);
             this.btnIniciar.TabIndex = 9;
             this.btnIniciar.Text = "Iniciar";
             this.btnIniciar.UseVisualStyleBackColor = true;
@@ -234,10 +234,10 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1198, 888);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button1.Location = new System.Drawing.Point(1065, 710);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(165, 35);
+            this.button1.Size = new System.Drawing.Size(147, 28);
             this.button1.TabIndex = 20;
             this.button1.Text = "Salir";
             this.button1.UseVisualStyleBackColor = true;
@@ -246,18 +246,19 @@
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.BackColor = System.Drawing.Color.Ivory;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(18, 18);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1134, 529);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1267, 423);
             this.flowLayoutPanel1.TabIndex = 9;
             // 
             // numericUpDown2
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(28, 65);
-            this.numericUpDown2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.numericUpDown2.Location = new System.Drawing.Point(25, 52);
+            this.numericUpDown2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(156, 26);
+            this.numericUpDown2.Size = new System.Drawing.Size(139, 22);
             this.numericUpDown2.TabIndex = 20;
             // 
             // groupBox2
@@ -269,11 +270,9 @@
             this.groupBox2.Controls.Add(this.btnIniciar);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Location = new System.Drawing.Point(1173, 266);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox2.Location = new System.Drawing.Point(748, 444);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox2.Size = new System.Drawing.Size(224, 256);
+            this.groupBox2.Size = new System.Drawing.Size(199, 205);
             this.groupBox2.TabIndex = 21;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Ordenar";
@@ -286,40 +285,40 @@
             this.groupBox3.Controls.Add(this.button3);
             this.groupBox3.Controls.Add(this.button4);
             this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Location = new System.Drawing.Point(1173, 585);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox3.Location = new System.Drawing.Point(1043, 468);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox3.Size = new System.Drawing.Size(225, 248);
+            this.groupBox3.Size = new System.Drawing.Size(200, 198);
             this.groupBox3.TabIndex = 22;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Busqueda";
             // 
             // richTextBox2
             // 
-            this.richTextBox2.Location = new System.Drawing.Point(18, 555);
+            this.richTextBox2.Location = new System.Drawing.Point(16, 444);
+            this.richTextBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(1134, 372);
+            this.richTextBox2.Size = new System.Drawing.Size(421, 298);
             this.richTextBox2.TabIndex = 23;
             this.richTextBox2.Text = "";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Salmon;
-            this.ClientSize = new System.Drawing.Size(1425, 939);
+            this.ClientSize = new System.Drawing.Size(1267, 751);
             this.Controls.Add(this.richTextBox2);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.groupBox1);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Metodos de ordenamiento y busqueda";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
