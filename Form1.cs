@@ -68,25 +68,6 @@ namespace ProyectoFinal
             Application.Exit();
         }
 
-        //private void btnIniciar_Click(object sender, EventArgs e)
-        //{
-        //    if (flowLayoutPanel1.Controls.Count == 0)
-        //    {
-        //        MessageBox.Show("Por favor, crea los cuadros antes de iniciar el ordenamiento.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        //        return;
-        //    }
-
-        //    // Preparar el algoritmo de Burbuja
-        //    if (comboBox1.SelectedItem.ToString() == "Burbuja")
-        //    {
-        //        // Determinar si es ascendente o descendente
-        //        bool ascendente = rbAsendente.Checked;
-
-        //        // Llamar al método para iniciar las animaciones en paralelo
-        //        AnimateCodeAndSort(ascendente);
-        //    }
-        //}
-
         private void btnIniciar_Click(object sender, EventArgs e)
         {
             if (flowLayoutPanel1.Controls.Count == 0)
@@ -102,6 +83,15 @@ namespace ProyectoFinal
 
                 // Llamar al método de ordenamiento
                 metodos.OrdenarBurbujaConAnimacion(flowLayoutPanel1, ascendente);
+            }
+
+            if (comboBox1.SelectedItem.ToString() == "Burbuja Mejorado")
+            {
+                // Determinar si es ascendente o descendente
+                bool ascendente = rbAsendente.Checked;
+
+                // Llamar al método de ordenamiento optimizado
+                metodos.OrdenarBurbujaConAnimacionMejorado(flowLayoutPanel1, ascendente);
             }
 
         }
@@ -147,6 +137,55 @@ namespace ProyectoFinal
             }
             ";
             richTextBox2.Text = codigo;
+
+                richTextBox2.Text = codigo;  // Usamos RichTextBox en lugar de TextBox
+
+                // Llamamos al método para animar el código
+                await AnimateCodeAsync();  // Ejecutamos la animación de forma asíncrona
+            }
+
+            if (comboBox1.SelectedItem.ToString() == "Burbuja Mejorado")
+            {
+                // Reseteamos el índice de la línea y preparamos el texto
+                currentLineIndex = 0;
+                richTextBox2.Clear();  // Cambiar a RichTextBox
+
+                // Código del algoritmo de Burbuja
+                string codigo = @"
+
+                    public void OrdenarBurbujaConAnimacionMejorado(FlowLayoutPanel parent, bool ascendente)
+                {
+                    for (int i = 0; i < parent.Controls.Count - 1; i++)
+                    {
+                        bool intercambio = false;
+                        for (int j = 0; j < parent.Controls.Count - 1 - i; j++)
+                        {
+                            // Obtener los cuadros actuales y adyacentes
+                            Panel cuadroA = parent.Controls[j] as Panel;
+                            Panel cuadroB = parent.Controls[j + 1] as Panel;
+
+                            // Validar que los cuadros existen
+                            if (cuadroA == null || cuadroB == null) continue;
+
+                            // Obtener los números de los cuadros
+                            int valorA = int.Parse((cuadroA.Controls[0] as Label).Text);
+                            int valorB = int.Parse((cuadroB.Controls[0] as Label).Text);
+
+                            // Determinar si intercambiar basado en el orden ascendente/descendente
+                            bool intercambiar = ascendente ? valorA > valorB : valorA < valorB;
+                            if (intercambiar)
+                            {
+                                Cuadritos.IntercambiarCuadrosAnimado(parent, j, j + 1);
+                                intercambio = true;
+                            }
+                        }
+
+                        // Si no hubo intercambios, el arreglo ya está ordenado
+                        if (!intercambio) break;
+                    }
+                }
+                ";
+                richTextBox2.Text = codigo;
 
                 richTextBox2.Text = codigo;  // Usamos RichTextBox en lugar de TextBox
 

@@ -80,18 +80,36 @@ namespace ProyectoFinal
 
         public Color GenerarColorUnico()
         {
+            const int MaxIntentos = 100;
             Color nuevoColor;
+            int intentos = 0;
+
             do
             {
                 nuevoColor = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
-            } while (coloresUsados.Contains(nuevoColor));
+                intentos++;
+            } while (coloresUsados.Contains(nuevoColor) && intentos < MaxIntentos);
 
-            coloresUsados.Add(nuevoColor);
+            if (intentos < MaxIntentos)
+            {
+                coloresUsados.Add(nuevoColor);
+            }
+            else
+            {
+                // Reiniciar la lista de colores si se alcanzan demasiados intentos
+                coloresUsados.Clear();
+                coloresUsados.Add(nuevoColor);
+            }
+
             return nuevoColor;
         }
 
         public static void IntercambiarCuadrosAnimado(FlowLayoutPanel parent, int indiceA, int indiceB)
         {
+            // Validar índices
+            if (indiceA < 0 || indiceB < 0 || indiceA >= parent.Controls.Count || indiceB >= parent.Controls.Count)
+                return;
+
             // Lógica de animación de intercambio (sin cambios)
             Panel cuadroA = parent.Controls[indiceA] as Panel;
             Panel cuadroB = parent.Controls[indiceB] as Panel;
