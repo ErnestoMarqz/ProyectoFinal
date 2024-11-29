@@ -67,8 +67,42 @@ namespace ProyectoFinal
 
         private void btnIniciar_Click(object sender, EventArgs e)
         {
+            if (flowLayoutPanel1.Controls.Count == 0)
+            {
+                MessageBox.Show("Por favor, crea los cuadros antes de iniciar el ordenamiento.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-             metodos.InsertaMonticuloAnimado(arreglo, flowLayoutPanel1);
+            if (comboBox1.SelectedItem.ToString() == "Burbuja")
+            {
+                // Determinar si es ascendente o descendente
+                bool ascendente = rbAsendente.Checked;
+
+                // Llamar al método de ordenamiento
+               // metodos.OrdenarBurbujaConAnimacion(flowLayoutPanel1, ascendente);
+            }
+            if(comboBox1.SelectedItem.ToString() == "Baraja")
+            {
+                if(rbAsendente.Checked == true)
+                {
+                    metodos.BarajaAcendnete(arreglo, flowLayoutPanel1);
+                }
+                else
+                {
+                    metodos.BarajaDescendente(arreglo, flowLayoutPanel1);
+                }
+            }
+            if (comboBox1.SelectedItem.ToString() == "Shell")
+            {
+                if (rbAsendente.Checked == true)
+                {
+                    metodos.ShellAnimado(arreglo, flowLayoutPanel1);
+                }
+                else
+                {
+
+                }
+            }
 
         }
     }
