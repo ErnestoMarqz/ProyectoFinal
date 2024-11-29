@@ -96,11 +96,11 @@ namespace ProyectoFinal
             {
                 if (rbAsendente.Checked == true)
                 {
-                    metodos.ShellAnimado(arreglo, flowLayoutPanel1);
+                    metodos.ShellAsendente(arreglo, flowLayoutPanel1);
                 }
                 else
                 {
-
+                    metodos.ShellDescendente(arreglo, flowLayoutPanel1);
                 }
             }
 
