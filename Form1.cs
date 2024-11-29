@@ -54,6 +54,12 @@ namespace ProyectoFinal
 
         private void button8_Click(object sender, EventArgs e)
         {
+            if (arreglo == null) 
+            {
+                MessageBox.Show("No existe lista para organizar");
+                return;
+            }
+
             if (cbMetodo.SelectedItem == null) 
             {
                 MessageBox.Show("Seleciona un metodo");
