@@ -98,12 +98,29 @@ namespace ProyectoFinal
                 {
                     metodos.ShellAsendente(arreglo, flowLayoutPanel1);
                 }
-                else
+                if (rbDesendente.Checked == true)
                 {
                     metodos.ShellDescendente(arreglo, flowLayoutPanel1);
                 }
             }
-
+            if (comboBox1.SelectedItem.ToString() == "Inter. Directa") 
+            {
+                if (rbAsendente.Checked == true)
+                {
+                    metodos.IntercalacionDirectaAscendente(arreglo, flowLayoutPanel1);
+                }
+                if (rbDesendente.Checked == true)
+                {
+                    metodos.IntercalacionDirectaDescendente(arreglo, flowLayoutPanel1);
+                }
+            }
+            if (comboBox1.SelectedItem.ToString() == "Quick Sort") 
+            {
+                if (rbAsendente.Checked == true) 
+                {
+                    metodos.QuicksortAscendente(arreglo, flowLayoutPanel1);
+                }
+            }
         }
     }
 }
