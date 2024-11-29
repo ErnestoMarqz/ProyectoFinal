@@ -52,15 +52,15 @@ namespace ProyectoFinal
             }
         }
 
-        private async Task button8_ClickAsync(object sender, EventArgs e)
+        private void button8_Click(object sender, EventArgs e)
         {
-            if (arreglo == null) 
+            if (arreglo == null)
             {
                 MessageBox.Show("No existe lista para organizar");
                 return;
             }
 
-            if (cbMetodo.SelectedItem == null) 
+            if (cbMetodo.SelectedItem == null)
             {
                 MessageBox.Show("Seleciona un metodo");
                 return;
@@ -68,7 +68,7 @@ namespace ProyectoFinal
 
             string opcion = cbMetodo.SelectedItem.ToString();
 
-            switch(opcion) 
+            switch (opcion)
             {
                 case "Burbuja":
                     MessageBox.Show("sa");
@@ -83,7 +83,7 @@ namespace ProyectoFinal
                     break;
 
                 case "Shell":
-                    await ShellSortSimplificado(arreglo, flowLayoutPanel1);
+
                     break;
 
                 case "Inter. Directa":
@@ -105,69 +105,39 @@ namespace ProyectoFinal
                 case "Radix Sort":
                     MessageBox.Show("sa");
                     break;
+
                 case "Heap Sort":
                     MessageBox.Show("sa");
                     break;
+
                 case "Baraja":
                     MessageBox.Show("sa");
                     break;
             }
         }
-        private async Task ShellSortSimplificado(int[] arreglo, FlowLayoutPanel panel)
+        static void ShellSort(int[] arreglo)
         {
             int n = arreglo.Length;
 
-            // Inicializamos el intervalo (gap) en la mitad del tamaño del arreglo
+            // Empezamos con un gap grande, luego lo reducimos
             for (int gap = n / 2; gap > 0; gap /= 2)
             {
-                // Recorremos los elementos separados por el intervalo
+                // Recorremos los elementos dentro de gap
                 for (int i = gap; i < n; i++)
                 {
+                    // Guardamos el valor actual y creamos un índice para comparar
                     int temp = arreglo[i];
                     int j;
 
-                    // Ordenamos los elementos dentro de este intervalo
+                    // Ordenamos usando el gap
                     for (j = i; j >= gap && arreglo[j - gap] > temp; j -= gap)
                     {
                         arreglo[j] = arreglo[j - gap];
                     }
 
+                    // Colocamos el valor temporal en su posición correcta
                     arreglo[j] = temp;
-
-                    // Actualizamos la interfaz gráfica en cada iteración importante
-                    ActualizarInterfaz(panel, arreglo);
-                    await Task.Delay(100); // Breve pausa para visualizar el cambio
                 }
-            }
-
-            MessageBox.Show("Ordenamiento por Shell completado.");
-        }
-
-        private void ActualizarInterfaz(FlowLayoutPanel panel, int[] arreglo)
-        {
-            // Limpiar el FlowLayoutPanel
-            panel.Controls.Clear();
-
-            // Crear y agregar cuadros al panel
-            foreach (int valor in arreglo)
-            {
-                Panel cuadro = new Panel
-                {
-                    Size = new Size(valor * 10, 20), // Tamaño basado en el valor
-                    BackColor = Color.FromArgb(100, valor * 5 % 255, valor * 3 % 255),
-                    Margin = new Padding(5)
-                };
-
-                Label etiqueta = new Label
-                {
-                    Text = valor.ToString(),
-                    Dock = DockStyle.Fill,
-                    TextAlign = ContentAlignment.MiddleCenter,
-                    ForeColor = Color.White
-                };
-
-                cuadro.Controls.Add(etiqueta);
-                panel.Controls.Add(cuadro);
             }
         }
     }

@@ -46,8 +46,8 @@
             this.button8 = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.rbAsendente = new System.Windows.Forms.RadioButton();
+            this.rbDesendente = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.Crear.SuspendLayout();
@@ -185,8 +185,8 @@
             this.groupBox2.Controls.Add(this.button8);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.label9);
-            this.groupBox2.Controls.Add(this.radioButton1);
-            this.groupBox2.Controls.Add(this.radioButton2);
+            this.groupBox2.Controls.Add(this.rbAsendente);
+            this.groupBox2.Controls.Add(this.rbDesendente);
             this.groupBox2.Location = new System.Drawing.Point(789, 190);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(149, 192);
@@ -241,27 +241,27 @@
             this.label9.TabIndex = 5;
             this.label9.Text = "Origen";
             // 
-            // radioButton1
+            // rbAsendente
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(37, 120);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(76, 17);
-            this.radioButton1.TabIndex = 3;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Asendente";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.rbAsendente.AutoSize = true;
+            this.rbAsendente.Location = new System.Drawing.Point(37, 120);
+            this.rbAsendente.Name = "rbAsendente";
+            this.rbAsendente.Size = new System.Drawing.Size(76, 17);
+            this.rbAsendente.TabIndex = 3;
+            this.rbAsendente.TabStop = true;
+            this.rbAsendente.Text = "Asendente";
+            this.rbAsendente.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // rbDesendente
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(35, 97);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(83, 17);
-            this.radioButton2.TabIndex = 4;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Desendente";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.rbDesendente.AutoSize = true;
+            this.rbDesendente.Location = new System.Drawing.Point(35, 97);
+            this.rbDesendente.Name = "rbDesendente";
+            this.rbDesendente.Size = new System.Drawing.Size(83, 17);
+            this.rbDesendente.TabIndex = 4;
+            this.rbDesendente.TabStop = true;
+            this.rbDesendente.Text = "Desendente";
+            this.rbDesendente.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -307,8 +307,8 @@
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton rbAsendente;
+        private System.Windows.Forms.RadioButton rbDesendente;
         private System.Windows.Forms.NumericUpDown numericUpDown2;
     }
 }
