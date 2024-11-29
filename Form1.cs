@@ -68,128 +68,6 @@ namespace ProyectoFinal
             Application.Exit();
         }
 
-        private void btnIniciar_Click(object sender, EventArgs e)
-        {
-            if (flowLayoutPanel1.Controls.Count == 0)
-            {
-                MessageBox.Show("Por favor, crea los cuadros antes de iniciar el ordenamiento.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // Preparar el algoritmo de Burbuja
-            if (comboBox1.SelectedItem.ToString() == "Burbuja")
-            {
-                // Determinar si es ascendente o descendente
-                bool ascendente = rbAsendente.Checked;
-
-                // Llamar al método para iniciar las animaciones en paralelo
-                AnimateCodeAndSort(ascendente);
-            }
-        }
-
-        private void AnimateCodeAndSort(bool ascendente)
-        {
-            int currentLineIndex = 0;  // Índice de la línea actual del código
-            int totalLines = richTextBox2.Lines.Length;
-
-            // Empezamos el proceso de ordenamiento
-            for (int i = 0; i < flowLayoutPanel1.Controls.Count; i++)
-            {
-                // Realizar un paso del algoritmo de burbuja para ordenar los cuadros
-                // Este método debe intercambiar los cuadros de acuerdo al algoritmo
-                PerformBubbleSortStep(i, ascendente);
-
-                // Resaltar la línea actual en el RichTextBox
-                if (currentLineIndex < totalLines)
-                {
-                    HighlightLine(currentLineIndex);
-                    currentLineIndex++;
-                }
-
-                // Permitir que la interfaz de usuario se actualice
-                Application.DoEvents();
-
-                // Retrasar un poco para que se vea el cambio
-                System.Threading.Thread.Sleep(300);  // 300ms de retraso para visualizar las animaciones
-            }
-        }
-
-        private void PerformBubbleSortStep(int index, bool ascendente)
-        {
-            // Aquí debes implementar la lógica de un paso del algoritmo de burbuja para mover los cuadros en el FlowLayoutPanel
-            // Ejemplo: intercambiar dos cuadros (esto es un pseudocódigo, debes ajustarlo según tu implementación)
-            string codigo = @"
-                    void Burbuja(int[] arreglo)
-                    {
-                        for (int i = 0; i < arreglo.Length - 1; i++)
-                        {
-                            for (int j = 0; j < arreglo.Length - i - 1; j++)
-                            {
-                                if (arreglo[j] > arreglo[j + 1])
-                                {
-                                    int temp = arreglo[j];
-                                    arreglo[j] = arreglo[j + 1];
-                                    arreglo[j + 1] = temp;
-                               }
-                            }
-                        }
-                    }";
-            richTextBox2.Text = codigo;
-
-
-            // Asegúrate de que no estamos fuera de rango al acceder a cuadro2
-            if (index + 1 >= flowLayoutPanel1.Controls.Count)
-            {
-                return; // No hacer nada si estamos en el último cuadro
-            }
-
-            // Obtén los cuadros que se van a comparar
-            Control cuadro1 = flowLayoutPanel1.Controls[index];
-            Control cuadro2 = flowLayoutPanel1.Controls[index + 1];
-
-            // Obtener el texto de los cuadros y parsearlos de forma segura
-            int valor1, valor2;
-
-            if (!int.TryParse(cuadro1.Controls[0].Text, out valor1) || !int.TryParse(cuadro2.Controls[0].Text, out valor2))
-            {
-                // Si la conversión falla, salir del método
-                MessageBox.Show("Error: Uno de los cuadros no contiene un número válido.");
-                return;
-            }
-
-            // Si el orden no es correcto, intercambiamos los cuadros
-            if ((ascendente && valor1 > valor2) || (!ascendente && valor1 < valor2))
-            {
-                // Intercambiar las posiciones de los cuadros visualmente
-                flowLayoutPanel1.Controls.SetChildIndex(cuadro1, index + 1);
-                flowLayoutPanel1.Controls.SetChildIndex(cuadro2, index);
-            }
-        }
-
-        private void HighlightLine(int lineIndex)
-        {
-            int startIndex = richTextBox2.GetFirstCharIndexFromLine(lineIndex);
-            int length = richTextBox2.Lines[lineIndex].Length;
-
-            // Resaltamos la línea actual (esto cambiará el color o el fondo)
-            richTextBox2.SelectionStart = startIndex;
-            richTextBox2.SelectionLength = length;
-            richTextBox2.SelectionBackColor = Color.LightBlue;  // Cambiar el color de fondo para simular "sombreado azul"
-            richTextBox2.SelectionColor = Color.Black;  // Cambiar el color del texto si es necesario
-
-            // Después de un pequeño retraso, revertimos el resaltado de la línea
-            var revertTimer = Task.Delay(300);  // Duración del resaltado
-            revertTimer.ContinueWith(_ =>
-            {
-                // Revertimos el color de fondo
-                richTextBox2.Invoke((MethodInvoker)(() =>
-                {
-                    richTextBox2.SelectionBackColor = richTextBox2.BackColor; // Revertimos el color de fondo
-                }));
-            });
-        }
-
-
         //private void btnIniciar_Click(object sender, EventArgs e)
         //{
         //    if (flowLayoutPanel1.Controls.Count == 0)
@@ -198,91 +76,125 @@ namespace ProyectoFinal
         //        return;
         //    }
 
+        //    // Preparar el algoritmo de Burbuja
         //    if (comboBox1.SelectedItem.ToString() == "Burbuja")
         //    {
         //        // Determinar si es ascendente o descendente
         //        bool ascendente = rbAsendente.Checked;
 
-        //        // Llamar al método de ordenamiento
-        //        metodos.OrdenarBurbujaConAnimacion(flowLayoutPanel1, ascendente);
+        //        // Llamar al método para iniciar las animaciones en paralelo
+        //        AnimateCodeAndSort(ascendente);
         //    }
-
         //}
-        //private int currentLineIndex = 0;
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void btnIniciar_Click(object sender, EventArgs e)
         {
-            //    if (comboBox1.SelectedItem.ToString() == "Burbuja")
-            //    {
-            //        // Reseteamos el índice de la línea y preparamos el texto
-            //        currentLineIndex = 0;
-            //        richTextBox2.Clear();  // Cambiar a RichTextBox
+            if (flowLayoutPanel1.Controls.Count == 0)
+            {
+                MessageBox.Show("Por favor, crea los cuadros antes de iniciar el ordenamiento.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-            //        // Código del algoritmo de Burbuja
-            //        string codigo = @"
-            //        void Burbuja(int[] arreglo)
-            //        {
-            //            for (int i = 0; i < arreglo.Length - 1; i++)
-            //            {
-            //                for (int j = 0; j < arreglo.Length - i - 1; j++)
-            //                {
-            //                    if (arreglo[j] > arreglo[j + 1])
-            //                    {
-            //                        int temp = arreglo[j];
-            //                        arreglo[j] = arreglo[j + 1];
-            //                        arreglo[j + 1] = temp;
-            //                    }
-            //                }
-            //            }
-            //        }";
+            if (comboBox1.SelectedItem.ToString() == "Burbuja")
+            {
+                // Determinar si es ascendente o descendente
+                bool ascendente = rbAsendente.Checked;
 
-            //        richTextBox2.Text = codigo;  // Usamos RichTextBox en lugar de TextBox
+                // Llamar al método de ordenamiento
+                metodos.OrdenarBurbujaConAnimacion(flowLayoutPanel1, ascendente);
+            }
 
-            //        // Llamamos al método para animar el código
-            //        await AnimateCodeAsync();  // Ejecutamos la animación de forma asíncrona
-            //    }
         }
 
-        //// Método asíncrono para animar las líneas de código
-        //private async Task AnimateCodeAsync()
-        //{
-        //    for (currentLineIndex = 0; currentLineIndex < richTextBox2.Lines.Length; currentLineIndex++)
-        //    {
-        //        // Resaltamos la línea actual
-        //        HighlightLine(currentLineIndex);
+        private int currentLineIndex = 0;
 
-        //        // Esperamos 500 ms antes de resaltar la siguiente línea
-        //        await Task.Delay(500);  // Retraso de 500ms
-        //    }
-        //}
+        private async void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedItem.ToString() == "Burbuja")
+            {
+                // Reseteamos el índice de la línea y preparamos el texto
+                currentLineIndex = 0;
+                richTextBox2.Clear();  // Cambiar a RichTextBox
 
-        //// Método para resaltar la línea actual en el RichTextBox
-        //private void HighlightLine(int lineIndex)
-        //{
-        //    int startIndex = richTextBox2.GetFirstCharIndexFromLine(lineIndex);
-        //    int length = richTextBox2.Lines[lineIndex].Length;
+                // Código del algoritmo de Burbuja
+                string codigo = @"
 
-        //    // Aseguramos que la actualización del RichTextBox ocurra en el hilo principal
-        //    richTextBox2.Invoke((MethodInvoker)(() =>
-        //    {
-        //        // Resaltamos la línea actual (esto cambiará el color o el fondo)
-        //        richTextBox2.SelectionStart = startIndex;
-        //        richTextBox2.SelectionLength = length;
-        //        richTextBox2.SelectionBackColor = Color.LightBlue;  // Cambiar el color de fondo para simular "sombreado azul"
-        //        richTextBox2.SelectionColor = Color.Black;  // Cambiar el color del texto si es necesario
-        //    }));
+            public void OrdenarBurbujaConAnimacion(FlowLayoutPanel parent, bool ascendente)
+            {
+                for (int i = 0; i < parent.Controls.Count - 1; i++)
+                {
+                    for (int j = 0; j < parent.Controls.Count - 1 - i; j++)
+                    {
+                        // Obtener los cuadros actuales y adyacentes
+                        Panel cuadroA = parent.Controls[j] as Panel;
+                        Panel cuadroB = parent.Controls[j + 1] as Panel;
 
-        //    // Después de un pequeño retraso, revertimos el resaltado de la línea
-        //    var revertTimer = Task.Delay(500);  // Duración del resaltado
-        //    revertTimer.ContinueWith(_ =>
-        //    {
-        //        // Revertimos el color de fondo en el hilo principal
-        //        richTextBox2.Invoke((MethodInvoker)(() =>
-        //        {
-        //            richTextBox2.SelectionBackColor = richTextBox2.BackColor; // Revertimos el color de fondo
-        //        }));
-        //    });
-        //}
+                        // Validar que los cuadros existen
+                        if (cuadroA == null || cuadroB == null) continue;
+
+                        // Obtener los números de los cuadros
+                        int valorA = int.Parse((cuadroA.Controls[0] as Label).Text);
+                        int valorB = int.Parse((cuadroB.Controls[0] as Label).Text);
+
+                        // Determinar si intercambiar basado en el orden ascendente/descendente
+                        bool intercambiar = ascendente ? valorA > valorB : valorA < valorB;
+                        if (intercambiar)
+                        {
+                            Cuadritos.IntercambiarCuadrosAnimado(parent, j, j + 1);
+                        }
+                    }
+                }
+            }
+            ";
+            richTextBox2.Text = codigo;
+
+                richTextBox2.Text = codigo;  // Usamos RichTextBox en lugar de TextBox
+
+                // Llamamos al método para animar el código
+                await AnimateCodeAsync();  // Ejecutamos la animación de forma asíncrona
+            }
+        }
+
+        // Método asíncrono para animar las líneas de código
+        private async Task AnimateCodeAsync()
+        {
+            for (currentLineIndex = 0; currentLineIndex < richTextBox2.Lines.Length; currentLineIndex++)
+            {
+                // Resaltamos la línea actual
+                HighlightLine(currentLineIndex);
+
+                // Esperamos 500 ms antes de resaltar la siguiente línea
+                await Task.Delay(500);  // Retraso de 500ms
+            }
+        }
+
+        // Método para resaltar la línea actual en el RichTextBox
+        private void HighlightLine(int lineIndex)
+        {
+            int startIndex = richTextBox2.GetFirstCharIndexFromLine(lineIndex);
+            int length = richTextBox2.Lines[lineIndex].Length;
+
+            // Aseguramos que la actualización del RichTextBox ocurra en el hilo principal
+            richTextBox2.Invoke((MethodInvoker)(() =>
+            {
+                // Resaltamos la línea actual (esto cambiará el color o el fondo)
+                richTextBox2.SelectionStart = startIndex;
+                richTextBox2.SelectionLength = length;
+                richTextBox2.SelectionBackColor = Color.LightBlue;  // Cambiar el color de fondo para simular "sombreado azul"
+                richTextBox2.SelectionColor = Color.Black;  // Cambiar el color del texto si es necesario
+            }));
+
+            // Después de un pequeño retraso, revertimos el resaltado de la línea
+            var revertTimer = Task.Delay(500);  // Duración del resaltado
+            revertTimer.ContinueWith(_ =>
+            {
+                // Revertimos el color de fondo en el hilo principal
+                richTextBox2.Invoke((MethodInvoker)(() =>
+                {
+                    richTextBox2.SelectionBackColor = richTextBox2.BackColor; // Revertimos el color de fondo
+                }));
+            });
+        }
     }     
 }
 

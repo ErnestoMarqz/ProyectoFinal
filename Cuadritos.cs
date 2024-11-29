@@ -16,13 +16,15 @@ namespace ProyectoFinal
 
         public Panel CrearCuadroAnimadoEnLayout(FlowLayoutPanel parent, int numero)
         {
+            // Crear el panel inicial
             Panel cuadro = new Panel
             {
-                Size = new Size(5, 5),
+                Size = new Size(5, 5), // Tamaño inicial
                 BackColor = GenerarColorUnico(),
-                Margin = new Padding(5)
+                Margin = new Padding(5) // Asegurar un margen agradable dentro del FlowLayoutPanel
             };
 
+            // Crear la etiqueta
             Label etiqueta = new Label
             {
                 Text = numero.ToString(),
@@ -34,28 +36,46 @@ namespace ProyectoFinal
             };
 
             cuadro.Controls.Add(etiqueta);
+
+            // Agregar el cuadro al contenedor principal
             parent.Controls.Add(cuadro);
 
+            // Tamaño final del cuadro
             Size tamañoFinal = new Size(numero * 10, numero * 10);
 
+            // Deshabilitar la disposición automática
             parent.SuspendLayout();
+
+            AnimarCambioDeTamaño(cuadro, numero);
+            // Rehabilitar la disposición automática
+            parent.ResumeLayout();
+
+            return cuadro;
+        }
+        public void AnimarCambioDeTamaño(Panel cuadro, int numero)
+        {
+            Size tamañoFinal = new Size(numero * 10, numero * 10);
             int incremento = 4;
 
-            while (cuadro.Width < tamañoFinal.Width || cuadro.Height < tamañoFinal.Height)
+            while (cuadro.Width != tamañoFinal.Width || cuadro.Height != tamañoFinal.Height)
             {
-                if (cuadro.Width < tamañoFinal.Width)
-                    cuadro.Width = Math.Min(cuadro.Width + incremento, tamañoFinal.Width);
+                // Calcular el próximo tamaño
+                int nuevoAncho = cuadro.Width < tamañoFinal.Width
+                    ? Math.Min(cuadro.Width + incremento, tamañoFinal.Width)
+                    : Math.Max(cuadro.Width - incremento, tamañoFinal.Width);
 
-                if (cuadro.Height < tamañoFinal.Height)
-                    cuadro.Height = Math.Min(cuadro.Height + incremento, tamañoFinal.Height);
+                int nuevoAlto = cuadro.Height < tamañoFinal.Height
+                    ? Math.Min(cuadro.Height + incremento, tamañoFinal.Height)
+                    : Math.Max(cuadro.Height - incremento, tamañoFinal.Height);
 
+                // Actualizar el tamaño del cuadro
+                cuadro.Size = new Size(nuevoAncho, nuevoAlto);
                 cuadro.Refresh();
-                parent.Refresh();
-                Thread.Sleep(70);
-            }
 
-            parent.ResumeLayout();
-            return cuadro;
+                // Forzar actualización visual
+                Application.DoEvents();
+                Thread.Sleep(70); // Pausa para que la animación sea visible
+            }
         }
 
         public Color GenerarColorUnico()
