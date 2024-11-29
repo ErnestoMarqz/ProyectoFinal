@@ -142,23 +142,23 @@ namespace ProyectoFinal
         }
         private void HighlightLine(int lineIndex)
         {
-            int startIndex = richTextBox2.GetFirstCharIndexFromLine(lineIndex);
-            int length = richTextBox2.Lines[lineIndex].Length;
+            int startIndex = textBox2.GetFirstCharIndexFromLine(lineIndex);
+            int length = textBox2.Lines[lineIndex].Length;
 
             // Resaltamos la línea actual (esto cambiará el color o el fondo)
-            richTextBox2.SelectionStart = startIndex;
-            richTextBox2.SelectionLength = length;
-            richTextBox2.SelectionBackColor = Color.LightBlue;  // Cambiar el color de fondo para simular "sombreado azul"
-            richTextBox2.SelectionColor = Color.Black;  // Cambiar el color del texto si es necesario
+            textBox2.SelectionStart = startIndex;
+            textBox2.SelectionLength = length;
+            textBox2.SelectionBackColor = Color.LightBlue;  // Cambiar el color de fondo para simular "sombreado azul"
+            textBox2.SelectionColor = Color.Black;  // Cambiar el color del texto si es necesario
 
             // Después de un pequeño retraso, revertimos el resaltado de la línea
             var revertTimer = Task.Delay(300);  // Duración del resaltado
             revertTimer.ContinueWith(_ =>
             {
                 // Revertimos el color de fondo
-                richTextBox2.Invoke((MethodInvoker)(() =>
+                textBox2.Invoke((MethodInvoker)(() =>
                 {
-                    richTextBox2.SelectionBackColor = richTextBox2.BackColor; // Revertimos el color de fondo
+                    textBox2.SelectionBackColor = textBox2.BackColor; // Revertimos el color de fondo
                 }));
             });
         }
