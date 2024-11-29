@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,12 +18,14 @@ namespace ProyectoFinal
         int[] arreglo;
         Cuadritos creador = new Cuadritos();
         Metodos metodos = new Metodos();
+        private AnimacionAlgoritmo animacionTexto;
         public Form1()
         {
             InitializeComponent();
             //poner el forms en el centro de la pantalla
             this.StartPosition = FormStartPosition.Manual;
             this.Location = new Point(250, 10); // Cambia a la posición deseada
+            animacionTexto = new AnimacionAlgoritmo(richTextBox2);
 
         }
 
@@ -68,7 +71,7 @@ namespace ProyectoFinal
             Application.Exit();
         }
 
-        private void btnIniciar_Click(object sender, EventArgs e)
+        private async void btnIniciar_Click(object sender, EventArgs e)
         {
             if (flowLayoutPanel1.Controls.Count == 0)
             {
@@ -92,6 +95,17 @@ namespace ProyectoFinal
 
                 // Llamar al método de ordenamiento optimizado
                 metodos.OrdenarBurbujaConAnimacionMejorado(flowLayoutPanel1, ascendente);
+                
+            }
+
+            if (comboBox1.SelectedItem.ToString() == "Merges")
+            {
+                // Determinar si es ascendente o descendente
+                bool ascendente = rbAsendente.Checked;
+
+                Metodos metodos = new Metodos(); // Tu clase que contiene los algoritmos
+                await metodos.MergeSortConAnimacion(flowLayoutPanel1, ascendente);
+
             }
 
         }
@@ -100,98 +114,100 @@ namespace ProyectoFinal
 
         private async void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedItem.ToString() == "Burbuja")
-            {
-                // Reseteamos el índice de la línea y preparamos el texto
-                currentLineIndex = 0;
-                richTextBox2.Clear();  // Cambiar a RichTextBox
+            animacionTexto.Iniciar();
+            await Task.Delay(300); // Ejemplo: sincronizar animación con código
+            //if (comboBox1.SelectedItem.ToString() == "Burbuja")
+            //{
+            //    // Reseteamos el índice de la línea y preparamos el texto
+            //    currentLineIndex = 0;
+            //    richTextBox2.Clear();  // Cambiar a RichTextBox
 
-                // Código del algoritmo de Burbuja
-                string codigo = @"
+            //    // Código del algoritmo de Burbuja
+            //    string codigo = @"
 
-            public void OrdenarBurbujaConAnimacion(FlowLayoutPanel parent, bool ascendente)
-            {
-                for (int i = 0; i < parent.Controls.Count - 1; i++)
-                {
-                    for (int j = 0; j < parent.Controls.Count - 1 - i; j++)
-                    {
-                        // Obtener los cuadros actuales y adyacentes
-                        Panel cuadroA = parent.Controls[j] as Panel;
-                        Panel cuadroB = parent.Controls[j + 1] as Panel;
+            //public void OrdenarBurbujaConAnimacion(FlowLayoutPanel parent, bool ascendente)
+            //{
+            //    for (int i = 0; i < parent.Controls.Count - 1; i++)
+            //    {
+            //        for (int j = 0; j < parent.Controls.Count - 1 - i; j++)
+            //        {
+            //            // Obtener los cuadros actuales y adyacentes
+            //            Panel cuadroA = parent.Controls[j] as Panel;
+            //            Panel cuadroB = parent.Controls[j + 1] as Panel;
 
-                        // Validar que los cuadros existen
-                        if (cuadroA == null || cuadroB == null) continue;
+            //            // Validar que los cuadros existen
+            //            if (cuadroA == null || cuadroB == null) continue;
 
-                        // Obtener los números de los cuadros
-                        int valorA = int.Parse((cuadroA.Controls[0] as Label).Text);
-                        int valorB = int.Parse((cuadroB.Controls[0] as Label).Text);
+            //            // Obtener los números de los cuadros
+            //            int valorA = int.Parse((cuadroA.Controls[0] as Label).Text);
+            //            int valorB = int.Parse((cuadroB.Controls[0] as Label).Text);
 
-                        // Determinar si intercambiar basado en el orden ascendente/descendente
-                        bool intercambiar = ascendente ? valorA > valorB : valorA < valorB;
-                        if (intercambiar)
-                        {
-                            Cuadritos.IntercambiarCuadrosAnimado(parent, j, j + 1);
-                        }
-                    }
-                }
-            }
-            ";
-            richTextBox2.Text = codigo;
+            //            // Determinar si intercambiar basado en el orden ascendente/descendente
+            //            bool intercambiar = ascendente ? valorA > valorB : valorA < valorB;
+            //            if (intercambiar)
+            //            {
+            //                Cuadritos.IntercambiarCuadrosAnimado(parent, j, j + 1);
+            //            }
+            //        }
+            //    }
+            //}
+            //";
+            //richTextBox2.Text = codigo;
 
-                richTextBox2.Text = codigo;  // Usamos RichTextBox en lugar de TextBox
+            //    richTextBox2.Text = codigo;  // Usamos RichTextBox en lugar de TextBox
 
-                // Llamamos al método para animar el código
-                await AnimateCodeAsync();  // Ejecutamos la animación de forma asíncrona
-            }
+            //    // Llamamos al método para animar el código
+            //    await AnimateCodeAsync();  // Ejecutamos la animación de forma asíncrona
+            //}
 
-            if (comboBox1.SelectedItem.ToString() == "Burbuja Mejorado")
-            {
-                // Reseteamos el índice de la línea y preparamos el texto
-                currentLineIndex = 0;
-                richTextBox2.Clear();  // Cambiar a RichTextBox
+            //if (comboBox1.SelectedItem.ToString() == "Burbuja Mejorado")
+            //{
+            //    // Reseteamos el índice de la línea y preparamos el texto
+            //    currentLineIndex = 0;
+            //    richTextBox2.Clear();  // Cambiar a RichTextBox
 
-                // Código del algoritmo de Burbuja
-                string codigo = @"
+            //    // Código del algoritmo de Burbuja
+            //    string codigo = @"
 
-                    public void OrdenarBurbujaConAnimacionMejorado(FlowLayoutPanel parent, bool ascendente)
-                {
-                    for (int i = 0; i < parent.Controls.Count - 1; i++)
-                    {
-                        bool intercambio = false;
-                        for (int j = 0; j < parent.Controls.Count - 1 - i; j++)
-                        {
-                            // Obtener los cuadros actuales y adyacentes
-                            Panel cuadroA = parent.Controls[j] as Panel;
-                            Panel cuadroB = parent.Controls[j + 1] as Panel;
+            //        public void OrdenarBurbujaConAnimacionMejorado(FlowLayoutPanel parent, bool ascendente)
+            //    {
+            //        for (int i = 0; i < parent.Controls.Count - 1; i++)
+            //        {
+            //            bool intercambio = false;
+            //            for (int j = 0; j < parent.Controls.Count - 1 - i; j++)
+            //            {
+            //                // Obtener los cuadros actuales y adyacentes
+            //                Panel cuadroA = parent.Controls[j] as Panel;
+            //                Panel cuadroB = parent.Controls[j + 1] as Panel;
 
-                            // Validar que los cuadros existen
-                            if (cuadroA == null || cuadroB == null) continue;
+            //                // Validar que los cuadros existen
+            //                if (cuadroA == null || cuadroB == null) continue;
 
-                            // Obtener los números de los cuadros
-                            int valorA = int.Parse((cuadroA.Controls[0] as Label).Text);
-                            int valorB = int.Parse((cuadroB.Controls[0] as Label).Text);
+            //                // Obtener los números de los cuadros
+            //                int valorA = int.Parse((cuadroA.Controls[0] as Label).Text);
+            //                int valorB = int.Parse((cuadroB.Controls[0] as Label).Text);
 
-                            // Determinar si intercambiar basado en el orden ascendente/descendente
-                            bool intercambiar = ascendente ? valorA > valorB : valorA < valorB;
-                            if (intercambiar)
-                            {
-                                Cuadritos.IntercambiarCuadrosAnimado(parent, j, j + 1);
-                                intercambio = true;
-                            }
-                        }
+            //                // Determinar si intercambiar basado en el orden ascendente/descendente
+            //                bool intercambiar = ascendente ? valorA > valorB : valorA < valorB;
+            //                if (intercambiar)
+            //                {
+            //                    Cuadritos.IntercambiarCuadrosAnimado(parent, j, j + 1);
+            //                    intercambio = true;
+            //                }
+            //            }
 
-                        // Si no hubo intercambios, el arreglo ya está ordenado
-                        if (!intercambio) break;
-                    }
-                }
-                ";
-                richTextBox2.Text = codigo;
+            //            // Si no hubo intercambios, el arreglo ya está ordenado
+            //            if (!intercambio) break;
+            //        }
+            //    }
+            //    ";
+            //    richTextBox2.Text = codigo;
 
-                richTextBox2.Text = codigo;  // Usamos RichTextBox en lugar de TextBox
+            //    richTextBox2.Text = codigo;  // Usamos RichTextBox en lugar de TextBox
 
-                // Llamamos al método para animar el código
-                await AnimateCodeAsync();  // Ejecutamos la animación de forma asíncrona
-            }
+            //    // Llamamos al método para animar el código
+            //    await AnimateCodeAsync();  // Ejecutamos la animación de forma asíncrona
+            //}
         }
 
         // Método asíncrono para animar las líneas de código

@@ -41,7 +41,7 @@ namespace ProyectoFinal
             parent.Controls.Add(cuadro);
 
             // Tamaño final del cuadro
-            Size tamañoFinal = new Size(numero * 10, numero * 10);
+            Size tamañoFinal = new Size(numero * 20, numero * 20);
 
             // Deshabilitar la disposición automática
             parent.SuspendLayout();
@@ -54,7 +54,7 @@ namespace ProyectoFinal
         }
         public void AnimarCambioDeTamaño(Panel cuadro, int numero)
         {
-            Size tamañoFinal = new Size(numero * 10, numero * 10);
+            Size tamañoFinal = new Size(numero * 20, numero * 20);
             int incremento = 4;
 
             while (cuadro.Width != tamañoFinal.Width || cuadro.Height != tamañoFinal.Height)
@@ -120,9 +120,9 @@ namespace ProyectoFinal
             int numeroB = int.Parse((cuadroB.Controls[0] as Label).Text);
 
             Size tamañoInicialA = cuadroA.Size;
-            Size tamañoFinalA = new Size(numeroB * 10, numeroB * 10);
+            Size tamañoFinalA = new Size(numeroB * 20, numeroB * 20);
             Size tamañoInicialB = cuadroB.Size;
-            Size tamañoFinalB = new Size(numeroA * 10, numeroA * 10);
+            Size tamañoFinalB = new Size(numeroA * 20, numeroA * 20);
 
             int pasos = 20;
             for (int i = 0; i <= pasos; i++)
