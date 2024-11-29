@@ -121,6 +121,17 @@ namespace ProyectoFinal
                     metodos.QuicksortAscendente(arreglo, flowLayoutPanel1);
                 }
             }
+            if (comboBox1.SelectedItem.ToString() == "Heap Sort")
+            {
+                if (rbAsendente.Checked == true)
+                {
+                    metodos.HeapSortAcendente(arreglo, flowLayoutPanel1);
+                }
+                if (rbDesendente.Checked == true)
+                {
+
+                }
+            }
         }
     }
 }

@@ -14,25 +14,7 @@ namespace ProyectoFinal
     {
 
         Cuadritos cuadrito = new Cuadritos();
-        private void Baraja(int[] A)
-        {
-            int N = A.Length;
-            for (int I = 1; I < N; I++) // En C#, los índices comienzan en 0
-            {
-                int AUX = A[I];
-                int K = I - 1;
-
-                // Desplazar elementos mayores que AUX
-                while (K >= 0 && AUX < A[K])
-                {
-                    A[K + 1] = A[K];
-                    K--;
-                }
-
-                // Insertar el elemento en la posición correcta
-                A[K + 1] = AUX;
-            }
-        }
+       
         public void BarajaAcendnete(int[] A, FlowLayoutPanel panel)
         {
             int N = A.Length;
@@ -52,7 +34,7 @@ namespace ProyectoFinal
                 Panel cuadroActual = cuadros[I];
                 cuadroActual.BackColor = Color.Orange;
                 panel.Refresh();
-                Application.DoEvents(); // Permitir que la interfaz gráfica se actualice
+                Application.DoEvents();
                 Thread.Sleep(500);
 
                 while (K >= 0 && AUX < A[K])
@@ -60,10 +42,8 @@ namespace ProyectoFinal
                     Panel cuadroMayor = cuadros[K];
                     cuadroMayor.BackColor = Color.Red;
 
-                    // Actualizar el valor en el arreglo
                     A[K + 1] = A[K];
 
-                    // Visualmente desplazar el cuadro hacia la derecha
                     cuadros[K + 1].Controls[0].Text = cuadroMayor.Controls[0].Text;
                     cuadrito.AnimarCambioDeTamaño(cuadros[K + 1], A[K + 1]);
                     cuadros[K + 1].BackColor = cuadrito.GenerarColorUnico(); 
@@ -72,16 +52,12 @@ namespace ProyectoFinal
                     Thread.Sleep(500);
 
                     cuadroMayor.BackColor = cuadrito.GenerarColorUnico();
-                    ; // Restaurar color original
                     K--;
                 }
-
-                // Insertar el elemento en la posición correcta
                 A[K + 1] = AUX;
                 cuadros[K + 1].Controls[0].Text = AUX.ToString();
                 cuadrito.AnimarCambioDeTamaño(cuadros[K + 1], AUX);
                 cuadrito.GenerarColorUnico();
-                //cuadroActual.BackColor = Color.LightBlue; // Restaurar color original
                 panel.Refresh();
                 Application.DoEvents();
                 Thread.Sleep(500);
@@ -89,19 +65,13 @@ namespace ProyectoFinal
         }
 
 
-        public void InsertaMonticuloAnimado(int[] A, FlowLayoutPanel panel)
+        public void HeapSortAcendente(int[] A, FlowLayoutPanel panel)
         {
             int N = A.Length;
-            // Validar que el número de cuadros en el panel coincide con el tamaño del arreglo
-            if (panel.Controls.Count != N)
-            {
-                throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
-            }
-
+            
             // Obtener los cuadros como una lista
             List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
 
-            // Recorremos los elementos desde el segundo hasta el último
             for (int I = 1; I < N; I++) // Adaptado a índices base 0
             {
                 int K = I + 1; // Ajuste para representar la posición correcta
