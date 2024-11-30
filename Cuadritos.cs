@@ -13,15 +13,18 @@ namespace ProyectoFinal
     {
         private static readonly Random random = new Random();
         private static List<Color> coloresUsados = new List<Color>();
+        
 
         public Panel CrearCuadroAnimadoEnLayout(FlowLayoutPanel parent, int numero)
         {
             // Crear el panel inicial
+            Color colorGenerado = GenerarColorUnico();
             Panel cuadro = new Panel
             {
                 Size = new Size(5, 5), // Tamaño inicial
                 BackColor = GenerarColorUnico(),
-                Margin = new Padding(5) // Asegurar un margen agradable dentro del FlowLayoutPanel
+                Margin = new Padding(5), // Asegurar un margen agradable dentro del FlowLayoutPanel
+                Tag = colorGenerado // Guardar el color original en la propiedad Tag
             };
 
             // Crear la etiqueta
@@ -47,6 +50,7 @@ namespace ProyectoFinal
             parent.SuspendLayout();
 
             AnimarCambioDeTamaño(cuadro, numero);
+
             // Rehabilitar la disposición automática
             parent.ResumeLayout();
 
@@ -104,13 +108,13 @@ namespace ProyectoFinal
             return nuevoColor;
         }
 
-        public static void IntercambiarCuadrosAnimado(FlowLayoutPanel parent, int indiceA, int indiceB)
+        public static async Task IntercambiarCuadrosAnimado(FlowLayoutPanel parent, int indiceA, int indiceB)
         {
             // Validar índices
             if (indiceA < 0 || indiceB < 0 || indiceA >= parent.Controls.Count || indiceB >= parent.Controls.Count)
                 return;
 
-            // Lógica de animación de intercambio (sin cambios)
+            // Obtener los cuadros
             Panel cuadroA = parent.Controls[indiceA] as Panel;
             Panel cuadroB = parent.Controls[indiceB] as Panel;
 
@@ -119,6 +123,24 @@ namespace ProyectoFinal
             int numeroA = int.Parse((cuadroA.Controls[0] as Label).Text);
             int numeroB = int.Parse((cuadroB.Controls[0] as Label).Text);
 
+            // Resaltar en amarillo para indicar comparación
+            cuadroA.BackColor = Color.Yellow;
+            cuadroB.BackColor = Color.Yellow;
+            cuadroA.Refresh();
+            cuadroB.Refresh();
+            await Task.Delay(500);
+
+            // Determinar cuál debe parpadear (verde si mayor, rojo si menor)
+            if (numeroA > numeroB)
+            {
+                await Parpadear(cuadroA, Color.Green, 3);
+            }
+            else
+            {
+                await Parpadear(cuadroA, Color.Red, 3);
+            }
+
+            // Intercambiar visualmente las propiedades (animación de cambio de tamaño)
             Size tamañoInicialA = cuadroA.Size;
             Size tamañoFinalA = new Size(numeroB * 10, numeroB * 10);
             Size tamañoInicialB = cuadroB.Size;
@@ -137,12 +159,33 @@ namespace ProyectoFinal
                     Interpolar(tamañoInicialB.Height, tamañoFinalB.Height, i, pasos)
                 );
 
-                (cuadroA.Controls[0] as Label).Text = numeroB.ToString();
-                (cuadroB.Controls[0] as Label).Text = numeroA.ToString();
-
                 cuadroA.Refresh();
                 cuadroB.Refresh();
-                Thread.Sleep(50);
+                await Task.Delay(25);
+            }
+
+    // Actualizar los textos
+    (cuadroA.Controls[0] as Label).Text = numeroB.ToString();
+            (cuadroB.Controls[0] as Label).Text = numeroA.ToString();
+
+            // Restaurar colores
+            cuadroA.BackColor = Color.Black;
+            cuadroB.BackColor = Color.Black;
+            cuadroA.Refresh();
+            cuadroB.Refresh();
+        }
+
+        private static async Task Parpadear(Panel cuadro, Color color, int repeticiones)
+        {
+            for (int i = 0; i < repeticiones; i++)
+            {
+                cuadro.BackColor = color;
+                cuadro.Refresh();
+                await Task.Delay(250);
+
+                cuadro.BackColor = Color.Yellow; // Restaurar al amarillo entre parpadeos
+                cuadro.Refresh();
+                await Task.Delay(250);
             }
         }
 

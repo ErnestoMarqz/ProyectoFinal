@@ -10,16 +10,12 @@ namespace ProyectoFinal
 {
     internal class Metodos
     {
-        public void OrdenarBurbujaConAnimacion(FlowLayoutPanel parent, bool ascendente)
+        public async Task OrdenarBurbujaConAnimacion(FlowLayoutPanel parent, bool ascendente)
         {
             for (int i = 0; i < parent.Controls.Count - 1; i++)
             {
                 for (int j = 0; j < parent.Controls.Count - 1 - i; j++)
                 {
-                    // Asegurarte de que j + 1 esté dentro del rango
-                    if (j + 1 >= parent.Controls.Count)
-                        continue;
-
                     // Obtener los cuadros actuales y adyacentes
                     Panel cuadroA = parent.Controls[j] as Panel;
                     Panel cuadroB = parent.Controls[j + 1] as Panel;
@@ -31,21 +27,40 @@ namespace ProyectoFinal
                     int valorA = int.Parse((cuadroA.Controls[0] as Label).Text);
                     int valorB = int.Parse((cuadroB.Controls[0] as Label).Text);
 
+                    // Resaltar cuadros
+                    Color colorOriginalA = (Color)cuadroA.Tag;
+                    Color colorOriginalB = (Color)cuadroB.Tag;
+
+                    cuadroA.BackColor = Color.Yellow;
+                    cuadroB.BackColor = Color.Yellow;
+                    cuadroA.Refresh();
+                    cuadroB.Refresh();
+
+                    await Task.Delay(500);
+
                     // Determinar si intercambiar basado en el orden ascendente/descendente
                     bool intercambiar = ascendente ? valorA > valorB : valorA < valorB;
                     if (intercambiar)
                     {
-                        Cuadritos.IntercambiarCuadrosAnimado(parent, j, j + 1);
+                        // Intercambiar con animación
+                        await Cuadritos.IntercambiarCuadrosAnimado(parent, j, j + 1);
                     }
+
+                    // Restaurar colores originales
+                    cuadroA.BackColor = colorOriginalA;
+                    cuadroB.BackColor = colorOriginalB;
+                    cuadroA.Refresh();
+                    cuadroB.Refresh();
                 }
             }
         }
 
-        public void OrdenarBurbujaConAnimacionMejorado(FlowLayoutPanel parent, bool ascendente)
+        public async Task OrdenarBurbujaConAnimacionMejorado(FlowLayoutPanel parent, bool ascendente)
         {
             for (int i = 0; i < parent.Controls.Count - 1; i++)
             {
                 bool intercambio = false;
+
                 for (int j = 0; j < parent.Controls.Count - 1 - i; j++)
                 {
                     // Obtener los cuadros actuales y adyacentes
@@ -59,13 +74,31 @@ namespace ProyectoFinal
                     int valorA = int.Parse((cuadroA.Controls[0] as Label).Text);
                     int valorB = int.Parse((cuadroB.Controls[0] as Label).Text);
 
+                    // Resaltar cuadros
+                    Color colorOriginalA = (Color)cuadroA.Tag;
+                    Color colorOriginalB = (Color)cuadroB.Tag;
+
+                    cuadroA.BackColor = Color.Yellow;
+                    cuadroB.BackColor = Color.Yellow;
+                    cuadroA.Refresh();
+                    cuadroB.Refresh();
+
+                    await Task.Delay(500);
+
                     // Determinar si intercambiar basado en el orden ascendente/descendente
                     bool intercambiar = ascendente ? valorA > valorB : valorA < valorB;
                     if (intercambiar)
                     {
-                        Cuadritos.IntercambiarCuadrosAnimado(parent, j, j + 1);
+                        // Intercambiar con animación
+                        await Cuadritos.IntercambiarCuadrosAnimado(parent, j, j + 1);
                         intercambio = true;
                     }
+
+                    // Restaurar colores originales
+                    cuadroA.BackColor = colorOriginalA;
+                    cuadroB.BackColor = colorOriginalB;
+                    cuadroA.Refresh();
+                    cuadroB.Refresh();
                 }
 
                 // Si no hubo intercambios, el arreglo ya está ordenado
