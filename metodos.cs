@@ -642,6 +642,89 @@ namespace ProyectoFinal
             panel.Refresh();
             Application.DoEvents();
             Thread.Sleep(500); // Pausa para mostrar el intercambio
+            
         }
+        public void QuicksortDescendente(int[] A, FlowLayoutPanel panel)
+        {
+            int N = A.Length;
+
+            if (panel.Controls.Count != N)
+            {
+                throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
+            }
+
+            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
+
+            // Llamamos al método recursivo de Quicksort
+            QuicksortRecursivoB(A, cuadros, panel, 0, N - 1);
+        }
+
+        // Método recursivo de Quicksort
+        private void QuicksortRecursivoB(int[] A, List<Panel> cuadros, FlowLayoutPanel panel, int inicio, int fin)
+        {
+            if (inicio < fin)
+            {
+                // Particionamos el arreglo y obtenemos el índice del pivote
+                int pivoteIndex = ParticionarB(A, cuadros, panel, inicio, fin);
+
+                // Ordenamos los subarreglos de forma recursiva
+                QuicksortRecursivoB(A, cuadros, panel, inicio, pivoteIndex - 1);
+                QuicksortRecursivoB(A, cuadros, panel, pivoteIndex + 1, fin);
+            }
+        }
+
+        // Método para particionar el arreglo
+        private int ParticionarB(int[] A, List<Panel> cuadros, FlowLayoutPanel panel, int inicio, int fin)
+        {
+            int pivote = A[fin]; // Elegimos el último elemento como pivote
+            int i = inicio - 1;
+
+            Panel cuadroPivote = cuadros[fin];
+            cuadroPivote.BackColor = Color.Red; // Resaltar el pivote
+            cuadroPivote.Refresh();
+            panel.Refresh();
+            Application.DoEvents();
+            Thread.Sleep(500);
+
+            for (int j = inicio; j < fin; j++)
+            {
+                // Comparar elementos con el pivote (condición descendente)
+                if (A[j] >= pivote) // Cambiar condición a descendente
+                {
+                    i++;
+                    IntercambiarElementosB(A, cuadros, panel, i, j);
+                }
+            }
+
+            // Colocar el pivote en su posición correcta
+            IntercambiarElementosB(A, cuadros, panel, i + 1, fin);
+            cuadroPivote.BackColor = cuadrito.GenerarColorUnico(); // Restaurar el color del pivote
+            return i + 1; // Retornar la posición final del pivote
+        }
+
+        // Método para intercambiar dos elementos en el arreglo y actualizar la interfaz
+        private void IntercambiarElementosB(int[] A, List<Panel> cuadros, FlowLayoutPanel panel, int i, int j)
+        {
+            // Intercambiar elementos en el arreglo
+            int temp = A[i];
+            A[i] = A[j];
+            A[j] = temp;
+
+            // Actualizar los cuadros visualmente
+            cuadros[i].Controls[0].Text = A[i].ToString();
+            cuadros[j].Controls[0].Text = A[j].ToString();
+
+            cuadrito.AnimarCambioDeTamaño(cuadros[i], A[i]);
+            cuadrito.AnimarCambioDeTamaño(cuadros[j], A[j]);
+
+            cuadros[i].BackColor = cuadrito.GenerarColorUnico(); // Resaltar los cuadros intercambiados
+            cuadros[j].BackColor = cuadrito.GenerarColorUnico();
+
+            // Forzar actualización visual
+            panel.Refresh();
+            Application.DoEvents();
+            Thread.Sleep(500); // Pausa para mostrar el intercambio
+        }
+
     }
 }

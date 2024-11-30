@@ -120,6 +120,10 @@ namespace ProyectoFinal
                 {
                     metodos.QuicksortAscendente(arreglo, flowLayoutPanel1);
                 }
+                if (rbDesendente.Checked == true)
+                {
+                    metodos.QuicksortDescendente(arreglo, flowLayoutPanel1);
+                }
             }
             if (comboBox1.SelectedItem.ToString() == "Heap Sort")
             {
@@ -129,7 +133,6 @@ namespace ProyectoFinal
                 }
                 if (rbDesendente.Checked == true)
                 {
-
                 }
             }
         }
