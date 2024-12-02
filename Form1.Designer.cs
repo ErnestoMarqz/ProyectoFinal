@@ -126,7 +126,7 @@
             this.groupBox1.Controls.Add(this.numericUpDown1);
             this.groupBox1.Controls.Add(this.BTNCrear);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Location = new System.Drawing.Point(1173, 45);
+            this.groupBox1.Location = new System.Drawing.Point(712, 555);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -246,10 +246,11 @@
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.BackColor = System.Drawing.Color.Ivory;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(18, 18);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1134, 529);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1425, 529);
             this.flowLayoutPanel1.TabIndex = 9;
             // 
             // numericUpDown2
@@ -269,7 +270,7 @@
             this.groupBox2.Controls.Add(this.btnIniciar);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Location = new System.Drawing.Point(1173, 266);
+            this.groupBox2.Location = new System.Drawing.Point(943, 555);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -286,7 +287,7 @@
             this.groupBox3.Controls.Add(this.button3);
             this.groupBox3.Controls.Add(this.button4);
             this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Location = new System.Drawing.Point(1173, 585);
+            this.groupBox3.Location = new System.Drawing.Point(1173, 555);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -298,8 +299,9 @@
             // richTextBox2
             // 
             this.richTextBox2.Location = new System.Drawing.Point(18, 555);
+            this.richTextBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(1134, 372);
+            this.richTextBox2.Size = new System.Drawing.Size(672, 372);
             this.richTextBox2.TabIndex = 23;
             this.richTextBox2.Text = "";
             // 
@@ -320,6 +322,7 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Metodos de ordenamiento y busqueda";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
