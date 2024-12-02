@@ -10,6 +10,73 @@ namespace ProyectoFinal
 {
     internal class Metodos
     {
+        public async Task OrdenarInsercionBinariaConAnimacion(FlowLayoutPanel parent, bool ascendente)
+        {
+            int n = parent.Controls.Count;
+
+            for (int i = 1; i < n; i++)
+            {
+                // Obtener el cuadro actual y su valor
+                Panel cuadroActual = parent.Controls[i] as Panel;
+                int valorActual = int.Parse((cuadroActual.Controls[0] as Label).Text);
+
+                // Buscar la posición correcta usando búsqueda binaria
+                int posicion = await BuscarPosicionBinariaAnimada(parent, valorActual, 0, i - 1, ascendente);
+
+                // Mover el cuadro actual a la posición encontrada
+                if (posicion < i)
+                {
+                    await MoverCuadroConIntercambio(parent, i, posicion);
+                }
+            }
+        }
+
+        private async Task<int> BuscarPosicionBinariaAnimada(FlowLayoutPanel parent, int valor, int inicio, int fin, bool ascendente)
+        {
+            while (inicio <= fin)
+            {
+                int medio = (inicio + fin) / 2;
+
+                // Comparar con el cuadro en la posición `medio`
+                Panel cuadroMedio = parent.Controls[medio] as Panel;
+                int valorMedio = int.Parse((cuadroMedio.Controls[0] as Label).Text);
+
+                // Resaltar los cuadros comparados
+                cuadroMedio.BackColor = Color.Yellow;
+                cuadroMedio.Refresh();
+                await Task.Delay(500);
+
+                // Comparación ajustada al orden
+                if (ascendente ? (valor < valorMedio) : (valor > valorMedio))
+                {
+                    cuadroMedio.BackColor = Color.Red;
+                    fin = medio - 1;
+                }
+                else
+                {
+                    cuadroMedio.BackColor = Color.Green;
+                    inicio = medio + 1;
+                }
+
+                cuadroMedio.Refresh();
+                await Task.Delay(500);
+
+                // Restaurar el color original
+                cuadroMedio.BackColor = Color.Black;
+                cuadroMedio.Refresh();
+            }
+
+            return inicio;
+        }
+        private async Task MoverCuadroConIntercambio(FlowLayoutPanel parent, int origen, int destino)
+        {
+            // Mover los cuadros desde `origen` hasta `destino`
+            for (int i = origen; i > destino; i--)
+            {
+                // Llamar al método animado para intercambiar cuadros
+                await Cuadritos.IntercambiarCuadrosAnimado(parent, i, i - 1);
+            }
+        }
         public async Task OrdenarBurbujaConAnimacion(FlowLayoutPanel parent, bool ascendente)
         {
             for (int i = 0; i < parent.Controls.Count - 1; i++)
@@ -54,7 +121,6 @@ namespace ProyectoFinal
                 }
             }
         }
-
         public async Task OrdenarBurbujaConAnimacionMejorado(FlowLayoutPanel parent, bool ascendente)
         {
             for (int i = 0; i < parent.Controls.Count - 1; i++)
@@ -105,9 +171,7 @@ namespace ProyectoFinal
                 if (!intercambio) break;
             }
         }
-
         private Cuadritos creador = new Cuadritos();
-
         public async Task MergeSortConAnimacion(FlowLayoutPanel parent, bool ascendente)
         {
             // Convertir los bloques a una lista de valores enteros
@@ -121,7 +185,6 @@ namespace ProyectoFinal
             // Llamar a la función recursiva con animación
             await MergeSortAnimado(parent, valores, 0, valores.Count - 1, ascendente);
         }
-
         private async Task MergeSortAnimado(FlowLayoutPanel parent, List<int> valores, int inicio, int fin, bool ascendente)
         {
             // Caso base: si la sublista tiene un solo elemento
@@ -140,7 +203,6 @@ namespace ProyectoFinal
             // Combinar las dos mitades
             await MergeAnimado(parent, valores, inicio, medio, fin, ascendente);
         }
-
         private async Task MergeAnimado(FlowLayoutPanel parent, List<int> valores, int inicio, int medio, int fin, bool ascendente)
         {
             int i = inicio, j = medio + 1;
@@ -204,12 +266,10 @@ namespace ProyectoFinal
             // Restaurar el color después de la animación
             RestaurarColor(parent, inicio, fin, Color.Black);
         }
-
         private static int Interpolar(int inicio, int fin, int pasoActual, int totalPasos)
         {
             return inicio + (fin - inicio) * pasoActual / totalPasos;
         }
-
         private void ResaltarRango(FlowLayoutPanel parent, int inicio, int fin, System.Drawing.Color color)
         {
             for (int i = inicio; i <= fin; i++)
@@ -219,7 +279,6 @@ namespace ProyectoFinal
                     panel.BackColor = color;
             }
         }
-
         private void RestaurarColor(FlowLayoutPanel parent, int inicio, int fin, System.Drawing.Color color)
         {
             for (int i = inicio; i <= fin; i++)
@@ -229,7 +288,5 @@ namespace ProyectoFinal
                     panel.BackColor = color;
             }
         }
-
-
     }
 }

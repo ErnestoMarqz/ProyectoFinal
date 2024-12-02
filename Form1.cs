@@ -108,6 +108,16 @@ namespace ProyectoFinal
 
             }
 
+            if (comboBox1.SelectedItem.ToString() == "Inter. Binaria")
+            {
+                // Determinar si es ascendente o descendente
+                bool ascendente = rbAsendente.Checked;
+
+                Metodos metodos = new Metodos(); // Tu clase que contiene los algoritmos
+                await metodos.OrdenarInsercionBinariaConAnimacion(flowLayoutPanel1, ascendente);
+
+            }
+
         }
 
         private int currentLineIndex = 0;
