@@ -34,10 +34,10 @@ namespace ProyectoFinal
 
         private void BTNCrear_Click(object sender, EventArgs e)
         {
-            // Limpiar el FlowLayoutPanel antes de agregar nuevos cuadros
+            // Limpiar el FlowLayoutPanel
             flowLayoutPanel1.Controls.Clear();
 
-            // Obtener el número ingresado por el usuario
+            // Obtener el número ingresado
             int cantidad = (int)numericUpDown1.Value;
             arreglo = new int[cantidad];
             // Crear una lista de números y desordenarlos
@@ -72,7 +72,7 @@ namespace ProyectoFinal
         private int BusquedaBinaria(int[] arreglo, int objetivo)
         {
             int izquierda = 0;
-            int derecha = arreglo.Length - 1;
+            int derecha = arreglo.Length +1;
 
             while (izquierda <= derecha)
             {
@@ -104,13 +104,9 @@ namespace ProyectoFinal
                 return;
             }
 
-            // Ordenar el arreglo antes de la búsqueda binaria
-            //Array.Sort(arreglo);
-
-            // Obtener el número a buscar desde un cuadro de texto
+            // Obtener el número a buscar
             if (int.TryParse(numericUpDown2.Text, out int numeroBuscar))
             {
-                // Llamar al método de búsqueda binaria
                 int indice = BusquedaBinaria(arreglo, numeroBuscar);
 
                 // Mostrar el resultado
