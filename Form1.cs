@@ -107,11 +107,11 @@ namespace ProyectoFinal
             {
                 if (rbAsendente.Checked == true)
                 {
-                    metodos.IntercalacionDirectaAscendente(arreglo, flowLayoutPanel1);
+                    metodos.InsertionDirecta(arreglo, flowLayoutPanel1);
                 }
                 if (rbDesendente.Checked == true)
                 {
-                    metodos.IntercalacionDirectaDescendente(arreglo, flowLayoutPanel1);
+                    metodos.InsertionDescendente(arreglo, flowLayoutPanel1);
                 }
             }
             if (comboBox1.SelectedItem.ToString() == "Quick Sort") 

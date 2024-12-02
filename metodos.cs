@@ -368,7 +368,7 @@ namespace ProyectoFinal
                 h /= 2;
             }
         }
-        public void IntercalacionDirectaAscendente(int[] A, FlowLayoutPanel panel)
+        public void InsertionDirecta(int[] A, FlowLayoutPanel panel)
         {
             int N = A.Length;
 
@@ -379,93 +379,51 @@ namespace ProyectoFinal
 
             List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
 
-            // Llamamos a la función recursiva de Merge Sort
-            MergeSortAnimado(A, cuadros, panel, 0, N - 1);
-        }
-
-        // Función recursiva para dividir y ordenar los subarreglos
-        private void MergeSortAnimado(int[] A, List<Panel> cuadros, FlowLayoutPanel panel, int inicio, int fin)
-        {
-            if (inicio >= fin)
-                return;
-
-            int medio = (inicio + fin) / 2;
-
-            // Dividir el arreglo en dos partes
-            MergeSortAnimado(A, cuadros, panel, inicio, medio);
-            MergeSortAnimado(A, cuadros, panel, medio + 1, fin);
-
-            // Mezclar las dos mitades ordenadas
-            MezclarConAnimacion(A, cuadros, panel, inicio, medio, fin);
-        }
-
-        // Función para mezclar dos mitades ordenadas
-        private void MezclarConAnimacion(int[] A, List<Panel> cuadros, FlowLayoutPanel panel, int inicio, int medio, int fin)
-        {
-            int[] temp = new int[fin - inicio + 1];
-            int i = inicio, j = medio + 1, k = 0;
-
-            // Mezclamos las dos mitades
-            while (i <= medio && j <= fin)
+            for (int i = 1; i < N; i++)
             {
-                if (A[i] <= A[j]) // Condición ascendente
+                int AUX = A[i];
+                int j = i - 1;
+
+                Panel cuadroActual = cuadros[i];
+                cuadroActual.BackColor = cuadrito.GenerarColorUnico();
+                cuadroActual.Refresh();
+                Application.DoEvents();
+                Thread.Sleep(500); // Pausa para que se vea el cambio de color
+
+                // Mover los elementos de A[0..i-1], que son mayores que AUX,
+                // a una posición adelante de su posición actual
+                while (j >= 0 && A[j] > AUX)
                 {
-                    temp[k] = A[i];
-                    ActualizarCuadro(cuadros[i], temp[k]);
-                    i++;
+                    A[j + 1] = A[j];
+
+                    // Actualizamos el cuadro visualmente
+                    cuadros[j + 1].Controls[0].Text = A[j].ToString();
+                    cuadrito.AnimarCambioDeTamaño(cuadros[j + 1], A[j]);
+
+                    cuadros[j + 1].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
+                    cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
+
+                    // Forzar actualización visual
+                    panel.Refresh();
+                    Application.DoEvents();
+                    Thread.Sleep(500);
+
+                    j--;
                 }
-                else
-                {
-                    temp[k] = A[j];
-                    ActualizarCuadro(cuadros[j], temp[k]);
-                    j++;
-                }
-                k++;
-            }
 
-            // Copiamos los elementos restantes de la primera mitad
-            while (i <= medio)
-            {
-                temp[k] = A[i];
-                ActualizarCuadro(cuadros[i], temp[k]);
-                i++;
-                k++;
-            }
+                // Insertar el elemento en la posición correcta
+                A[j + 1] = AUX;
+                cuadros[j + 1].Controls[0].Text = AUX.ToString();
+                cuadrito.AnimarCambioDeTamaño(cuadros[j + 1], AUX);
 
-            // Copiamos los elementos restantes de la segunda mitad
-            while (j <= fin)
-            {
-                temp[k] = A[j];
-                ActualizarCuadro(cuadros[j], temp[k]);
-                j++;
-                k++;
-            }
-
-            // Copiamos los elementos ordenados de temp de regreso a A y actualizamos la interfaz
-            for (k = 0; k < temp.Length; k++)
-            {
-                A[inicio + k] = temp[k];
-                cuadros[inicio + k].Controls[0].Text = A[inicio + k].ToString();
-                cuadros[inicio + k].BackColor = cuadrito.GenerarColorUnico();
-                cuadros[inicio + k].Refresh();
-
-                // Simulación de animación
+                cuadros[j + 1].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que ha sido colocado en la posición correcta
                 panel.Refresh();
                 Application.DoEvents();
-                Thread.Sleep(500);
+                Thread.Sleep(500); // Pausa para que se vea el cambio de color
             }
         }
 
-        // Método auxiliar para actualizar el contenido y el tamaño de un cuadro
-        private void ActualizarCuadro(Panel cuadro, int valor)
-        {
-            cuadro.Controls[0].Text = valor.ToString();
-            cuadrito.AnimarCambioDeTamaño(cuadro, valor);
-            cuadro.BackColor = cuadrito.GenerarColorUnico();
-            cuadro.Refresh();
-        }
-
-        public void IntercalacionDirectaDescendente(int[] A, FlowLayoutPanel panel)
+        public void InsertionDescendente(int[] A, FlowLayoutPanel panel)
         {
             int N = A.Length;
 
@@ -476,90 +434,48 @@ namespace ProyectoFinal
 
             List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
 
-            // Llamamos a la función recursiva de Merge Sort
-            MergeSortAnimado2(A, cuadros, panel, 0, N - 1);
-        }
-
-        // Función recursiva para dividir y ordenar los subarreglos
-        private void MergeSortAnimado2(int[] A, List<Panel> cuadros, FlowLayoutPanel panel, int inicio, int fin)
-        {
-            if (inicio >= fin)
-                return;
-
-            int medio = (inicio + fin) / 2;
-
-            // Dividir el arreglo en dos partes
-            MergeSortAnimado2(A, cuadros, panel, inicio, medio);
-            MergeSortAnimado2(A, cuadros, panel, medio + 1, fin);
-
-            // Mezclar las dos mitades ordenadas
-            MezclarConAnimacion2(A, cuadros, panel, inicio, medio, fin);
-        }
-
-        // Función para mezclar dos mitades ordenadas en orden descendente
-        private void MezclarConAnimacion2(int[] A, List<Panel> cuadros, FlowLayoutPanel panel, int inicio, int medio, int fin)
-        {
-            int[] temp = new int[fin - inicio + 1];
-            int i = inicio, j = medio + 1, k = 0;
-
-            // Mezclamos las dos mitades
-            while (i <= medio && j <= fin)
+            for (int i = 1; i < N; i++)
             {
-                if (A[i] >= A[j]) // Condición descendente (mayor a menor)
+                int AUX = A[i];
+                int j = i - 1;
+
+                Panel cuadroActual = cuadros[i];
+                cuadroActual.BackColor = cuadrito.GenerarColorUnico();
+                cuadroActual.Refresh();
+                Application.DoEvents();
+                Thread.Sleep(500); // Pausa para que se vea el cambio de color
+
+                // Mover los elementos de A[0..i-1], que son menores que AUX,
+                // a una posición adelante de su posición actual
+                while (j >= 0 && A[j] < AUX) // Cambiado de > a < para orden descendente
                 {
-                    temp[k] = A[i];
-                    ActualizarCuadro2(cuadros[i], temp[k]);
-                    i++;
+                    A[j + 1] = A[j];
+
+                    // Actualizamos el cuadro visualmente
+                    cuadros[j + 1].Controls[0].Text = A[j].ToString();
+                    cuadrito.AnimarCambioDeTamaño(cuadros[j + 1], A[j]);
+
+                    cuadros[j + 1].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
+                    cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
+
+                    // Forzar actualización visual
+                    panel.Refresh();
+                    Application.DoEvents();
+                    Thread.Sleep(500);
+
+                    j--;
                 }
-                else
-                {
-                    temp[k] = A[j];
-                    ActualizarCuadro2(cuadros[j], temp[k]);
-                    j++;
-                }
-                k++;
-            }
 
-            // Copiamos los elementos restantes de la primera mitad
-            while (i <= medio)
-            {
-                temp[k] = A[i];
-                ActualizarCuadro2(cuadros[i], temp[k]);
-                i++;
-                k++;
-            }
+                // Insertar el elemento en la posición correcta
+                A[j + 1] = AUX;
+                cuadros[j + 1].Controls[0].Text = AUX.ToString();
+                cuadrito.AnimarCambioDeTamaño(cuadros[j + 1], AUX);
 
-            // Copiamos los elementos restantes de la segunda mitad
-            while (j <= fin)
-            {
-                temp[k] = A[j];
-                ActualizarCuadro2(cuadros[j], temp[k]);
-                j++;
-                k++;
-            }
-
-            // Copiamos los elementos ordenados de temp de regreso a A y actualizamos la interfaz
-            for (k = 0; k < temp.Length; k++)
-            {
-                A[inicio + k] = temp[k];
-                cuadros[inicio + k].Controls[0].Text = A[inicio + k].ToString();
-                cuadros[inicio + k].BackColor = cuadrito.GenerarColorUnico();
-                cuadros[inicio + k].Refresh();
-
-                // Simulación de animación
+                cuadros[j + 1].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que ha sido colocado en la posición correcta
                 panel.Refresh();
                 Application.DoEvents();
-                Thread.Sleep(500);
+                Thread.Sleep(500); // Pausa para que se vea el cambio de color
             }
-        }
-
-        // Método auxiliar para actualizar el contenido y el tamaño de un cuadro
-        private void ActualizarCuadro2(Panel cuadro, int valor)
-        {
-            cuadro.Controls[0].Text = valor.ToString();
-            cuadrito.AnimarCambioDeTamaño(cuadro, valor);
-            cuadro.BackColor = cuadrito.GenerarColorUnico();
-            cuadro.Refresh();
         }
 
         public void QuicksortAscendente(int[] A, FlowLayoutPanel panel)
