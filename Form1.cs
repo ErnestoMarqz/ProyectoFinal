@@ -263,9 +263,104 @@ namespace ProyectoFinal
 
         private async void button4_Click(object sender, EventArgs e)
         {
-            int valorBuscado = (int)numericUpDown1.Value;
-            Metodos metodos = new Metodos();
-            await metodos.BuscarAnimado(flowLayoutPanel1, valorBuscado);
+            if (arreglo == null || arreglo.Length == 0)
+            {
+                MessageBox.Show("Primero genera una lista de números.", "Advertencia");
+                return;
+            }
+
+            // Obtener el número a buscar
+            if (int.TryParse(numericUpDown2.Text, out int numeroBuscar))
+            {
+                // Llamar al método de búsqueda
+                int indice = await BuscarNumeroConAnimacion(flowLayoutPanel1, arreglo, numeroBuscar);
+
+                // Si no se encontró el número
+                if (indice == -1)
+                {
+                    MessageBox.Show($"El número {numeroBuscar} no fue encontrado.", "Resultado");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Por favor, ingresa un número válido para buscar.", "Error");
+            }
+        }
+        private async Task<int> BuscarNumeroConAnimacion(FlowLayoutPanel parent, int[] arreglo, int objetivo)
+        {
+            // Validar que el arreglo esté asociado al panel correctamente
+            if (parent.Controls.Count != arreglo.Length)
+            {
+                MessageBox.Show("El número de elementos en el panel no coincide con el arreglo.", "Error");
+                return -1;
+            }
+
+            int centro = arreglo.Length / 2;
+
+            // Iniciar búsqueda desde el centro
+            int izquierda = centro - 1;
+            int derecha = centro + 1;
+
+            while (izquierda >= 0 || derecha < arreglo.Length)
+            {
+                // Buscar primero en el centro
+                if (await RevisarIndiceConAnimacion(parent, arreglo, centro, objetivo))
+                {
+                    return centro;
+                }
+
+                // Luego buscar hacia la izquierda
+                if (izquierda >= 0 && await RevisarIndiceConAnimacion(parent, arreglo, izquierda, objetivo))
+                {
+                    return izquierda;
+                }
+
+                // Y finalmente hacia la derecha
+                if (derecha < arreglo.Length && await RevisarIndiceConAnimacion(parent, arreglo, derecha, objetivo))
+                {
+                    return derecha;
+                }
+
+                // Avanzar los índices
+                izquierda--;
+                derecha++;
+            }
+
+            // Si no se encontró el número
+            MessageBox.Show($"El número {objetivo} no fue encontrado.", "Resultado");
+            return -1;
+        }
+
+        // Método auxiliar para revisar un índice con animación
+        private async Task<bool> RevisarIndiceConAnimacion(FlowLayoutPanel parent, int[] arreglo, int indice, int objetivo)
+        {
+            // Obtener el cuadro y verificar si coincide
+            Panel cuadro = parent.Controls[indice] as Panel;
+            if (cuadro == null) return false;
+
+            cuadro.BackColor = Color.Yellow; // Resaltar el cuadro
+            cuadro.Refresh();
+            await Task.Delay(500);
+
+            if (arreglo[indice] == objetivo)
+            {
+                cuadro.BackColor = Color.Green; // Resaltar en verde si coincide
+                cuadro.Refresh();
+                await Task.Delay(500);
+
+                MessageBox.Show($"Número {objetivo} encontrado en el índice {indice}.", "Resultado");
+                return true;
+            }
+            else
+            {
+                cuadro.BackColor = Color.Red; // Resaltar en rojo si no coincide
+                cuadro.Refresh();
+                await Task.Delay(500);
+
+                cuadro.BackColor = Color.Black; // Restaurar color original
+                cuadro.Refresh();
+                return false;
+            }
         }
     }     
 }
