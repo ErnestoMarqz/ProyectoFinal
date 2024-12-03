@@ -166,8 +166,14 @@ namespace ProyectoFinal
                 {
                     metodos.RadixSort(arreglo,flowLayoutPanel1, richTextBox1);
                     richTextBox1.Visible = false;
+                    richTextBox1.Text = string.Empty;
                 }
-            
+                if (rbDesendente.Checked == true)
+                {   
+                    metodos.RadixSortDescendente(arreglo,flowLayoutPanel1,richTextBox1);
+                    richTextBox1.Visible = false;
+                    richTextBox1.Text = string.Empty;
+                }
             
             }
         }

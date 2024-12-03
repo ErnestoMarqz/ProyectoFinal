@@ -14,7 +14,7 @@ namespace ProyectoFinal
     {
 
         Cuadritos cuadrito = new Cuadritos();
-       
+
         public void BarajaAcendnete(int[] A, FlowLayoutPanel panel)
         {
             int N = A.Length;
@@ -46,7 +46,7 @@ namespace ProyectoFinal
 
                     cuadros[K + 1].Controls[0].Text = cuadroMayor.Controls[0].Text;
                     cuadrito.AnimarCambioDeTamaño(cuadros[K + 1], A[K + 1]);
-                    cuadros[K + 1].BackColor = cuadrito.GenerarColorUnico(); 
+                    cuadros[K + 1].BackColor = cuadrito.GenerarColorUnico();
                     panel.Refresh();
                     Application.DoEvents();
                     Thread.Sleep(500);
@@ -68,7 +68,7 @@ namespace ProyectoFinal
         public void HeapSortAcendente(int[] A, FlowLayoutPanel panel)
         {
             int N = A.Length;
-            
+
             // Obtener los cuadros como una lista
             List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
 
@@ -116,7 +116,7 @@ namespace ProyectoFinal
         }
         public void EliminarMonticuloAnimado(int[] A, FlowLayoutPanel panel)
         {
-           int N = A.Length;
+            int N = A.Length;
             if (panel.Controls.Count != N)
             {
                 throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
@@ -642,7 +642,7 @@ namespace ProyectoFinal
             panel.Refresh();
             Application.DoEvents();
             Thread.Sleep(500); // Pausa para mostrar el intercambio
-            
+
         }
         public void QuicksortDescendente(int[] A, FlowLayoutPanel panel)
         {
@@ -884,7 +884,7 @@ namespace ProyectoFinal
             return (value < min) ? min : (value > max) ? max : value;
         }
 
-        public void BucketSortAcendente(int[] arr, FlowLayoutPanel panel, int bucketCount,int tamañoCubeta)
+        public void BucketSortAcendente(int[] arr, FlowLayoutPanel panel, int bucketCount, int tamañoCubeta)
         {
             // Crear lista de cuadros
             if (panel.Controls.Count != arr.Length)
@@ -1243,103 +1243,93 @@ namespace ProyectoFinal
                 Thread.Sleep(70); // Pausa para que la animación sea visible
             }
         }
-        //public async void RadixSort(int[] A, FlowLayoutPanel panel, RichTextBox richTextBoxDigits)
-        //{
-        //    int N = A.Length;
-        //    richTextBoxDigits.Visible = true;
 
-        //    if (panel.Controls.Count != N)
-        //    {
-        //        throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
-        //    }
+        public async void RadixSortDescendente(int[] A, FlowLayoutPanel panel, RichTextBox richTextBoxDigits)
+        {
+            int N = A.Length;
+            richTextBoxDigits.Visible = true;
 
-        //    List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
+            if (panel.Controls.Count != N)
+            {
+                throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
+            }
 
-        //    // Encontrar el valor máximo
-        //    int max = A.Max();
+            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
 
-        //    // Llamar a CountingSort para cada dígito
-        //    for (int exp = 1; max / exp > 0; exp *= 10)
-        //    {
-        //        await CountingSortWithAnimation(A, exp, cuadros, richTextBoxDigits,panel);
-        //    }
+            // Encontrar el valor máximo
+            int max = A.Max();
 
-        //    // Finalizar la visualización
-        //    for (int i = 0; i < N; i++)
-        //    {
-        //        cuadros[i].BackColor = Color.Green; // Cambiar color final
-        //    }
-        //    panel.Refresh();
-        //}
+            // Llamar a CountingSort para cada dígito
+            for (int exp = 1; max / exp > 0; exp *= 10)
+            {
+                await CountingSortWithAnimationDescendente(A, exp, cuadros, richTextBoxDigits, panel);
+            }
 
-        //private async Task CountingSortWithAnimation(int[] arr, int exp, List<Panel> cuadros, RichTextBox richTextBoxDigits, FlowLayoutPanel panel)
-        //{
-        //    int n = arr.Length;
-        //    int[] output = new int[n];
-        //    int[] count = new int[10];
+            // Finalizar la visualización
+            for (int i = 0; i < N; i++)
+            {
+                cuadros[i].BackColor = Color.Green; // Cambiar color final
+                AnimarCambioDeTamaño(cuadros[i], A[i]); // Ajustar al tamaño final
+            }
+            panel.Refresh();
+        }
 
-        //    // Inicializar el arreglo de conteo
-        //    for (int i = 0; i < count.Length; i++)
-        //        count[i] = 0;
+        private async Task CountingSortWithAnimationDescendente(int[] arr, int exp, List<Panel> cuadros, RichTextBox richTextBoxDigits, FlowLayoutPanel panel)
+        {
+            int n = arr.Length;
+            int[] output = new int[n];
+            int[] count = new int[10];
 
-        //    // Contar ocurrencias de cada dígito
-        //    for (int i = 0; i < n; i++)
-        //    {
-        //        int digit = GetDigit(arr[i], exp);
-        //        count[digit]++;
-        //    }
+            // Inicializar el arreglo de conteo
+            for (int i = 0; i < count.Length; i++)
+                count[i] = 0;
 
-        //    // Cambiar count[i] para que contenga la posición real de este dígito en output[]
-        //    for (int i = 1; i < 10; i++)
-        //        count[i] += count[i - 1];
+            // Contar ocurrencias de cada dígito
+            for (int i = 0; i < n; i++)
+            {
+                int digit = GetDigit(arr[i], exp);
+                count[digit]++;
+            }
 
-        //    // Construir el arreglo de salida
-        //    for (int i = n - 1; i >= 0; i--)
-        //    {
-        //        int digit = GetDigit(arr[i], exp);
-        //        output[count[digit] - 1] = arr[i];
-        //        count[digit]--;
+            // Cambiar count[i] para que contenga la posición real de este dígito en output[]
+            for (int i = 1; i < 10; i++)
+                count[i] += count[i - 1];
 
-        //        // Actualizar visualización
-        //        int index = count[digit];
-        //        cuadros[index].BackColor = Color.Orange; // Resaltar el cuadro que se está procesando
-        //        cuadros[index].Controls[0].Text = arr[i].ToString();
-        //        panel.Refresh();
-        //        await Task.Delay(500); // Pausa para que se vea el cambio de color
+            // Construir el arreglo de salida en orden descendente
+            for (int i = n - 1; i >= 0; i--)
+            {
+                int digit = GetDigit(arr[i], exp);
+                output[n - count[digit]] = arr[i]; // Colocar en la posición inversa
+                count[digit]--;
 
-        //        // Actualizar el RichTextBox con el estado actual
-        //        UpdateDigitsDisplay(arr, exp, richTextBoxDigits);
-        //    }
+                // Actualizar visualización
+                int index = n - count[digit] - 1; // Obtener el índice correcto
+                cuadros[index].BackColor = Color.Orange; // Resaltar el cuadro que se está procesando
+                cuadros[index].Controls[0].Text = arr[i].ToString();
+                panel.Refresh();
+                await Task.Delay(500); // Pausa para que se vea el cambio de color
 
-        //    // Copiar el arreglo de salida a arr[]
-        //    for (int i = 0; i < n; i++)
-        //    {
-        //        arr[i] = output[i];
+                // Animar el cambio de tamaño
+                AnimarCambioDeTamaño(cuadros[index], arr[i]);
 
-        //        // Actualizar el panel correspondiente
-        //        cuadros[i].Controls[0].Text = arr[i].ToString();
-        //        cuadros[i].BackColor = Color.Red; // Resaltar el cuadro que ha sido colocado
-        //        panel.Refresh();
-        //        await Task.Delay(500); // Pausa para que se vea el cambio de color
-        //    }
-        //}
+                // Actualizar el RichTextBox con el estado actual
+                UpdateDigitsDisplay(arr, exp, richTextBoxDigits);
+            }
 
-        //// Método para obtener el dígito en la posición 'exp'
-        //private int GetDigit(int number, int exp)
-        //{
-        //    return (number / exp) % 10;
-        //}
+            // Copiar el arreglo de salida a arr[]
+            for (int i = 0; i < n; i++)
+            {
+                arr[i] = output[i];
 
-        //// Método para actualizar el RichTextBox con el estado actual de los dígitos
-        //private void UpdateDigitsDisplay(int[] arr, int exp, RichTextBox richTextBox)
-        //{
-        //    richTextBox.Clear(); // Limpiar el RichTextBox antes de actualizar
-        //    for (int i = 0; i < arr.Length; i++)
-        //    {
-        //        int digit = GetDigit(arr[i], exp);
-        //        richTextBox.AppendText($"Número: {arr[i]}, Dígito en posición {exp}: {digit}\n");
-        //    }
-        //    richTextBox.Refresh(); // Forzar actualización visual
-        //}
+                // Actualizar el panel correspondiente
+                cuadros[i].Controls[0].Text = arr[i].ToString();
+                cuadros[i].BackColor = Color.Red; // Resaltar el cuadro que ha sido colocado
+                panel.Refresh();
+                await Task.Delay(500); // Pausa para que se vea el cambio de color
+
+                // Animar el cambio de tamaño al valor final
+                AnimarCambioDeTamaño(cuadros[i], arr[i]);
+            }
+        }
     }
 }
