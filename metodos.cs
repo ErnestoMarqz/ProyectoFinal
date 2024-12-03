@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -726,78 +727,6 @@ namespace ProyectoFinal
             Thread.Sleep(500); // Pausa para mostrar el intercambio
         }
 
-        public void BucketSortAscendente(int[] A, FlowLayoutPanel panel, RichTextBox richTextBoxBuckets)
-        {
-            int N = A.Length;
-            richTextBoxBuckets.Visible = true;
-
-            if (panel.Controls.Count != N)
-            {
-                throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
-            }
-
-            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
-
-            // Encontrar el valor máximo
-            int maxValue = A.Max();
-            int bucketCount = maxValue / 5 + 1; // Ajustar según el rango de los datos
-            List<List<int>> buckets = new List<List<int>>(new List<int>[bucketCount]);
-
-            // Inicializar los cubos
-            for (int i = 0; i < bucketCount; i++)
-            {
-                buckets[i] = new List<int>();
-            }
-
-            // Distribuir los elementos en los cubos
-            for (int i = 0; i < N; i++)
-            {
-                int bucketIndex = A[i] / 5; // Ajustar según el rango de los datos
-                buckets[bucketIndex].Add(A[i]);
-
-                // Actualizar visualización
-                cuadros[i].BackColor = Color.Orange; // Resaltar el cuadro que se está procesando
-                cuadros[i].Controls[0].Text = A[i].ToString();
-                panel.Refresh();
-                Application.DoEvents();
-                Thread.Sleep(500); // Pausa para que se vea el cambio de color
-
-                // Actualizar texto de cubetas en el RichTextBox
-                UpdateBucketsDisplay(buckets, richTextBoxBuckets);
-            }
-
-            // Ordenar cada cubo y combinar
-            int index = 0;
-            foreach (var bucket in buckets)
-            {
-                // Ordenar el cubo (puedes usar cualquier método de ordenamiento, aquí se usa Array.Sort)
-                bucket.Sort();
-
-                // Actualizar visualización de cada cubo
-                foreach (var num in bucket)
-                {
-                    A[index] = num;
-
-                    // Actualizar el panel correspondiente
-                    cuadros[index].Controls[0].Text = num.ToString();
-                    cuadrito.AnimarCambioDeTamaño(cuadros[index], num); // Método para animar el cambio de tamaño
-                    cuadros[index].BackColor = Color.Red; // Resaltar el cuadro que ha sido colocado
-                    panel.Refresh();
-                    Application.DoEvents();
-                    Thread.Sleep(500); // Pausa para que se vea el cambio de color
-
-                    index++;
-                }
-            }
-
-            // Finalizar la visualización
-            for (int i = 0; i < N; i++)
-            {
-                cuadros[i].BackColor = Color.Green; // Cambiar color final
-            }
-            panel.Refresh();
-        }
-
         //Método para actualizar el RichTextBox con el contenido de las cubetas
         private void UpdateBucketsDisplay(List<List<int>> buckets, RichTextBox richTextBox)
         {
@@ -808,75 +737,84 @@ namespace ProyectoFinal
             }
             richTextBox.Refresh(); // Forzar actualización visual
         }
-        public void BucketSortDescendente(int[] A, FlowLayoutPanel panel, RichTextBox richTextBoxBuckets)
+        public void BucketSortDescendente(int[] arr, FlowLayoutPanel panel, int bucketCount, int TamCubeta)
         {
-            int N = A.Length;
-
-            if (panel.Controls.Count != N)
             {
-                throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
-            }
-
-            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
-
-            // Encontrar el valor máximo
-            int maxValue = A.Max();
-            int bucketCount = maxValue / 10 + 1; // Ajustar según el rango de los datos
-            List<List<int>> buckets = new List<List<int>>(new List<int>[bucketCount]);
-
-            // Inicializar los cubos
-            for (int i = 0; i < bucketCount; i++)
-            {
-                buckets[i] = new List<int>();
-            }
-
-            // Distribuir los elementos en los cubos
-            for (int i = 0; i < N; i++)
-            {
-                int bucketIndex = A[i] / 10; // Ajustar según el rango de los datos
-                buckets[bucketIndex].Add(A[i]);
-
-                // Actualizar visualización
-                cuadros[i].BackColor = Color.Orange; // Resaltar el cuadro que se está procesando
-                cuadros[i].Controls[0].Text = A[i].ToString();
-                panel.Refresh();
-                Application.DoEvents();
-                Thread.Sleep(500); // Pausa para que se vea el cambio de color
-
-                // Actualizar texto de cubetas en el RichTextBox
-                UpdateBucketsDisplay(buckets, richTextBoxBuckets);
-            }
-
-            // Ordenar cada cubo y combinar en orden descendente
-            int index = 0;
-            foreach (var bucket in buckets)
-            {
-                // Ordenar el cubo en orden descendente
-                bucket.Sort((x, y) => y.CompareTo(x)); // Ordenar de mayor a menor
-
-                // Actualizar visualización de cada cubo
-                foreach (var num in bucket)
+                // Crear lista de cuadros
+                if (panel.Controls.Count != arr.Length)
                 {
-                    A[index] = num;
+                    throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
+                }
+                List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
 
-                    // Actualizar el panel correspondiente
-                    cuadros[index].Controls[0].Text = num.ToString();
-                    cuadrito.AnimarCambioDeTamaño(cuadros[index], num); // Método para animar el cambio de tamaño
-                    cuadros[index].BackColor = Color.Red; // Resaltar el cuadro que ha sido colocado
-                    panel.Refresh();
-                    Application.DoEvents();
-                    Thread.Sleep(500); // Pausa para que se vea el cambio de color
+                // Encontrar el valor máximo para determinar el número de cubos
+                int maxValue = arr.Max();
 
-                    index++;
+                // Crear los cubos visuales
+                bucketCount = maxValue / bucketCount; // Ajustar tamaño del cubo
+                List<List<int>> buckets = new List<List<int>>(bucketCount);
+                List<FlowLayoutPanel> cubosVisuales = new List<FlowLayoutPanel>();
+                FlowLayoutPanel cubosPanel = new FlowLayoutPanel
+                {
+                    FlowDirection = FlowDirection.LeftToRight,
+                    WrapContents = true, // Permitirá que los cubos se ajusten si hay muchos
+                    AutoSize = true,
+                    BackColor = Color.LightGray,
+                    Margin = new Padding(10),
+                    Dock = DockStyle.Top // Aseguramos que esté en la parte superior del contenedor
+                };
+
+                // Asegurarse de que el panel de cubos se añada al contenedor correcto
+                panel.Parent.Controls.Add(cubosPanel);
+
+                // Crear los cubos visuales
+                for (int i = 0; i < bucketCount; i++)
+                {
+                    buckets.Add(new List<int>());
+                    FlowLayoutPanel cuboVisual = new FlowLayoutPanel
+                    {
+                        FlowDirection = FlowDirection.TopDown,
+                        AutoSize = true,
+                        BackColor = Color.AliceBlue,
+                        Margin = new Padding(5),
+                        BorderStyle = BorderStyle.FixedSingle,
+                        Padding = new Padding(5) // Un pequeño relleno para dar espacio
+                    };
+                    cubosPanel.Controls.Add(cuboVisual);
+                    cubosVisuales.Add(cuboVisual);
+                }
+
+                // Animar distribución de elementos en los cubos
+                foreach (int num in arr)
+                {
+                    int bucketIndex = num / TamCubeta; // Ajustar tamaño del cubo
+                    buckets[bucketIndex].Add(num);
+
+                    // Mover visualmente el cuadro al cubo correspondiente
+                    Panel cuadro = cuadros.First(c => c.Controls[0].Text == num.ToString());
+                    cuadros.Remove(cuadro);
+                    AnimarMovimiento(cuadro, cubosVisuales[bucketIndex]);
+                }
+
+                // Ordenar cada cubo y animar
+                int index = 0;
+                foreach (List<int> bucket in buckets)
+                {
+                    // Ordenar el cubo en orden descendente
+                    bucket.Sort((a, b) => b.CompareTo(a));
+                    FlowLayoutPanel cuboVisual = cubosVisuales[buckets.IndexOf(bucket)];
+
+                    foreach (int num in bucket)
+                    {
+                        Panel cuadro = cuboVisual.Controls.Cast<Panel>().First(c => c.Controls[0].Text == num.ToString());
+                        cuadros.Add(cuadro);
+
+                        // Combinar visualmente los elementos en el panel original
+                        AnimarMovimiento(cuadro, panel);
+                        arr[index++] = num;
+                    }
                 }
             }
-
-            // Finalizar la visualización
-            for (int i = 0; i < N; i++)
-            {
-                cuadros[i].BackColor = Color.Green; // Cambiar color final
-            }
-            panel.Refresh();
         }
 
         public int Clamp(int value, int min, int max)
@@ -897,9 +835,6 @@ namespace ProyectoFinal
             int maxValue = arr.Max();
 
             // Crear los cubos visuales
-            //bucketCount = maxValue / 10 + 1; // Ajustar tamaño del cubo
-
-            int bucketSize = (maxValue / bucketCount) + 1;
 
             // Distribuir los números en las cubetas
 
@@ -1060,7 +995,7 @@ namespace ProyectoFinal
             }
 
             // Ordenar cada cubo y animar
-            int index = 0;
+            int index = maxValue;
             foreach (List<int> bucket in buckets)
             {
                 bucket.Sort((a, b) => b.CompareTo(a)); // Ordenar cubo de forma descendente
@@ -1068,12 +1003,12 @@ namespace ProyectoFinal
 
                 foreach (int num in bucket)
                 {
-                    Panel cuadro = cuboVisual.Controls.Cast<Panel>().First(c => c.Controls[0].Text == num.ToString());
+                    Panel cuadro = cuboVisual.Controls.Cast<Panel>().Last(c => c.Controls[0].Text == num.ToString());
                     cuadros.Add(cuadro);
 
                     // Combinar visualmente los elementos en el panel original
                     AnimarMovimientoDes2(cuadro, panel);
-                    arr[index++] = num;
+                    arr[index--] = num;
                 }
             }
             panel.Parent.Controls.Remove(cubosPanel);
@@ -1212,6 +1147,7 @@ namespace ProyectoFinal
             for (int i = 0; i < arr.Length; i++)
             {
                 int digit = GetDigit(arr[i], exp);
+                richTextBox.Width  = 260;
                 richTextBox.AppendText($"Número: {arr[i]}, Dígito en posición {exp}: {digit}\n");
             }
             richTextBox.Refresh(); // Forzar actualización visual
@@ -1240,7 +1176,7 @@ namespace ProyectoFinal
 
                 // Forzar actualización visual
                 Application.DoEvents();
-                Thread.Sleep(70); // Pausa para que la animación sea visible
+                Thread.Sleep(90); // Pausa para que la animación sea visible
             }
         }
 
