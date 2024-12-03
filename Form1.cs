@@ -110,13 +110,16 @@ namespace ProyectoFinal
 
             if (comboBox1.SelectedItem.ToString() == "Baraja")
             {
+                bool ascendente = true;
                 if (rbAsendente.Checked == true)
                 {
-                    metodos.BarajaAcendnete(arreglo, flowLayoutPanel1);
+                    ascendente = true;
+                    metodos.Baraja(arreglo, flowLayoutPanel1, ascendente);
                 }
                 else
                 {
-                    metodos.BarajaDescendente(arreglo, flowLayoutPanel1);
+                    ascendente = false;
+                    metodos.Baraja(arreglo, flowLayoutPanel1, ascendente);
                 }
             }
             //if (comboBox1.SelectedItem.ToString() == "Shell")
