@@ -157,12 +157,17 @@ namespace ProyectoFinal
             //}
             if (comboBox1.SelectedItem.ToString() == "Heap Sort")
             {
+
+                bool ascendente = true;
                 if (rbAsendente.Checked == true)
                 {
-                    metodos.HeapSortAcendente(arreglo, flowLayoutPanel1);
+                    ascendente = true;
+                    metodos.HeapSort(arreglo, flowLayoutPanel1, ascendente);
                 }
-                if (rbDesendente.Checked == true)
+                else
                 {
+                    ascendente = false;
+                    metodos.HeapSort(arreglo, flowLayoutPanel1, ascendente);
                 }
             }
         }
