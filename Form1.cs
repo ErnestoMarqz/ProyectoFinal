@@ -85,7 +85,7 @@ namespace ProyectoFinal
             {
                 if(rbAsendente.Checked == true)
                 {
-                    metodos.OrdenarShellConAnimacion(arreglo, flowLayoutPanel1);
+                    metodos.OrdenarShellConAnimacion(flowLayoutPanel1,);
                 }
                 else
                 {
