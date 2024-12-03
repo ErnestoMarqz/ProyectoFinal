@@ -85,18 +85,16 @@ namespace ProyectoFinal
             {
                 if(rbAsendente.Checked == true)
                 {
-                    metodos.BarajaAcendnete(arreglo, flowLayoutPanel1);
+                    metodos.OrdenarShellConAnimacion(arreglo, flowLayoutPanel1);
                 }
                 else
                 {
-                    metodos.BarajaDescendente(arreglo, flowLayoutPanel1);
                 }
             }
             if (comboBox1.SelectedItem.ToString() == "Shell")
             {
                 if (rbAsendente.Checked == true)
                 {
-                    metodos.ShellAsendente(arreglo, flowLayoutPanel1);
                 }
                 if (rbDesendente.Checked == true)
                 {
@@ -123,16 +121,6 @@ namespace ProyectoFinal
                 if (rbDesendente.Checked == true)
                 {
                     metodos.QuicksortDescendente(arreglo, flowLayoutPanel1);
-                }
-            }
-            if (comboBox1.SelectedItem.ToString() == "Heap Sort")
-            {
-                if (rbAsendente.Checked == true)
-                {
-                    metodos.HeapSortAcendente(arreglo, flowLayoutPanel1);
-                }
-                if (rbDesendente.Checked == true)
-                {
                 }
             }
         }

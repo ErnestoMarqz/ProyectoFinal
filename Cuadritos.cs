@@ -14,14 +14,17 @@ namespace ProyectoFinal
         private static readonly Random random = new Random();
         private static List<Color> coloresUsados = new List<Color>();
 
+
         public Panel CrearCuadroAnimadoEnLayout(FlowLayoutPanel parent, int numero)
         {
             // Crear el panel inicial
+            Color colorGenerado = GenerarColorUnico();
             Panel cuadro = new Panel
             {
                 Size = new Size(5, 5), // Tamaño inicial
                 BackColor = GenerarColorUnico(),
-                Margin = new Padding(5) // Asegurar un margen agradable dentro del FlowLayoutPanel
+                Margin = new Padding(5), // Asegurar un margen agradable dentro del FlowLayoutPanel
+                Tag = colorGenerado // Guardar el color original en la propiedad Tag
             };
 
             // Crear la etiqueta
@@ -47,6 +50,7 @@ namespace ProyectoFinal
             parent.SuspendLayout();
 
             AnimarCambioDeTamaño(cuadro, numero);
+
             // Rehabilitar la disposición automática
             parent.ResumeLayout();
 
@@ -78,18 +82,116 @@ namespace ProyectoFinal
             }
         }
 
-
-        // Método para generar un color único
         public Color GenerarColorUnico()
         {
+            const int MaxIntentos = 100;
             Color nuevoColor;
+            int intentos = 0;
+
             do
             {
                 nuevoColor = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
-            } while (coloresUsados.Contains(nuevoColor));
+                intentos++;
+            } while (coloresUsados.Contains(nuevoColor) && intentos < MaxIntentos);
 
-            coloresUsados.Add(nuevoColor);
+            if (intentos < MaxIntentos)
+            {
+                coloresUsados.Add(nuevoColor);
+            }
+            else
+            {
+                // Reiniciar la lista de colores si se alcanzan demasiados intentos
+                coloresUsados.Clear();
+                coloresUsados.Add(nuevoColor);
+            }
+
             return nuevoColor;
+        }
+
+        public static async Task IntercambiarCuadrosAnimado(FlowLayoutPanel parent, int indiceA, int indiceB)
+        {
+            // Validar índices
+            if (indiceA < 0 || indiceB < 0 || indiceA >= parent.Controls.Count || indiceB >= parent.Controls.Count)
+                return;
+
+            // Obtener los cuadros
+            Panel cuadroA = parent.Controls[indiceA] as Panel;
+            Panel cuadroB = parent.Controls[indiceB] as Panel;
+
+            if (cuadroA == null || cuadroB == null) return;
+
+            int numeroA = int.Parse((cuadroA.Controls[0] as Label).Text);
+            int numeroB = int.Parse((cuadroB.Controls[0] as Label).Text);
+
+            // Resaltar en amarillo para indicar comparación
+            cuadroA.BackColor = Color.Yellow;
+            cuadroB.BackColor = Color.Yellow;
+            cuadroA.Refresh();
+            cuadroB.Refresh();
+            await Task.Delay(500);
+
+            // Determinar cuál debe parpadear (verde si mayor, rojo si menor)
+            if (numeroA > numeroB)
+            {
+                await Parpadear(cuadroA, Color.Green, 3);
+            }
+            else
+            {
+                await Parpadear(cuadroA, Color.Red, 3);
+            }
+
+            // Intercambiar visualmente las propiedades (animación de cambio de tamaño)
+            Size tamañoInicialA = cuadroA.Size;
+            Size tamañoFinalA = new Size(numeroB * 10, numeroB * 10);
+            Size tamañoInicialB = cuadroB.Size;
+            Size tamañoFinalB = new Size(numeroA * 10, numeroA * 10);
+
+            int pasos = 20;
+            for (int i = 0; i <= pasos; i++)
+            {
+                cuadroA.Size = new Size(
+                    Interpolar(tamañoInicialA.Width, tamañoFinalA.Width, i, pasos),
+                    Interpolar(tamañoInicialA.Height, tamañoFinalA.Height, i, pasos)
+                );
+
+                cuadroB.Size = new Size(
+                    Interpolar(tamañoInicialB.Width, tamañoFinalB.Width, i, pasos),
+                    Interpolar(tamañoInicialB.Height, tamañoFinalB.Height, i, pasos)
+                );
+
+                cuadroA.Refresh();
+                cuadroB.Refresh();
+                await Task.Delay(25);
+            }
+
+    // Actualizar los textos
+    (cuadroA.Controls[0] as Label).Text = numeroB.ToString();
+            (cuadroB.Controls[0] as Label).Text = numeroA.ToString();
+
+            // Restaurar colores
+            cuadroA.BackColor = Color.Black;
+            cuadroB.BackColor = Color.Black;
+            cuadroA.Refresh();
+            cuadroB.Refresh();
+        }
+
+        private static async Task Parpadear(Panel cuadro, Color color, int repeticiones)
+        {
+            for (int i = 0; i < repeticiones; i++)
+            {
+                cuadro.BackColor = color;
+                cuadro.Refresh();
+                await Task.Delay(250);
+
+                cuadro.BackColor = Color.Yellow; // Restaurar al amarillo entre parpadeos
+                cuadro.Refresh();
+                await Task.Delay(250);
+            }
+        }
+
+        private static int Interpolar(int inicio, int fin, int pasoActual, int totalPasos)
+        {
+            return inicio + (fin - inicio) * pasoActual / totalPasos;
         }
     }
 }
