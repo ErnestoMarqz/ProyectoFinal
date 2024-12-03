@@ -14,7 +14,7 @@ namespace ProyectoFinal
     {
 
         Cuadritos cuadrito = new Cuadritos();
-       
+
         public void BarajaAcendnete(int[] A, FlowLayoutPanel panel)
         {
             int N = A.Length;
@@ -32,7 +32,7 @@ namespace ProyectoFinal
                 int K = I - 1;
 
                 Panel cuadroActual = cuadros[I];
-                cuadroActual.BackColor = Color.Orange;
+                cuadroActual.BackColor = Color.Red;
                 panel.Refresh();
                 Application.DoEvents();
                 Thread.Sleep(500);
@@ -46,12 +46,12 @@ namespace ProyectoFinal
 
                     cuadros[K + 1].Controls[0].Text = cuadroMayor.Controls[0].Text;
                     cuadrito.AnimarCambioDeTamaño(cuadros[K + 1], A[K + 1]);
-                    cuadros[K + 1].BackColor = cuadrito.GenerarColorUnico(); 
+                    cuadros[K + 1].BackColor = cuadrito.GenerarColorUnico();
                     panel.Refresh();
                     Application.DoEvents();
                     Thread.Sleep(500);
 
-                    cuadroMayor.BackColor = cuadrito.GenerarColorUnico();
+                    cuadroMayor.BackColor = Color.DarkSeaGreen;
                     K--;
                 }
                 A[K + 1] = AUX;
@@ -63,120 +63,6 @@ namespace ProyectoFinal
                 Thread.Sleep(500);
             }
         }
-
-
-        public void HeapSortAcendente(int[] A, FlowLayoutPanel panel)
-        {
-            int N = A.Length;
-            
-            // Obtener los cuadros como una lista
-            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
-
-            for (int I = 1; I < N; I++) // Adaptado a índices base 0
-            {
-                int K = I + 1; // Ajuste para representar la posición correcta
-                bool BAND = true;
-
-                // Propagación hacia arriba en el montículo
-                while (K > 1 && BAND)
-                {
-                    BAND = false;
-                    int padre = (K - 1) / 2; // Índice del nodo padre
-
-                    // Validar que los índices son válidos
-                    if (padre < 0 || padre >= A.Length || K - 1 >= A.Length)
-                        break;
-
-                    // Si el hijo es mayor que el padre
-                    if (A[K - 1] > A[padre])
-                    {
-                        // Intercambiar A[K - 1] con A[padre]
-                        int AUX = A[padre];
-                        A[padre] = A[K - 1];
-                        A[K - 1] = AUX;
-
-                        // Actualizar textos en los cuadros
-                        cuadros[K - 1].Controls[0].Text = A[K - 1].ToString();
-                        cuadros[padre].Controls[0].Text = A[padre].ToString();
-
-                        // Animar el cambio de tamaño de los cuadros
-                        cuadrito.AnimarCambioDeTamaño(cuadros[K - 1], A[K - 1]);
-                        cuadrito.AnimarCambioDeTamaño(cuadros[padre], A[padre]);
-
-                        // Actualizar índice K y marcar BAND como true
-                        K = padre + 1; // Ajuste en K para índices base 0
-                        BAND = true;
-
-                        // Pausa para hacer visible la animación
-                        Thread.Sleep(500);
-                    }
-                }
-            }
-            EliminarMonticuloAnimado(A, panel);
-        }
-        public void EliminarMonticuloAnimado(int[] A, FlowLayoutPanel panel)
-        {
-           int N = A.Length;
-            if (panel.Controls.Count != N)
-            {
-                throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
-            }
-
-            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
-
-            for (int I = N - 1; I >= 1; I--) // Ajuste para índices base 0
-            {
-                int AUX = A[I];
-                A[I] = A[0];
-
-                // Actualizar textos
-                cuadros[I].Controls[0].Text = A[I].ToString();
-                cuadros[0].Controls[0].Text = AUX.ToString();
-
-                int IZQ = 1, DER = 2, K = 0;
-                bool BOOL = true;
-
-                while ((IZQ < I) && BOOL)
-                {
-                    int MAYOR = A[IZQ];
-                    int AP = IZQ;
-
-                    if ((DER < I) && (MAYOR < A[DER]))
-                    {
-                        MAYOR = A[DER];
-                        AP = DER;
-                    }
-
-                    if (AUX < MAYOR)
-                    {
-                        A[K] = A[AP];
-
-                        cuadros[K].Controls[0].Text = A[K].ToString();
-                        cuadros[AP].Controls[0].Text = MAYOR.ToString();
-
-                        K = AP;
-                    }
-                    else
-                    {
-                        BOOL = false;
-                    }
-
-                    IZQ = 2 * K + 1;
-                    DER = IZQ + 1;
-                }
-
-                A[K] = AUX;
-                cuadros[K].Controls[0].Text = AUX.ToString();
-
-                // **Corregir tamaños al final**
-                cuadrito.AnimarCambioDeTamaño(cuadros[K], A[K]);
-                cuadrito.AnimarCambioDeTamaño(cuadros[I], A[I]); // Aplicar al último cuadro procesado
-            }
-
-            // Ajustar tamaño del cuadro inicial (A[0]) al final del proceso
-            cuadrito.AnimarCambioDeTamaño(cuadros[0], A[0]);
-        }
-
         public void BarajaDescendente(int[] A, FlowLayoutPanel panel)
         {
             int N = A.Length;
@@ -193,7 +79,7 @@ namespace ProyectoFinal
                 int K = I - 1;
 
                 Panel cuadroActual = cuadros[I];
-                cuadroActual.BackColor = Color.Orange;  // Resaltar el cuadro actual
+                cuadroActual.BackColor = Color.Red;  // Resaltar el cuadro actual
                 panel.Refresh();
                 Application.DoEvents();
                 Thread.Sleep(500);
@@ -241,6 +127,381 @@ namespace ProyectoFinal
                 Thread.Sleep(500);
             }
         }
+
+        public void HeapSortAcendente(int[] A, FlowLayoutPanel panel)
+        {
+            int N = A.Length;
+            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
+
+            for (int I = 1; I < N; I++) // Adaptado a índices base 0
+            {
+                int K = I + 1; // Ajuste para representar la posición correcta
+                bool BAND = true;
+
+                while (K > 1 && BAND)
+                {
+                    BAND = false;
+                    int padre = (K - 1) / 2; // Índice del nodo padre
+
+                    if (padre < 0 || padre >= A.Length || K - 1 >= A.Length)
+                        break;
+
+                    if (A[K - 1] > A[padre])
+                    {
+                        // Cambiar color de los cuadros a rojo antes de la comparación
+                        cuadros[K - 1].BackColor = Color.Red;
+                        cuadros[padre].BackColor = Color.Red;
+                        Thread.Sleep(200);
+
+                        // Generar un color aleatorio para después
+                        Random rnd = new Random();
+                        Color colorAleatorio = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
+
+                        // Intercambiar valores y actualizar texto
+                        int AUX = A[padre];
+                        A[padre] = A[K - 1];
+                        A[K - 1] = AUX;
+
+                        cuadros[K - 1].Controls[0].Text = A[K - 1].ToString();
+                        cuadros[padre].Controls[0].Text = A[padre].ToString();
+
+                        // Animar el cambio de tamaño de los cuadros
+                        cuadrito.AnimarCambioDeTamaño(cuadros[K - 1], A[K - 1]);
+                        cuadrito.AnimarCambioDeTamaño(cuadros[padre], A[padre]);
+
+                        // Restaurar colores a aleatorio después de la comparación
+                        cuadros[K - 1].BackColor = cuadrito.GenerarColorUnico();
+                        cuadros[padre].BackColor = cuadrito.GenerarColorUnico();
+
+                        K = padre + 1;
+                        BAND = true;
+
+                        Thread.Sleep(500);
+                    }
+                }
+            }
+            EliminarMonticuloAnimado(A, panel);
+        }
+
+        public void EliminarMonticuloAnimado3(int[] A, FlowLayoutPanel panel)
+        {
+            int N = A.Length;
+            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
+
+            for (int I = N - 1; I >= 1; I--)
+            {
+                int AUX = A[I];
+                A[I] = A[0];
+
+                cuadros[I].Controls[0].Text = A[I].ToString();
+                cuadros[0].Controls[0].Text = AUX.ToString();
+
+                int IZQ = 1, DER = 2, K = 0;
+                bool BOOL = true;
+
+                while ((IZQ < I) && BOOL)
+                {
+                    int MAYOR = A[IZQ];
+                    int AP = IZQ;
+
+                    if ((DER < I) && (MAYOR < A[DER]))
+                    {
+                        MAYOR = A[DER];
+                        AP = DER;
+                    }
+
+                    cuadros[K].BackColor = Color.Red;
+                    cuadros[AP].BackColor = Color.Red;
+                    Thread.Sleep(200);
+
+                    if (AUX < MAYOR)
+                    {
+                        A[K] = A[AP];
+
+                        cuadros[K].Controls[0].Text = A[K].ToString();
+                        cuadros[AP].Controls[0].Text = MAYOR.ToString();
+
+                        K = AP;
+                    }
+                    else
+                    {
+                        BOOL = false;
+                    }
+
+                    cuadros[K].BackColor = cuadrito.GenerarColorUnico();
+                    cuadros[AP].BackColor = cuadrito.GenerarColorUnico();
+
+                    IZQ = 2 * K + 1;
+                    DER = IZQ + 1;
+                }
+
+                A[K] = AUX;
+                cuadros[K].Controls[0].Text = AUX.ToString();
+
+                cuadrito.AnimarCambioDeTamaño(cuadros[K], A[K]);
+                cuadrito.AnimarCambioDeTamaño(cuadros[I], A[I]);
+            }
+
+            cuadrito.AnimarCambioDeTamaño(cuadros[0], A[0]);
+        }
+
+        public void EliminarMonticuloAnimado(int[] A, FlowLayoutPanel panel)
+        {
+            int N = A.Length;
+            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
+
+            for (int I = N - 1; I >= 1; I--)
+            {
+                int AUX = A[I];
+                A[I] = A[0];
+
+                // Resaltar en rojo los cuadros que van a cambiar
+                cuadros[I].BackColor = Color.Red;
+                cuadros[0].BackColor = Color.Red;
+
+                // Forzar actualización visual
+                cuadros[I].Refresh();
+                cuadros[0].Refresh();
+
+                Thread.Sleep(200); // Pausa para visualizar el cambio
+
+                // Actualizar visualmente los cuadros
+                cuadros[I].Controls[0].Text = A[I].ToString();
+                cuadros[0].Controls[0].Text = AUX.ToString();
+
+                // Cambiar a un color aleatorio después de la actualización
+                cuadros[I].BackColor = cuadrito.GenerarColorUnico();
+                cuadros[0].BackColor = cuadrito.GenerarColorUnico();
+                Thread.Sleep(500);
+                cuadros[I].Refresh();
+                cuadros[0].Refresh();
+
+                int IZQ = 1, DER = 2, K = 0;
+                bool BOOL = true;
+
+                while ((IZQ < I) && BOOL)
+                {
+                    int MAYOR = A[IZQ];
+                    int AP = IZQ;
+
+                    if ((DER < I) && (MAYOR < A[DER]))
+                    {
+                        MAYOR = A[DER];
+                        AP = DER;
+                    }
+
+                    // Resaltar en rojo los cuadros que van a cambiar
+                    cuadros[K].BackColor = Color.Red;
+                    cuadros[AP].BackColor = Color.Red;
+
+                    // Forzar actualización visual
+                    cuadros[K].Refresh();
+                    cuadros[AP].Refresh();
+
+                    Thread.Sleep(500); // Pausa para visualizar el cambio
+
+                    if (AUX < MAYOR)
+                    {
+                        A[K] = A[AP];
+
+                        // Actualizar visualmente los cuadros
+                        cuadros[K].Controls[0].Text = A[K].ToString();
+                        cuadros[AP].Controls[0].Text = MAYOR.ToString();
+
+                        // Cambiar a un color aleatorio después de la actualización
+                        cuadros[K].BackColor = cuadrito.GenerarColorUnico();
+                        cuadros[AP].BackColor = cuadrito.GenerarColorUnico();
+
+                        cuadros[K].Refresh();
+                        cuadros[AP].Refresh();
+
+                        K = AP;
+                    }
+                    else
+                    {
+                        BOOL = false;
+                    }
+
+                    IZQ = 2 * K + 1;
+                    DER = IZQ + 1;
+                }
+
+                A[K] = AUX;
+
+                // Resaltar en rojo el cuadro final que va a cambiar
+                cuadros[K].BackColor = Color.Red;
+                cuadros[K].Refresh();
+
+                Thread.Sleep(500); // Pausa para visualizar el cambio
+
+                cuadros[K].Controls[0].Text = AUX.ToString();
+
+                // Cambiar a un color aleatorio después de la actualización
+                cuadros[K].BackColor = cuadrito.GenerarColorUnico();
+                cuadros[K].Refresh();
+
+                // Animar el cambio de tamaño
+                cuadrito.AnimarCambioDeTamaño(cuadros[K], A[K]);
+                cuadrito.AnimarCambioDeTamaño(cuadros[I], A[I]);
+            }
+
+            // Animar el último cuadro restante
+            cuadrito.AnimarCambioDeTamaño(cuadros[0], A[0]);
+        }
+
+        public void HeapSortDescendente(int[] A, FlowLayoutPanel panel)
+        {
+            int N = A.Length;
+            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
+
+            // Construcción del heap (mín-heap)
+            for (int I = 1; I < N; I++)
+            {
+                int K = I + 1; // Ajuste a índices 1-based
+                bool BAND = true;
+
+                while (K > 1 && BAND)
+                {
+                    BAND = false;
+                    int padre = (K - 1) / 2;
+
+                    if (padre < 0 || padre >= A.Length || K - 1 >= A.Length)
+                        break;
+
+                    if (A[K - 1] < A[padre]) // Cambia el operador para hacer un mín-heap
+                    {
+                        cuadros[K - 1].BackColor = Color.Red;
+                        cuadros[padre].BackColor = Color.Red;
+                        Thread.Sleep(200);
+
+                        int AUX = A[padre];
+                        A[padre] = A[K - 1];
+                        A[K - 1] = AUX;
+
+                        cuadros[K - 1].Controls[0].Text = A[K - 1].ToString();
+                        cuadros[padre].Controls[0].Text = A[padre].ToString();
+
+                        cuadrito.AnimarCambioDeTamaño(cuadros[K - 1], A[K - 1]);
+                        cuadrito.AnimarCambioDeTamaño(cuadros[padre], A[padre]);
+
+                        cuadros[K - 1].BackColor = cuadrito.GenerarColorUnico();
+                        cuadros[padre].BackColor = cuadrito.GenerarColorUnico();
+
+                        K = padre + 1;
+                        BAND = true;
+
+                        Thread.Sleep(500);
+                    }
+                }
+            }
+
+            // Ordenar extrayendo el menor elemento
+            EliminarMonticuloDescendente(A, panel);
+        }
+        public void EliminarMonticuloDescendente(int[] A, FlowLayoutPanel panel)
+        {
+            int N = A.Length;
+            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
+
+            for (int I = N - 1; I >= 1; I--)
+            {
+                int AUX = A[I];
+                A[I] = A[0];
+
+                // Resaltar en rojo los cuadros que van a cambiar
+                cuadros[I].BackColor = Color.Red;
+                cuadros[0].BackColor = Color.Red;
+
+                // Forzar actualización visual
+                cuadros[I].Refresh();
+                cuadros[0].Refresh();
+
+                Thread.Sleep(500); // Pausa para visualizar el cambio
+
+                // Actualizar visualmente los cuadros
+                cuadros[I].Controls[0].Text = A[I].ToString();
+                cuadros[0].Controls[0].Text = AUX.ToString();
+
+                // Cambiar a un color aleatorio después de la actualización
+                cuadros[I].BackColor = cuadrito.GenerarColorUnico();
+                cuadros[0].BackColor = cuadrito.GenerarColorUnico();
+
+                cuadros[I].Refresh();
+                cuadros[0].Refresh();
+
+                int IZQ = 1, DER = 2, K = 0;
+                bool BOOL = true;
+
+                while ((IZQ < I) && BOOL)
+                {
+                    int MENOR = A[IZQ];
+                    int AP = IZQ;
+
+                    if ((DER < I) && (MENOR > A[DER]))
+                    {
+                        MENOR = A[DER];
+                        AP = DER;
+                    }
+
+                    // Resaltar en rojo los cuadros que van a cambiar
+                    cuadros[K].BackColor = Color.Red;
+                    cuadros[AP].BackColor = Color.Red;
+
+                    // Forzar actualización visual
+                    cuadros[K].Refresh();
+                    cuadros[AP].Refresh();
+
+                    Thread.Sleep(500); // Pausa para visualizar el cambio
+
+                    if (AUX > MENOR)
+                    {
+                        A[K] = A[AP];
+
+                        // Actualizar visualmente los cuadros
+                        cuadros[K].Controls[0].Text = A[K].ToString();
+                        cuadros[AP].Controls[0].Text = MENOR.ToString();
+
+                        // Cambiar a un color aleatorio después de la actualización
+                        cuadros[K].BackColor = cuadrito.GenerarColorUnico();
+                        cuadros[AP].BackColor = cuadrito.GenerarColorUnico();
+
+                        cuadros[K].Refresh();
+                        cuadros[AP].Refresh();
+
+                        K = AP;
+                    }
+                    else
+                    {
+                        BOOL = false;
+                    }
+
+                    IZQ = 2 * K + 1;
+                    DER = IZQ + 1;
+                }
+
+                A[K] = AUX;
+
+                // Resaltar en rojo el cuadro final que va a cambiar
+                cuadros[K].BackColor = Color.Red;
+                cuadros[K].Refresh();
+
+                Thread.Sleep(500); // Pausa para visualizar el cambio
+
+                cuadros[K].Controls[0].Text = AUX.ToString();
+
+                // Cambiar a un color aleatorio después de la actualización
+                cuadros[K].BackColor = cuadrito.GenerarColorUnico();
+                cuadros[K].Refresh();
+
+                // Animar el cambio de tamaño
+                cuadrito.AnimarCambioDeTamaño(cuadros[K], A[K]);
+                cuadrito.AnimarCambioDeTamaño(cuadros[I], A[I]);
+            }
+
+            // Animar el último cuadro restante
+            cuadrito.AnimarCambioDeTamaño(cuadros[0], A[0]);
+        }
+
 
         public void ShellAsendente(int[] A, FlowLayoutPanel panel)
         {

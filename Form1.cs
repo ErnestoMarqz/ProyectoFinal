@@ -133,6 +133,7 @@ namespace ProyectoFinal
                 }
                 if (rbDesendente.Checked == true)
                 {
+                    metodos.HeapSortDescendente(arreglo, flowLayoutPanel1);
                 }
             }
         }
