@@ -931,6 +931,9 @@ namespace ProyectoFinal
             Thread.Sleep(500); // Pausa para mostrar el intercambio
         }
 
+
+        //
+        //
         //
         //
         //
@@ -939,7 +942,5 @@ namespace ProyectoFinal
         //
         //
         //fin de metodos ernesto
-
-
     }
 }
