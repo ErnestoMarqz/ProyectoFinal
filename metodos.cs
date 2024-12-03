@@ -15,344 +15,123 @@ namespace ProyectoFinal
 
         Cuadritos cuadrito = new Cuadritos();
 
-        //public void ShellAsendente(int[] A, FlowLayoutPanel panel)
-        //{
-        //    int N = A.Length;
-
-        //    if (panel.Controls.Count != N)
-        //    {
-        //        throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
-        //    }
-
-        //    List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
-
-        //    // Se comienza con una secuencia de gaps (puedes ajustar la secuencia de "h" según tu preferencia)
-        //    int h = N / 2;
-
-        //    while (h > 0)
-        //    {
-        //        // Realizamos una inserción con el gap actual
-        //        for (int i = h; i < N; i++)
-        //        {
-        //            int AUX = A[i];
-        //            int j = i;
-
-        //            Panel cuadroActual = cuadros[i];
-        //            cuadroActual.BackColor = cuadrito.GenerarColorUnico();
-        //            cuadroActual.Refresh();
-        //            Application.DoEvents();
-        //            Thread.Sleep(500); // Pausa para que se vea el cambio de color
-
-        //            // Desplazar los elementos hacia la derecha
-        //            while (j >= h && A[j - h] > AUX)
-        //            {
-        //                A[j] = A[j - h];
-
-        //                // Actualizamos el cuadro visualmente
-        //                cuadros[j].Controls[0].Text = A[j].ToString();
-        //                cuadrito.AnimarCambioDeTamaño(cuadros[j], A[j]);
-
-        //                cuadros[j].BackColor = cuadrito.GenerarColorUnico(); ; // Resaltamos el cuadro que está siendo desplazado
-        //                cuadros[j - h].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
-
-        //                // Forzar actualización visual
-        //                panel.Refresh();
-        //                Application.DoEvents();
-        //                Thread.Sleep(500);
-
-        //                j -= h;
-        //            }
-
-        //            // Insertamos el elemento en la posición correcta
-        //            A[j] = AUX;
-        //            cuadros[j].Controls[0].Text = AUX.ToString();
-        //            cuadrito.AnimarCambioDeTamaño(cuadros[j], AUX);
-
-        //            cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que ha sido colocado en la posición correcta
-        //            panel.Refresh();
-        //            Application.DoEvents();
-        //            Thread.Sleep(500); // Pausa para que se vea el cambio de color
-        //        }
-
-        //        // Reducir el gap según la secuencia
-        //        h /= 2;
-        //    }
-        //}
-
-        //public void ShellAsendente(int[] A, FlowLayoutPanel panel)
-        //{
-        //    int N = A.Length;
-
-        //    if (panel.Controls.Count != N)
-        //    {
-        //        throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
-        //    }
-
-        //    List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
-
-        //    // Se comienza con una secuencia de gaps (puedes ajustar la secuencia de "h" según tu preferencia)
-        //    int h = N / 2;
-
-        //    while (h > 0)
-        //    {
-        //        // Realizamos una inserción con el gap actual
-        //        for (int i = h; i < N; i++)
-        //        {
-        //            int AUX = A[i];
-        //            int j = i;
-
-        //            Panel cuadroActual = cuadros[i];
-        //            cuadroActual.BackColor = cuadrito.GenerarColorUnico();
-        //            cuadroActual.Refresh();
-        //            Application.DoEvents();
-        //            Thread.Sleep(700); // Aumentamos la pausa para que se vea el cambio de color
-
-        //            // Desplazar los elementos hacia la derecha
-        //            while (j >= h && A[j - h] > AUX)
-        //            {
-        //                A[j] = A[j - h];
-
-        //                // Actualizamos el cuadro visualmente
-        //                cuadros[j].Controls[0].Text = A[j].ToString();
-        //                cuadrito.AnimarCambioDeTamaño(cuadros[j], A[j]);
-
-        //                // Resaltamos el cuadro que está siendo desplazado
-        //                cuadros[j].BackColor = cuadrito.GenerarColorUnico();
-        //                cuadros[j - h].BackColor = Color.Red; // Usamos un color fijo para destacar el cuadro que se está comparando
-
-        //                // Forzar actualización visual
-        //                panel.Refresh();
-        //                Application.DoEvents();
-        //                Thread.Sleep(700); // Aumentamos la pausa para que se vea el cambio de color
-
-        //                j -= h;
-        //            }
-
-        //            // Insertamos el elemento en la posición correcta
-        //            A[j] = AUX;
-        //            cuadros[j].Controls[0].Text = AUX.ToString();
-        //            cuadrito.AnimarCambioDeTamaño(cuadros[j], AUX);
-
-        //            // Resaltamos el cuadro que ha sido colocado en la posición correcta
-        //            cuadros[j].BackColor = Color.Green; // Usamos un color fijo para indicar que este cuadro está en su posición final
-        //            panel.Refresh();
-        //            Application.DoEvents();
-        //            Thread.Sleep(700); // Aumentamos la pausa para que se vea el cambio de color
-        //        }
-
-        //        // Reducir el gap según la secuencia
-        //        h /= 2;
-        //    }
-        //}
-
         public async Task OrdenarShellConAnimacion(FlowLayoutPanel parent, bool ascendente)
         {
             int n = parent.Controls.Count;
 
-            // Inicializar la distancia (gap)
-            int gap = n / 2;
+            // Inicializar el intervalo
+            int intervalo = n / 2;
 
-            // Realizar el ordenamiento Shell
-            while (gap > 0)
+            while (intervalo > 0)
             {
-                for (int i = gap; i < n; i++)
+                // Hacer una pasada con el intervalo actual
+                for (int i = intervalo; i < n; i++)
                 {
-                    // Obtener el cuadro actual
-                    Panel cuadroActual = parent.Controls[i] as Panel;
-
-                    // Validar que el cuadro existe
-                    if (cuadroActual == null) continue;
-
-                    // Obtener el valor del cuadro actual
-                    int valorActual = int.Parse((cuadroActual.Controls[0] as Label).Text);
                     int j = i;
-
-                    // Comparar e insertar en la posición correcta
-                    while (j >= gap)
+                    while (j >= intervalo)
                     {
-                        // Obtener el cuadro en la posición j - gap
-                        Panel cuadroComparar = parent.Controls[j - gap] as Panel;
+                        // Obtener los cuadros actuales y adyacentes
+                        Panel cuadroA = parent.Controls[j - intervalo] as Panel;
+                        Panel cuadroB = parent.Controls[j] as Panel;
 
-                        // Validar que el cuadro a comparar existe
-                        if (cuadroComparar == null) break;
+                        // Validar que los cuadros existen
+                        if (cuadroA == null || cuadroB == null) break;
 
-                        // Obtener el valor del cuadro a comparar
-                        int valorComparar = int.Parse((cuadroComparar.Controls[0] as Label).Text);
+                        // Obtener los números de los cuadros
+                        int valorA = int.Parse((cuadroA.Controls[0] as Label).Text);
+                        int valorB = int.Parse((cuadroB.Controls[0] as Label).Text);
 
                         // Resaltar cuadros
-                        Color colorOriginalActual = (Color)cuadroActual.Tag;
-                        Color colorOriginalComparar = (Color)cuadroComparar.Tag;
+                        Color colorOriginalA = (Color)cuadroA.Tag;
+                        Color colorOriginalB = (Color)cuadroB.Tag;
 
-                        cuadroActual.BackColor = Color.Yellow;
-                        cuadroComparar.BackColor = Color.Yellow;
-                        cuadroActual.Refresh();
-                        cuadroComparar.Refresh();
+                        cuadroA.BackColor = Color.Yellow;
+                        cuadroB.BackColor = Color.Yellow;
+                        cuadroA.Refresh();
+                        cuadroB.Refresh();
 
                         await Task.Delay(500);
 
                         // Determinar si intercambiar basado en el orden ascendente/descendente
-                        bool intercambiar = ascendente ? valorActual < valorComparar : valorActual > valorComparar;
+                        bool intercambiar = ascendente ? valorA > valorB : valorA < valorB;
                         if (intercambiar)
                         {
                             // Intercambiar con animación
-                            await Cuadritos.IntercambiarCuadrosAnimado(parent, j, j - gap);
-                            j -= gap; // Mover hacia atrás
-                        }
-                        else
-                        {
-                            break; // Si no se necesita intercambiar, salir del bucle
+                            await Cuadritos.IntercambiarCuadrosAnimado(parent, j - intervalo, j);
                         }
 
                         // Restaurar colores originales
-                        cuadroActual.BackColor = colorOriginalActual;
-                        cuadroComparar.BackColor = colorOriginalComparar;
-                        cuadroActual.Refresh();
-                        cuadroComparar.Refresh();
+                        cuadroA.BackColor = colorOriginalA;
+                        cuadroB.BackColor = colorOriginalB;
+                        cuadroA.Refresh();
+                        cuadroB.Refresh();
+
+                        j -= intervalo; // Avanzar a la siguiente posición
                     }
                 }
 
-                // Reducir la distancia (gap)
-                gap /= 2;
+                intervalo /= 2; // Reducir el intervalo
             }
         }
-
-        //public void ShellDescendente(int[] A, FlowLayoutPanel panel)
-        //{
-        //    int N = A.Length;
-
-        //    if (panel.Controls.Count != N)
-        //    {
-        //        throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
-        //    }
-
-        //    List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
-
-        //     Se comienza con una secuencia de gaps (puedes ajustar la secuencia de "h" según tu preferencia)
-        //    int h = N / 2;
-
-        //    while (h > 0)
-        //    {
-        //         Realizamos una inserción con el gap actual
-        //        for (int i = h; i < N; i++)
-        //        {
-        //            int AUX = A[i];
-        //            int j = i;
-
-        //            Panel cuadroActual = cuadros[i];
-        //            cuadroActual.BackColor = cuadrito.GenerarColorUnico();
-        //            cuadroActual.Refresh();
-        //            Application.DoEvents();
-        //            Thread.Sleep(500); // Pausa para que se vea el cambio de color
-
-        //             Desplazar los elementos hacia la izquierda (para orden descendente)
-        //            while (j >= h && A[j - h] < AUX)  // Cambiado de > a <
-        //            {
-        //                A[j] = A[j - h];
-
-        //                 Actualizamos el cuadro visualmente
-        //                cuadros[j].Controls[0].Text = A[j].ToString();
-        //                cuadrito.AnimarCambioDeTamaño(cuadros[j], A[j]);
-
-        //                cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
-        //                cuadros[j - h].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
-
-        //                 Forzar actualización visual
-        //                panel.Refresh();
-        //                Application.DoEvents();
-        //                Thread.Sleep(500); // Pausa para que se vea el cambio de color
-
-        //                j -= h;
-        //            }
-
-        //             Insertamos el elemento en la posición correcta
-        //            A[j] = AUX;
-        //            cuadros[j].Controls[0].Text = AUX.ToString();
-        //            cuadrito.AnimarCambioDeTamaño(cuadros[j], AUX);
-
-        //            cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que ha sido colocado en la posición correcta
-        //            panel.Refresh();
-        //            Application.DoEvents();
-        //            Thread.Sleep(500); // Pausa para que se vea el cambio de color
-        //        }
-
-        //         Reducir el gap según la secuencia
-        //        h /= 2;
-        //    }
-        //}
-
-        public void ShellDescendente(int[] A, FlowLayoutPanel panel)
+       
+        public async Task OrdenarShellConAnimacionDescendente(FlowLayoutPanel parent)
         {
-            int N = A.Length;
+            int n = parent.Controls.Count;
 
-            if (panel.Controls.Count != N)
+            // Inicializar el intervalo
+            int intervalo = n / 2;
+
+            while (intervalo > 0)
             {
-                throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
-            }
-
-            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
-
-            // Hacer que todos los cuadros sean blancos al inicio
-            foreach (var cuadro in cuadros)
-            {
-                cuadro.BackColor = Color.White; // Establecer el color de fondo a blanco
-                cuadro.Refresh();
-            }
-
-            // Se comienza con una secuencia de gaps (puedes ajustar la secuencia de "h" según tu preferencia)
-            int h = N / 2;
-
-            while (h > 0)
-            {
-                // Realizamos una inserción con el gap actual
-                for (int i = h; i < N; i++)
+                // Hacer una pasada con el intervalo actual
+                for (int i = intervalo; i < n; i++)
                 {
-                    int AUX = A[i];
                     int j = i;
-
-                    Panel cuadroActual = cuadros[i];
-                    cuadroActual.BackColor = cuadrito.GenerarColorUnico();
-                    cuadroActual.Refresh();
-                    Application.DoEvents();
-                    Thread.Sleep(500); // Pausa para que se vea el cambio de color
-
-                    // Desplazar los elementos hacia la izquierda (para orden descendente)
-                    while (j >= h && A[j - h] < AUX)  // Cambiado de > a <
+                    while (j >= intervalo)
                     {
-                        A[j] = A[j - h];
+                        // Obtener los cuadros actuales y adyacentes
+                        Panel cuadroA = parent.Controls[j - intervalo] as Panel;
+                        Panel cuadroB = parent.Controls[j] as Panel;
 
-                        // Actualizamos el cuadro visualmente
-                        cuadros[j].Controls[0].Text = A[j].ToString();
-                        cuadrito.AnimarCambioDeTamaño(cuadros[j], A[j]);
+                        // Validar que los cuadros existen
+                        if (cuadroA == null || cuadroB == null) break;
 
-                        // Resaltamos el cuadro que está siendo desplazado
-                        cuadros[j].BackColor = cuadrito.GenerarColorUnico();
-                        cuadros[j - h].BackColor = cuadrito.GenerarColorUnico();
+                        // Obtener los números de los cuadros
+                        int valorA = int.Parse((cuadroA.Controls[0] as Label).Text);
+                        int valorB = int.Parse((cuadroB.Controls[0] as Label).Text);
 
-                        // Forzar actualización visual
-                        panel.Refresh();
-                        Application.DoEvents();
-                        Thread.Sleep(500); // Pausa para que se vea el cambio de color
+                        // Resaltar cuadros
+                        Color colorOriginalA = (Color)cuadroA.Tag;
+                        Color colorOriginalB = (Color)cuadroB.Tag;
 
-                        j -= h;
+                        cuadroA.BackColor = Color.Yellow;
+                        cuadroB.BackColor = Color.Yellow;
+                        cuadroA.Refresh();
+                        cuadroB.Refresh();
+
+                        await Task.Delay(500);
+
+                        // Determinar si intercambiar basado en el orden descendente
+                        bool intercambiar = valorA < valorB;
+                        if (intercambiar)
+                        {
+                            // Intercambiar con animación
+                            await Cuadritos.IntercambiarCuadrosAnimado(parent, j - intervalo, j);
+                        }
+
+                        // Restaurar colores originales
+                        cuadroA.BackColor = colorOriginalA;
+                        cuadroB.BackColor = colorOriginalB;
+                        cuadroA.Refresh();
+                        cuadroB.Refresh();
+
+                        j -= intervalo; // Avanzar a la siguiente posición
                     }
-
-                    // Insertamos el elemento en la posición correcta
-                    A[j] = AUX;
-                    cuadros[j].Controls[0].Text = AUX.ToString();
-                    cuadrito.AnimarCambioDeTamaño(cuadros[j], AUX);
-
-                    // Resaltamos el cuadro que ha sido colocado en la posición correcta
-                    cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que ha sido colocado en la posición correcta
-                    panel.Refresh();
-                    Application.DoEvents();
-                    Thread.Sleep(500); // Pausa para que se vea el cambio de color
                 }
 
-                // Reducir el gap según la secuencia
-                h /= 2;
+                intervalo /= 2; // Reducir el intervalo
             }
         }
-
         public void InsertionDirecta(int[] A, FlowLayoutPanel panel)
         {
             int N = A.Length;
@@ -364,13 +143,20 @@ namespace ProyectoFinal
 
             List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
 
+            // Inicializar todos los cuadros a blanco
+            foreach (var cuadro in cuadros)
+            {
+                cuadro.BackColor = Color.White;
+            }
+
             for (int i = 1; i < N; i++)
             {
                 int AUX = A[i];
                 int j = i - 1;
 
+                // Resaltar el cuadro actual en amarillo
                 Panel cuadroActual = cuadros[i];
-                cuadroActual.BackColor = cuadrito.GenerarColorUnico();
+                cuadroActual.BackColor = Color.Yellow;
                 cuadroActual.Refresh();
                 Application.DoEvents();
                 Thread.Sleep(500); // Pausa para que se vea el cambio de color
@@ -385,13 +171,13 @@ namespace ProyectoFinal
                     cuadros[j + 1].Controls[0].Text = A[j].ToString();
                     cuadrito.AnimarCambioDeTamaño(cuadros[j + 1], A[j]);
 
-                    cuadros[j + 1].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
-                    cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
+                    // Resaltar el cuadro que está siendo desplazado en amarillo
+                    cuadros[j + 1].BackColor = Color.Yellow; // Color amarillo para el cuadro que se desplaza
 
                     // Forzar actualización visual
                     panel.Refresh();
                     Application.DoEvents();
-                    Thread.Sleep(500);
+                    Thread.Sleep(500); // Pausa para que se vea el cambio de color
 
                     j--;
                 }
@@ -401,13 +187,83 @@ namespace ProyectoFinal
                 cuadros[j + 1].Controls[0].Text = AUX.ToString();
                 cuadrito.AnimarCambioDeTamaño(cuadros[j + 1], AUX);
 
-                cuadros[j + 1].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que ha sido colocado en la posición correcta
+                // Resaltar el cuadro que ha sido colocado en la posición correcta en amarillo
+                cuadros[j + 1].BackColor = Color.Yellow;
                 panel.Refresh();
                 Application.DoEvents();
                 Thread.Sleep(500); // Pausa para que se vea el cambio de color
+
+                // Cambiar el color de los cuadros procesados a verde
+                for (int k = 0; k <= j + 1; k++) // Cambiar todos los cuadros hasta la posición actual a verde
+                {
+                    cuadros[k].BackColor = Color.Green; // Cambiar a verde
+                }
+            }
+
+            // Al final, aseguramos que todos los cuadros estén en verde
+            for (int k = 0; k < N; k++)
+            {
+                if (cuadros[k].BackColor != Color.Green)
+                {
+                    cuadros[k].BackColor = Color.Green; // Aseguramos que todos los cuadros procesados estén en verde
+                }
             }
         }
 
+        //public void InsertionDescendente(int[] A, FlowLayoutPanel panel)
+        //{
+        //    int N = A.Length;
+
+        //    if (panel.Controls.Count != N)
+        //    {
+        //        throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
+        //    }
+
+        //    List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
+
+        //    for (int i = 1; i < N; i++)
+        //    {
+        //        int AUX = A[i];
+        //        int j = i - 1;
+
+        //        Panel cuadroActual = cuadros[i];
+        //        cuadroActual.BackColor = cuadrito.GenerarColorUnico();
+        //        cuadroActual.Refresh();
+        //        Application.DoEvents();
+        //        Thread.Sleep(500); // Pausa para que se vea el cambio de color
+
+        //        // Mover los elementos de A[0..i-1], que son menores que AUX,
+        //        // a una posición adelante de su posición actual
+        //        while (j >= 0 && A[j] < AUX) // Cambiado de > a < para orden descendente
+        //        {
+        //            A[j + 1] = A[j];
+
+        //            // Actualizamos el cuadro visualmente
+        //            cuadros[j + 1].Controls[0].Text = A[j].ToString();
+        //            cuadrito.AnimarCambioDeTamaño(cuadros[j + 1], A[j]);
+
+        //            cuadros[j + 1].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
+        //            cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
+
+        //            // Forzar actualización visual
+        //            panel.Refresh();
+        //            Application.DoEvents();
+        //            Thread.Sleep(500);
+
+        //            j--;
+        //        }
+
+        //        // Insertar el elemento en la posición correcta
+        //        A[j + 1] = AUX;
+        //        cuadros[j + 1].Controls[0].Text = AUX.ToString();
+        //        cuadrito.AnimarCambioDeTamaño(cuadros[j + 1], AUX);
+
+        //        cuadros[j + 1].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que ha sido colocado en la posición correcta
+        //        panel.Refresh();
+        //        Application.DoEvents();
+        //        Thread.Sleep(500); // Pausa para que se vea el cambio de color
+        //    }
+        //}
         public void InsertionDescendente(int[] A, FlowLayoutPanel panel)
         {
             int N = A.Length;
@@ -419,20 +275,28 @@ namespace ProyectoFinal
 
             List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
 
+            // Inicializar todos los cuadros a un color único (por ejemplo, azul claro)
+            Color colorInicial = Color.LightBlue; // Color único para los cuadros iniciales
+            foreach (var cuadro in cuadros)
+            {
+                cuadro.BackColor = colorInicial;
+            }
+
             for (int i = 1; i < N; i++)
             {
                 int AUX = A[i];
                 int j = i - 1;
 
+                // Resaltar el cuadro actual en amarillo
                 Panel cuadroActual = cuadros[i];
-                cuadroActual.BackColor = cuadrito.GenerarColorUnico();
+                cuadroActual.BackColor = Color.Yellow;
                 cuadroActual.Refresh();
                 Application.DoEvents();
                 Thread.Sleep(500); // Pausa para que se vea el cambio de color
 
                 // Mover los elementos de A[0..i-1], que son menores que AUX,
                 // a una posición adelante de su posición actual
-                while (j >= 0 && A[j] < AUX) // Cambiado de > a < para orden descendente
+                while (j >= 0 && A[j] < AUX) // Cambiar la condición a menor
                 {
                     A[j + 1] = A[j];
 
@@ -440,13 +304,13 @@ namespace ProyectoFinal
                     cuadros[j + 1].Controls[0].Text = A[j].ToString();
                     cuadrito.AnimarCambioDeTamaño(cuadros[j + 1], A[j]);
 
-                    cuadros[j + 1].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
-                    cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
+                    // Resaltar el cuadro que está siendo desplazado en amarillo
+                    cuadros[j + 1].BackColor = Color.Yellow; // Color amarillo para el cuadro que se desplaza
 
                     // Forzar actualización visual
                     panel.Refresh();
                     Application.DoEvents();
-                    Thread.Sleep(500);
+                    Thread.Sleep(500); // Pausa para que se vea el cambio de color
 
                     j--;
                 }
@@ -456,95 +320,201 @@ namespace ProyectoFinal
                 cuadros[j + 1].Controls[0].Text = AUX.ToString();
                 cuadrito.AnimarCambioDeTamaño(cuadros[j + 1], AUX);
 
-                cuadros[j + 1].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que ha sido colocado en la posición correcta
+                // Resaltar el cuadro que ha sido colocado en la posición correcta en amarillo
+                cuadros[j + 1].BackColor = Color.Yellow;
                 panel.Refresh();
                 Application.DoEvents();
                 Thread.Sleep(500); // Pausa para que se vea el cambio de color
-            }
-        }
 
-        public void QuicksortAscendente(int[] A, FlowLayoutPanel panel)
-        {
-            int N = A.Length;
-
-            if (panel.Controls.Count != N)
-            {
-                throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
-            }
-
-            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
-
-            // Llamamos al método recursivo de Quicksort
-            QuicksortRecursivo(A, cuadros, panel, 0, N - 1);
-        }
-
-        // Método recursivo de Quicksort
-        private void QuicksortRecursivo(int[] A, List<Panel> cuadros, FlowLayoutPanel panel, int inicio, int fin)
-        {
-            if (inicio < fin)
-            {
-                // Particionamos el arreglo y obtenemos el índice del pivote
-                int pivoteIndex = Particionar(A, cuadros, panel, inicio, fin);
-
-                // Ordenamos los subarreglos de forma recursiva
-                QuicksortRecursivo(A, cuadros, panel, inicio, pivoteIndex - 1);
-                QuicksortRecursivo(A, cuadros, panel, pivoteIndex + 1, fin);
-            }
-        }
-
-        // Método para particionar el arreglo
-        private int Particionar(int[] A, List<Panel> cuadros, FlowLayoutPanel panel, int inicio, int fin)
-        {
-            int pivote = A[fin]; // Elegimos el último elemento como pivote
-            int i = inicio - 1;
-
-            Panel cuadroPivote = cuadros[fin];
-            cuadroPivote.BackColor = Color.Red; // Resaltar el pivote
-            cuadroPivote.Refresh();
-            panel.Refresh();
-            Application.DoEvents();
-            Thread.Sleep(500);
-
-            for (int j = inicio; j < fin; j++)
-            {
-                // Comparar elementos con el pivote
-                if (A[j] <= pivote) // Condición ascendente
+                // Cambiar el color de los cuadros procesados a verde
+                for (int k = 0; k <= j + 1; k++) // Cambiar todos los cuadros hasta la posición actual a verde
                 {
-                    i++;
-                    IntercambiarElementos(A, cuadros, panel, i, j);
+                    cuadros[k].BackColor = Color.Green; // Cambiar a verde
                 }
             }
 
-            // Colocar el pivote en su posición correcta
-            IntercambiarElementos(A, cuadros, panel, i + 1, fin);
-            cuadroPivote.BackColor = cuadrito.GenerarColorUnico(); // Restaurar el color del pivote
-            return i + 1; // Retornar la posición final del pivote
+            // Al final, aseguramos que todos los cuadros estén en verde
+            for (int k = 0; k < N; k++)
+            {
+                if (cuadros[k].BackColor != Color.Green)
+                {
+                    cuadros[k].BackColor = Color.Green; // Aseguramos que todos los cuadros procesados estén en verde
+                }
+            }
         }
 
-        // Método para intercambiar dos elementos en el arreglo y actualizar la interfaz
-        private void IntercambiarElementos(int[] A, List<Panel> cuadros, FlowLayoutPanel panel, int i, int j)
+
+        //public void QuicksortAscendente(int[] A, FlowLayoutPanel panel)
+        //{
+        //    int N = A.Length;
+
+        //    if (panel.Controls.Count != N)
+        //    {
+        //        throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
+        //    }
+
+        //    List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
+
+        //    // Llamamos al método recursivo de Quicksort
+        //    QuicksortRecursivo(A, cuadros, panel, 0, N - 1);
+        //}
+
+        //private void QuicksortRecursivo(int[] A, List<Panel> cuadros, FlowLayoutPanel panel, int inicio, int fin)
+        //{
+        //    if (inicio < fin)
+        //    {
+        //        int pivote = A[fin]; // Elegimos el último elemento como pivote
+        //        int i = inicio - 1;
+
+        //        Panel cuadroPivote = cuadros[fin];
+        //        cuadroPivote.BackColor = Color.Red; // Resaltar el pivote
+        //        cuadroPivote.Refresh();
+        //        panel.Refresh();
+        //        Application.DoEvents();
+        //        Thread.Sleep(500);
+
+        //        for (int j = inicio; j < fin; j++)
+        //        {
+        //            // Comparar elementos con el pivote
+        //            if (A[j] <= pivote) // Condición ascendente
+        //            {
+        //                i++;
+        //                // Intercambiar elementos en el arreglo
+        //                int temp = A[i];
+        //                A[i] = A[j];
+        //                A[j] = temp;
+
+        //                // Actualizar los cuadros visualmente
+        //                cuadros[i].Controls[0].Text = A[i].ToString();
+        //                cuadros[j].Controls[0].Text = A[j].ToString();
+
+        //                cuadrito.AnimarCambioDeTamaño(cuadros[i], A[i]);
+        //                cuadrito.AnimarCambioDeTamaño(cuadros[j], A[j]);
+
+        //                cuadros[i].BackColor = cuadrito.GenerarColorUnico(); // Resaltar los cuadros intercambiados
+        //                cuadros[j].BackColor = cuadrito.GenerarColorUnico();
+
+        //                // Forzar actualización visual
+        //                panel.Refresh();
+        //                Application.DoEvents();
+        //                Thread.Sleep(500); // Pausa para mostrar el intercambio
+        //            }
+        //        }
+
+        //        // Colocar el pivote en su posición correcta
+        //        int pivoteFinalIndex = i + 1;
+        //        int tempPivote = A[pivoteFinalIndex];
+        //        A[pivoteFinalIndex] = A[fin];
+        //        A[fin] = tempPivote;
+
+        //        // Actualizar los cuadros visualmente
+        //        cuadros[pivoteFinalIndex].Controls[0].Text = A[pivoteFinalIndex].ToString();
+        //        cuadros[fin].Controls[0].Text = A[fin].ToString();
+
+        //        cuadrito.AnimarCambioDeTamaño(cuadros[pivoteFinalIndex], A[pivoteFinalIndex]);
+        //        cuadrito.AnimarCambioDeTamaño(cuadros[fin], A[fin]);
+
+        //        cuadros[pivoteFinalIndex].BackColor = cuadrito.GenerarColorUnico(); // Restaurar el color del pivote
+        //        cuadroPivote.BackColor = cuadrito.GenerarColorUnico(); // Restaurar el color del pivote
+
+        //        // Llamadas recursivas
+        //        QuicksortRecursivo(A, cuadros, panel, inicio, pivoteFinalIndex - 1);
+        //        QuicksortRecursivo(A, cuadros, panel, pivoteFinalIndex + 1, fin);
+        //    }
+        //}
+
+     public void QuicksortAscendente(int[] A, FlowLayoutPanel panel)
+{
+    int N = A.Length;
+
+    if (panel.Controls.Count != N)
+    {
+        throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
+    }
+
+    List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
+
+    // Establecer todos los cuadros en azul al inicio
+    foreach (var cuadro in cuadros)
+    {
+        cuadro.BackColor = Color.Blue;
+    }
+
+    // Llamamos al método recursivo de Quicksort
+    QuicksortRecursivo(A, cuadros, panel, 0, N - 1);
+
+    // Al final, aseguramos que todos los cuadros procesados estén en verde
+    foreach (var cuadro in cuadros)
+    {
+        cuadro.BackColor = Color.Green;
+    }
+}
+
+private void QuicksortRecursivo(int[] A, List<Panel> cuadros, FlowLayoutPanel panel, int inicio, int fin)
+{
+    if (inicio < fin)
+    {
+        int pivote = A[fin]; // Elegimos el último elemento como pivote
+        int i = inicio - 1;
+
+        Panel cuadroPivote = cuadros[fin];
+        cuadroPivote.BackColor = Color.Red; // Resaltar el pivote
+        cuadroPivote.Refresh();
+        panel.Refresh();
+        Application.DoEvents();
+        Thread.Sleep(500);
+
+        for (int j = inicio; j < fin; j++)
         {
-            // Intercambiar elementos en el arreglo
-            int temp = A[i];
-            A[i] = A[j];
-            A[j] = temp;
+            // Comparar elementos con el pivote
+            if (A[j] <= pivote) // Condición ascendente
+            {
+                i++;
+                // Intercambiar elementos en el arreglo
+                int temp = A[i];
+                A[i] = A[j];
+                A[j] = temp;
 
-            // Actualizar los cuadros visualmente
-            cuadros[i].Controls[0].Text = A[i].ToString();
-            cuadros[j].Controls[0].Text = A[j].ToString();
+                // Actualizar los cuadros visualmente
+                cuadros[i].Controls[0].Text = A[i].ToString();
+                cuadros[j].Controls[0].Text = A[j].ToString();
 
-            cuadrito.AnimarCambioDeTamaño(cuadros[i], A[i]);
-            cuadrito.AnimarCambioDeTamaño(cuadros[j], A[j]);
+                // Animar el cambio de tamaño
+                cuadrito.AnimarCambioDeTamaño(cuadros[i], A[i]);
+                cuadrito.AnimarCambioDeTamaño(cuadros[j], A[j]);
 
-            cuadros[i].BackColor = cuadrito.GenerarColorUnico(); // Resaltar los cuadros intercambiados
-            cuadros[j].BackColor = cuadrito.GenerarColorUnico();
+                cuadros[i].BackColor = Color.Green; // Resaltar el cuadro intercambiado
+                cuadros[j].BackColor = Color.Green;
 
-            // Forzar actualización visual
-            panel.Refresh();
-            Application.DoEvents();
-            Thread.Sleep(500); // Pausa para mostrar el intercambio
-            
+                // Forzar actualización visual
+                panel.Refresh();
+                Application.DoEvents();
+                Thread.Sleep(500); // Pausa para mostrar el intercambio
+            }
         }
+
+        // Colocar el pivote en su posición correcta
+        int pivoteFinalIndex = i + 1;
+        int tempPivote = A[pivoteFinalIndex];
+        A[pivoteFinalIndex] = A[fin];
+        A[fin] = tempPivote;
+
+        // Actualizar los cuadros visualmente
+        cuadros[pivoteFinalIndex].Controls[0].Text = A[pivoteFinalIndex].ToString();
+        cuadros[fin].Controls[0].Text = A[fin].ToString();
+
+        // Animar el cambio de tamaño del pivote
+        cuadrito.AnimarCambioDeTamaño(cuadros[pivoteFinalIndex], A[pivoteFinalIndex]);
+        cuadrito.AnimarCambioDeTamaño(cuadros[fin], A[fin]);
+
+        cuadros[pivoteFinalIndex].BackColor = Color.Green; // Resaltar el pivote en su posición final
+        cuadroPivote.BackColor = Color.Blue; // Restaurar el color del pivote
+
+        // Llamadas recursivas
+        QuicksortRecursivo(A, cuadros, panel, inicio, pivoteFinalIndex - 1);
+        QuicksortRecursivo(A, cuadros, panel, pivoteFinalIndex + 1, fin);
+    }
+}
         public void QuicksortDescendente(int[] A, FlowLayoutPanel panel)
         {
             int N = A.Length;
@@ -556,76 +526,86 @@ namespace ProyectoFinal
 
             List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
 
+            // Establecer todos los cuadros en azul al inicio
+            foreach (var cuadro in cuadros)
+            {
+                cuadro.BackColor = Color.Blue;
+            }
+
             // Llamamos al método recursivo de Quicksort
-            QuicksortRecursivoB(A, cuadros, panel, 0, N - 1);
+            QuicksortDRecursivo(A, cuadros, panel, 0, N - 1);
+
+            // Al final, aseguramos que todos los cuadros procesados estén en verde
+            foreach (var cuadro in cuadros)
+            {
+                cuadro.BackColor = Color.Green;
+            }
         }
 
-        // Método recursivo de Quicksort
-        private void QuicksortRecursivoB(int[] A, List<Panel> cuadros, FlowLayoutPanel panel, int inicio, int fin)
+        private void QuicksortDRecursivo(int[] A, List<Panel> cuadros, FlowLayoutPanel panel, int inicio, int fin)
         {
             if (inicio < fin)
             {
-                // Particionamos el arreglo y obtenemos el índice del pivote
-                int pivoteIndex = ParticionarB(A, cuadros, panel, inicio, fin);
+                int pivote = A[fin]; // Elegimos el último elemento como pivote
+                int i = inicio - 1;
 
-                // Ordenamos los subarreglos de forma recursiva
-                QuicksortRecursivoB(A, cuadros, panel, inicio, pivoteIndex - 1);
-                QuicksortRecursivoB(A, cuadros, panel, pivoteIndex + 1, fin);
-            }
-        }
+                Panel cuadroPivote = cuadros[fin];
+                cuadroPivote.BackColor = Color.Red; // Resaltar el pivote
+                cuadroPivote.Refresh();
+                panel.Refresh();
+                Application.DoEvents();
+                Thread.Sleep(500);
 
-        // Método para particionar el arreglo
-        private int ParticionarB(int[] A, List<Panel> cuadros, FlowLayoutPanel panel, int inicio, int fin)
-        {
-            int pivote = A[fin]; // Elegimos el último elemento como pivote
-            int i = inicio - 1;
-
-            Panel cuadroPivote = cuadros[fin];
-            cuadroPivote.BackColor = Color.Red; // Resaltar el pivote
-            cuadroPivote.Refresh();
-            panel.Refresh();
-            Application.DoEvents();
-            Thread.Sleep(500);
-
-            for (int j = inicio; j < fin; j++)
-            {
-                // Comparar elementos con el pivote (condición descendente)
-                if (A[j] >= pivote) // Cambiar condición a descendente
+                for (int j = inicio; j < fin; j++)
                 {
-                    i++;
-                    IntercambiarElementosB(A, cuadros, panel, i, j);
+                    // Comparar elementos con el pivote para orden descendente
+                    if (A[j] >= pivote) // Condición descendente
+                    {
+                        i++;
+                        // Intercambiar elementos en el arreglo
+                        int temp = A[i];
+                        A[i] = A[j];
+                        A[j] = temp;
+
+                        // Actualizar los cuadros visualmente
+                        cuadros[i].Controls[0].Text = A[i].ToString();
+                        cuadros[j].Controls[0].Text = A[j].ToString();
+
+                        // Animar el cambio de tamaño
+                        cuadrito.AnimarCambioDeTamaño(cuadros[i], A[i]);
+                        cuadrito.AnimarCambioDeTamaño(cuadros[j], A[j]);
+
+                        cuadros[i].BackColor = Color.Green; // Resaltar el cuadro intercambiado
+                        cuadros[j].BackColor = Color.Green;
+
+                        // Forzar actualización visual
+                        panel.Refresh();
+                        Application.DoEvents();
+                        Thread.Sleep(500); // Pausa para mostrar el intercambio
+                    }
                 }
+
+                // Colocar el pivote en su posición correcta
+                int pivoteFinalIndex = i + 1;
+                int tempPivote = A[pivoteFinalIndex];
+                A[pivoteFinalIndex] = A[fin];
+                A[fin] = tempPivote;
+
+                // Actualizar los cuadros visualmente
+                cuadros[pivoteFinalIndex].Controls[0].Text = A[pivoteFinalIndex].ToString();
+                cuadros[fin].Controls[0].Text = A[fin].ToString();
+
+                // Animar el cambio de tamaño del pivote
+                cuadrito.AnimarCambioDeTamaño(cuadros[pivoteFinalIndex], A[pivoteFinalIndex]);
+                cuadrito.AnimarCambioDeTamaño(cuadros[fin], A[fin]);
+
+                cuadros[pivoteFinalIndex].BackColor = Color.Green; // Resaltar el pivote en su posición final
+                cuadroPivote.BackColor = Color.Blue; // Restaurar el color del pivote
+
+                // Llamadas recursivas
+                QuicksortDRecursivo(A, cuadros, panel, inicio, pivoteFinalIndex - 1);
+                QuicksortDRecursivo(A, cuadros, panel, pivoteFinalIndex + 1, fin);
             }
-
-            // Colocar el pivote en su posición correcta
-            IntercambiarElementosB(A, cuadros, panel, i + 1, fin);
-            cuadroPivote.BackColor = cuadrito.GenerarColorUnico(); // Restaurar el color del pivote
-            return i + 1; // Retornar la posición final del pivote
         }
-
-        // Método para intercambiar dos elementos en el arreglo y actualizar la interfaz
-        private void IntercambiarElementosB(int[] A, List<Panel> cuadros, FlowLayoutPanel panel, int i, int j)
-        {
-            // Intercambiar elementos en el arreglo
-            int temp = A[i];
-            A[i] = A[j];
-            A[j] = temp;
-
-            // Actualizar los cuadros visualmente
-            cuadros[i].Controls[0].Text = A[i].ToString();
-            cuadros[j].Controls[0].Text = A[j].ToString();
-
-            cuadrito.AnimarCambioDeTamaño(cuadros[i], A[i]);
-            cuadrito.AnimarCambioDeTamaño(cuadros[j], A[j]);
-
-            cuadros[i].BackColor = cuadrito.GenerarColorUnico(); // Resaltar los cuadros intercambiados
-            cuadros[j].BackColor = cuadrito.GenerarColorUnico();
-
-            // Forzar actualización visual
-            panel.Refresh();
-            Application.DoEvents();
-            Thread.Sleep(500); // Pausa para mostrar el intercambio
-        }
-
     }
 }

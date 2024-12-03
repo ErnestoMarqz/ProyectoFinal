@@ -72,36 +72,19 @@ namespace ProyectoFinal
                 MessageBox.Show("Por favor, crea los cuadros antes de iniciar el ordenamiento.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
-            if (comboBox1.SelectedItem.ToString() == "Burbuja")
-            {
-                // Determinar si es ascendente o descendente
-                bool ascendente = rbAsendente.Checked;
-
-                // Llamar al método de ordenamiento
-               // metodos.OrdenarBurbujaConAnimacion(flowLayoutPanel1, ascendente);
-            }
-            if(comboBox1.SelectedItem.ToString() == "Baraja")
-            {
-                if(rbAsendente.Checked == true)
-                {
-                    metodos.OrdenarShellConAnimacion(flowLayoutPanel1,);
-                }
-                else
-                {
-                }
-            }
             if (comboBox1.SelectedItem.ToString() == "Shell")
             {
+                bool ascendente = rbAsendente.Checked; // Obtener el estado del RadioButton
                 if (rbAsendente.Checked == true)
                 {
+                    metodos.OrdenarShellConAnimacion(flowLayoutPanel1, true);
                 }
                 if (rbDesendente.Checked == true)
                 {
-                    metodos.ShellDescendente(arreglo, flowLayoutPanel1);
+                    metodos.OrdenarShellConAnimacionDescendente(flowLayoutPanel1);
                 }
             }
-            if (comboBox1.SelectedItem.ToString() == "Inter. Directa") 
+            if (comboBox1.SelectedItem.ToString() == "Inter. Directa")
             {
                 if (rbAsendente.Checked == true)
                 {
@@ -112,9 +95,9 @@ namespace ProyectoFinal
                     metodos.InsertionDescendente(arreglo, flowLayoutPanel1);
                 }
             }
-            if (comboBox1.SelectedItem.ToString() == "Quick Sort") 
+            if (comboBox1.SelectedItem.ToString() == "Quick Sort")
             {
-                if (rbAsendente.Checked == true) 
+                if (rbAsendente.Checked == true)
                 {
                     metodos.QuicksortAscendente(arreglo, flowLayoutPanel1);
                 }
