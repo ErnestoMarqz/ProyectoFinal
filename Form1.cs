@@ -260,6 +260,13 @@ namespace ProyectoFinal
                 }));
             });
         }
+
+        private async void button4_Click(object sender, EventArgs e)
+        {
+            int valorBuscado = (int)numericUpDown2.Value; // Toma el valor del NumericUpDown
+            Metodos metodos = new Metodos(); // Instancia de la clase Metodos
+            await metodos.BuscarBinariaConAnimacion(flowLayoutPanel1, valorBuscado);
+        }
     }     
 }
 
