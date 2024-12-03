@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,7 +22,11 @@ namespace ProyectoFinal
             //poner el forms en el centro de la pantalla
             this.StartPosition = FormStartPosition.Manual;
             this.Location = new Point(250, 10); // Cambia a la posición deseada
-
+            richTextBox1.Visible = false;
+            LabelTam.Visible = false;
+            Numcub.Visible = false;
+            numericUpDown3.Visible = false;
+            numericUpDown4.Visible = false;
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -134,6 +140,47 @@ namespace ProyectoFinal
                 if (rbDesendente.Checked == true)
                 {
                 }
+            }
+            if (comboBox1.SelectedItem.ToString() == "Cubeta")
+            {
+                if (rbAsendente.Checked == true)
+                {
+                    //metodos.BucketSortAscendente(arreglo,flowLayoutPanel1,richTextBox1);
+                    metodos.BucketSortAcendente(arreglo, flowLayoutPanel1, (int)numericUpDown3.Value,(int)numericUpDown4.Value);
+                    richTextBox1.Visible = false;
+                    LabelTam.Visible = false;
+                    Numcub.Visible = false;
+                }
+                if (rbDesendente.Checked == true)
+                {
+                    metodos.BucketSortDescendente(arreglo, flowLayoutPanel1, richTextBox1);
+                    //metodos.BucketSortDescendente2(arreglo, flowLayoutPanel1, (int)numericUpDown3.Value,(int)numericUpDown4.Value);
+                    richTextBox1.Visible = false;
+                    LabelTam.Visible = false;
+                    Numcub.Visible = false;
+                }
+            }
+            if (comboBox1.SelectedItem.ToString() == "Radix Sort")
+            {
+                if (rbAsendente.Checked == true)
+                {
+                    metodos.RadixSort(arreglo,flowLayoutPanel1, richTextBox1);
+                    richTextBox1.Visible = false;
+                }
+            
+            
+            }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedItem.ToString() == "Cubeta")
+            {
+                LabelTam.Visible = true;
+                numericUpDown3.Visible = true;
+                Numcub.Visible = true;
+                numericUpDown4.Visible = true;
+
             }
         }
     }
