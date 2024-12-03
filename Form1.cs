@@ -108,7 +108,7 @@ namespace ProyectoFinal
 
             }
 
-            if (comboBox1.SelectedItem.ToString() == "Inter. Binaria")
+            if (comboBox1.SelectedItem.ToString() == "Inter. Binaria") //ya funciona
             {
                 // Determinar si es ascendente o descendente
                 bool ascendente = rbAsendente.Checked;
