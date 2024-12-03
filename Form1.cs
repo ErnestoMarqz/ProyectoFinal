@@ -83,13 +83,16 @@ namespace ProyectoFinal
             }
             if(comboBox1.SelectedItem.ToString() == "Baraja")
             {
-                if(rbAsendente.Checked == true)
+                bool ascendente = true;
+                if (rbAsendente.Checked == true)
                 {
-                    metodos.BarajaAcendnete(arreglo, flowLayoutPanel1);
+                    ascendente = true;
+                    metodos.Baraja(arreglo, flowLayoutPanel1, ascendente);
                 }
                 else
                 {
-                    metodos.BarajaDescendente(arreglo, flowLayoutPanel1);
+                    ascendente = false;
+                    metodos.Baraja(arreglo, flowLayoutPanel1, ascendente);
                 }
             }
             if (comboBox1.SelectedItem.ToString() == "Shell")
@@ -127,15 +130,32 @@ namespace ProyectoFinal
             }
             if (comboBox1.SelectedItem.ToString() == "Heap Sort")
             {
+
+                bool ascendente = true;
                 if (rbAsendente.Checked == true)
                 {
-                    metodos.HeapSortAcendente(arreglo, flowLayoutPanel1);
+                    ascendente = true;
+                    metodos.HeapSort(arreglo, flowLayoutPanel1, ascendente);
+                }
+                else
+                {
+                    ascendente = false;
+                    metodos.HeapSort(arreglo, flowLayoutPanel1, ascendente);
+                }
+            }
+            if (comboBox1.SelectedItem.ToString() == "Cubeta")
+            {
+                if (rbAsendente.Checked == true)
+                {
+                    int nCubetas =(int) numericUpDown3.Value;
+                    metodos.BucketSortAcendente(arreglo, flowLayoutPanel1, nCubetas);
                 }
                 if (rbDesendente.Checked == true)
                 {
-                    metodos.HeapSortDescendente(arreglo, flowLayoutPanel1);
                 }
             }
+
+
         }
     }
 }

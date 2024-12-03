@@ -15,57 +15,10 @@ namespace ProyectoFinal
 
         Cuadritos cuadrito = new Cuadritos();
 
-        public void BarajaAcendnete(int[] A, FlowLayoutPanel panel)
+        public void Baraja(int[] A, FlowLayoutPanel panel, bool esAscendente)
         {
             int N = A.Length;
 
-            if (panel.Controls.Count != N)
-            {
-                throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
-            }
-
-            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
-
-            for (int I = 1; I < N; I++)
-            {
-                int AUX = A[I];
-                int K = I - 1;
-
-                Panel cuadroActual = cuadros[I];
-                cuadroActual.BackColor = Color.Red;
-                panel.Refresh();
-                Application.DoEvents();
-                Thread.Sleep(500);
-
-                while (K >= 0 && AUX < A[K])
-                {
-                    Panel cuadroMayor = cuadros[K];
-                    cuadroMayor.BackColor = Color.Red;
-
-                    A[K + 1] = A[K];
-
-                    cuadros[K + 1].Controls[0].Text = cuadroMayor.Controls[0].Text;
-                    cuadrito.AnimarCambioDeTamaño(cuadros[K + 1], A[K + 1]);
-                    cuadros[K + 1].BackColor = cuadrito.GenerarColorUnico();
-                    panel.Refresh();
-                    Application.DoEvents();
-                    Thread.Sleep(500);
-
-                    cuadroMayor.BackColor = Color.DarkSeaGreen;
-                    K--;
-                }
-                A[K + 1] = AUX;
-                cuadros[K + 1].Controls[0].Text = AUX.ToString();
-                cuadrito.AnimarCambioDeTamaño(cuadros[K + 1], AUX);
-                cuadrito.GenerarColorUnico();
-                panel.Refresh();
-                Application.DoEvents();
-                Thread.Sleep(500);
-            }
-        }
-        public void BarajaDescendente(int[] A, FlowLayoutPanel panel)
-        {
-            int N = A.Length;
             if (panel.Controls.Count != N)
             {
                 throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
@@ -84,8 +37,8 @@ namespace ProyectoFinal
                 Application.DoEvents();
                 Thread.Sleep(500);
 
-                // Desplazar elementos menores que AUX
-                while (K >= 0 && AUX > A[K])
+                // Ajustar la comparación según el orden ascendente o descendente
+                while (K >= 0 && (esAscendente ? AUX < A[K] : AUX > A[K]))  // Dependiendo del booleano
                 {
                     Panel cuadroMayor = cuadros[K];
                     cuadroMayor.BackColor = Color.Red;  // Resaltar el cuadro mayor
@@ -96,7 +49,7 @@ namespace ProyectoFinal
                     // Actualizar el valor en el arreglo
                     A[K + 1] = A[K];
 
-                    // Desplazar visualmente el cuadro hacia la derecha
+                    // Desplazar visualmente el cuadro hacia la derecha o izquierda según el orden
                     cuadros[K + 1].Controls[0].Text = cuadros[K].Controls[0].Text;
 
                     // Animar el tamaño del cuadro desplazado
@@ -127,125 +80,72 @@ namespace ProyectoFinal
                 Thread.Sleep(500);
             }
         }
-
-        public void HeapSortAcendente(int[] A, FlowLayoutPanel panel)
+        public void HeapSort(int[] A, FlowLayoutPanel panel, bool esAscendente)
         {
             int N = A.Length;
             List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
 
-            for (int I = 1; I < N; I++) // Adaptado a índices base 0
+            for (int I = (N / 2) - 1; I >= 0; I--)
             {
-                int K = I + 1; // Ajuste para representar la posición correcta
+                int K = I;
                 bool BAND = true;
 
-                while (K > 1 && BAND)
+                while (K < N)
                 {
-                    BAND = false;
-                    int padre = (K - 1) / 2; // Índice del nodo padre
+                    int IZQ = 2 * K + 1;
+                    int DER = IZQ + 1;
+                    int AP = K;
 
-                    if (padre < 0 || padre >= A.Length || K - 1 >= A.Length)
-                        break;
-
-                    if (A[K - 1] > A[padre])
+                    if (IZQ < N && (esAscendente ? A[IZQ] > A[AP] : A[IZQ] < A[AP]))
                     {
-                        // Cambiar color de los cuadros a rojo antes de la comparación
-                        cuadros[K - 1].BackColor = Color.Red;
-                        cuadros[padre].BackColor = Color.Red;
-                        Thread.Sleep(200);
-
-                        // Generar un color aleatorio para después
-                        Random rnd = new Random();
-                        Color colorAleatorio = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
-
-                        // Intercambiar valores y actualizar texto
-                        int AUX = A[padre];
-                        A[padre] = A[K - 1];
-                        A[K - 1] = AUX;
-
-                        cuadros[K - 1].Controls[0].Text = A[K - 1].ToString();
-                        cuadros[padre].Controls[0].Text = A[padre].ToString();
-
-                        // Animar el cambio de tamaño de los cuadros
-                        cuadrito.AnimarCambioDeTamaño(cuadros[K - 1], A[K - 1]);
-                        cuadrito.AnimarCambioDeTamaño(cuadros[padre], A[padre]);
-
-                        // Restaurar colores a aleatorio después de la comparación
-                        cuadros[K - 1].BackColor = cuadrito.GenerarColorUnico();
-                        cuadros[padre].BackColor = cuadrito.GenerarColorUnico();
-
-                        K = padre + 1;
-                        BAND = true;
-
-                        Thread.Sleep(500);
+                        AP = IZQ;
                     }
-                }
-            }
-            EliminarMonticuloAnimado(A, panel);
-        }
 
-        public void EliminarMonticuloAnimado3(int[] A, FlowLayoutPanel panel)
-        {
-            int N = A.Length;
-            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
-
-            for (int I = N - 1; I >= 1; I--)
-            {
-                int AUX = A[I];
-                A[I] = A[0];
-
-                cuadros[I].Controls[0].Text = A[I].ToString();
-                cuadros[0].Controls[0].Text = AUX.ToString();
-
-                int IZQ = 1, DER = 2, K = 0;
-                bool BOOL = true;
-
-                while ((IZQ < I) && BOOL)
-                {
-                    int MAYOR = A[IZQ];
-                    int AP = IZQ;
-
-                    if ((DER < I) && (MAYOR < A[DER]))
+                    if (DER < N && (esAscendente ? A[DER] > A[AP] : A[DER] < A[AP]))
                     {
-                        MAYOR = A[DER];
                         AP = DER;
                     }
 
-                    cuadros[K].BackColor = Color.Red;
-                    cuadros[AP].BackColor = Color.Red;
-                    Thread.Sleep(200);
-
-                    if (AUX < MAYOR)
+                    // Si el nodo es mayor/menor que el hijo, intercambiar
+                    if (AP != K)
                     {
+                        // Resaltar los cuadros para animación
+                        cuadros[K].BackColor = Color.Red;
+                        cuadros[AP].BackColor = Color.Red;
+                        Thread.Sleep(200);
+
+                        int AUX = A[K];
                         A[K] = A[AP];
+                        A[AP] = AUX;
 
+                        // Actualizar el texto de los cuadros
                         cuadros[K].Controls[0].Text = A[K].ToString();
-                        cuadros[AP].Controls[0].Text = MAYOR.ToString();
+                        cuadros[AP].Controls[0].Text = A[AP].ToString();
+                        cuadrito.AnimarCambioDeTamaño(cuadros[K], A[K]);
+                        cuadrito.AnimarCambioDeTamaño(cuadros[AP], A[AP]);
 
-                        K = AP;
+                        // Restaurar colores a aleatorio
+                        cuadros[K].BackColor = cuadrito.GenerarColorUnico();
+                        cuadros[AP].BackColor = cuadrito.GenerarColorUnico();
+
+                        K = AP; // Avanzar el índice
                     }
                     else
                     {
-                        BOOL = false;
+                        break;
                     }
 
-                    cuadros[K].BackColor = cuadrito.GenerarColorUnico();
-                    cuadros[AP].BackColor = cuadrito.GenerarColorUnico();
-
-                    IZQ = 2 * K + 1;
-                    DER = IZQ + 1;
+                    // Forzar actualización visual
+                    cuadros[K].Refresh();
+                    Thread.Sleep(500); // Pausa para visualizar el cambio
                 }
-
-                A[K] = AUX;
-                cuadros[K].Controls[0].Text = AUX.ToString();
-
-                cuadrito.AnimarCambioDeTamaño(cuadros[K], A[K]);
-                cuadrito.AnimarCambioDeTamaño(cuadros[I], A[I]);
             }
 
-            cuadrito.AnimarCambioDeTamaño(cuadros[0], A[0]);
+            // Llamar a la función de eliminación del montículo
+            EliminarMonticulo(A, panel, esAscendente);
         }
 
-        public void EliminarMonticuloAnimado(int[] A, FlowLayoutPanel panel)
+        public void EliminarMonticulo(int[] A, FlowLayoutPanel panel, bool esAscendente)
         {
             int N = A.Length;
             List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
@@ -263,7 +163,7 @@ namespace ProyectoFinal
                 cuadros[I].Refresh();
                 cuadros[0].Refresh();
 
-                Thread.Sleep(200); // Pausa para visualizar el cambio
+                Thread.Sleep(500); // Pausa para visualizar el cambio
 
                 // Actualizar visualmente los cuadros
                 cuadros[I].Controls[0].Text = A[I].ToString();
@@ -272,7 +172,7 @@ namespace ProyectoFinal
                 // Cambiar a un color aleatorio después de la actualización
                 cuadros[I].BackColor = cuadrito.GenerarColorUnico();
                 cuadros[0].BackColor = cuadrito.GenerarColorUnico();
-                Thread.Sleep(500);
+
                 cuadros[I].Refresh();
                 cuadros[0].Refresh();
 
@@ -281,12 +181,12 @@ namespace ProyectoFinal
 
                 while ((IZQ < I) && BOOL)
                 {
-                    int MAYOR = A[IZQ];
+                    int valorComparado = esAscendente ? A[IZQ] : A[IZQ];
                     int AP = IZQ;
 
-                    if ((DER < I) && (MAYOR < A[DER]))
+                    if ((DER < I) && (esAscendente ? valorComparado < A[DER] : valorComparado > A[DER]))
                     {
-                        MAYOR = A[DER];
+                        valorComparado = A[DER];
                         AP = DER;
                     }
 
@@ -300,13 +200,13 @@ namespace ProyectoFinal
 
                     Thread.Sleep(500); // Pausa para visualizar el cambio
 
-                    if (AUX < MAYOR)
+                    if ((esAscendente && AUX < valorComparado) || (!esAscendente && AUX > valorComparado))
                     {
                         A[K] = A[AP];
 
                         // Actualizar visualmente los cuadros
                         cuadros[K].Controls[0].Text = A[K].ToString();
-                        cuadros[AP].Controls[0].Text = MAYOR.ToString();
+                        cuadros[AP].Controls[0].Text = valorComparado.ToString();
 
                         // Cambiar a un color aleatorio después de la actualización
                         cuadros[K].BackColor = cuadrito.GenerarColorUnico();
@@ -348,160 +248,6 @@ namespace ProyectoFinal
             // Animar el último cuadro restante
             cuadrito.AnimarCambioDeTamaño(cuadros[0], A[0]);
         }
-
-        public void HeapSortDescendente(int[] A, FlowLayoutPanel panel)
-        {
-            int N = A.Length;
-            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
-
-            // Construcción del heap (mín-heap)
-            for (int I = 1; I < N; I++)
-            {
-                int K = I + 1; // Ajuste a índices 1-based
-                bool BAND = true;
-
-                while (K > 1 && BAND)
-                {
-                    BAND = false;
-                    int padre = (K - 1) / 2;
-
-                    if (padre < 0 || padre >= A.Length || K - 1 >= A.Length)
-                        break;
-
-                    if (A[K - 1] < A[padre]) // Cambia el operador para hacer un mín-heap
-                    {
-                        cuadros[K - 1].BackColor = Color.Red;
-                        cuadros[padre].BackColor = Color.Red;
-                        Thread.Sleep(200);
-
-                        int AUX = A[padre];
-                        A[padre] = A[K - 1];
-                        A[K - 1] = AUX;
-
-                        cuadros[K - 1].Controls[0].Text = A[K - 1].ToString();
-                        cuadros[padre].Controls[0].Text = A[padre].ToString();
-
-                        cuadrito.AnimarCambioDeTamaño(cuadros[K - 1], A[K - 1]);
-                        cuadrito.AnimarCambioDeTamaño(cuadros[padre], A[padre]);
-
-                        cuadros[K - 1].BackColor = cuadrito.GenerarColorUnico();
-                        cuadros[padre].BackColor = cuadrito.GenerarColorUnico();
-
-                        K = padre + 1;
-                        BAND = true;
-
-                        Thread.Sleep(500);
-                    }
-                }
-            }
-
-            // Ordenar extrayendo el menor elemento
-            EliminarMonticuloDescendente(A, panel);
-        }
-        public void EliminarMonticuloDescendente(int[] A, FlowLayoutPanel panel)
-        {
-            int N = A.Length;
-            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
-
-            for (int I = N - 1; I >= 1; I--)
-            {
-                int AUX = A[I];
-                A[I] = A[0];
-
-                // Resaltar en rojo los cuadros que van a cambiar
-                cuadros[I].BackColor = Color.Red;
-                cuadros[0].BackColor = Color.Red;
-
-                // Forzar actualización visual
-                cuadros[I].Refresh();
-                cuadros[0].Refresh();
-
-                Thread.Sleep(500); // Pausa para visualizar el cambio
-
-                // Actualizar visualmente los cuadros
-                cuadros[I].Controls[0].Text = A[I].ToString();
-                cuadros[0].Controls[0].Text = AUX.ToString();
-
-                // Cambiar a un color aleatorio después de la actualización
-                cuadros[I].BackColor = cuadrito.GenerarColorUnico();
-                cuadros[0].BackColor = cuadrito.GenerarColorUnico();
-
-                cuadros[I].Refresh();
-                cuadros[0].Refresh();
-
-                int IZQ = 1, DER = 2, K = 0;
-                bool BOOL = true;
-
-                while ((IZQ < I) && BOOL)
-                {
-                    int MENOR = A[IZQ];
-                    int AP = IZQ;
-
-                    if ((DER < I) && (MENOR > A[DER]))
-                    {
-                        MENOR = A[DER];
-                        AP = DER;
-                    }
-
-                    // Resaltar en rojo los cuadros que van a cambiar
-                    cuadros[K].BackColor = Color.Red;
-                    cuadros[AP].BackColor = Color.Red;
-
-                    // Forzar actualización visual
-                    cuadros[K].Refresh();
-                    cuadros[AP].Refresh();
-
-                    Thread.Sleep(500); // Pausa para visualizar el cambio
-
-                    if (AUX > MENOR)
-                    {
-                        A[K] = A[AP];
-
-                        // Actualizar visualmente los cuadros
-                        cuadros[K].Controls[0].Text = A[K].ToString();
-                        cuadros[AP].Controls[0].Text = MENOR.ToString();
-
-                        // Cambiar a un color aleatorio después de la actualización
-                        cuadros[K].BackColor = cuadrito.GenerarColorUnico();
-                        cuadros[AP].BackColor = cuadrito.GenerarColorUnico();
-
-                        cuadros[K].Refresh();
-                        cuadros[AP].Refresh();
-
-                        K = AP;
-                    }
-                    else
-                    {
-                        BOOL = false;
-                    }
-
-                    IZQ = 2 * K + 1;
-                    DER = IZQ + 1;
-                }
-
-                A[K] = AUX;
-
-                // Resaltar en rojo el cuadro final que va a cambiar
-                cuadros[K].BackColor = Color.Red;
-                cuadros[K].Refresh();
-
-                Thread.Sleep(500); // Pausa para visualizar el cambio
-
-                cuadros[K].Controls[0].Text = AUX.ToString();
-
-                // Cambiar a un color aleatorio después de la actualización
-                cuadros[K].BackColor = cuadrito.GenerarColorUnico();
-                cuadros[K].Refresh();
-
-                // Animar el cambio de tamaño
-                cuadrito.AnimarCambioDeTamaño(cuadros[K], A[K]);
-                cuadrito.AnimarCambioDeTamaño(cuadros[I], A[I]);
-            }
-
-            // Animar el último cuadro restante
-            cuadrito.AnimarCambioDeTamaño(cuadros[0], A[0]);
-        }
-
 
         public void ShellAsendente(int[] A, FlowLayoutPanel panel)
         {
@@ -819,7 +565,7 @@ namespace ProyectoFinal
             panel.Refresh();
             Application.DoEvents();
             Thread.Sleep(500); // Pausa para mostrar el intercambio
-            
+
         }
         public void QuicksortDescendente(int[] A, FlowLayoutPanel panel)
         {
@@ -903,5 +649,247 @@ namespace ProyectoFinal
             Thread.Sleep(500); // Pausa para mostrar el intercambio
         }
 
+        public void BucketSortAcendente1(int[] arr, FlowLayoutPanel panel)
+        {
+            // Crear lista de cuadros
+            if (panel.Controls.Count != arr.Length)
+            {
+                throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
+            }
+            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
+
+            // Encontrar el valor máximo para determinar el número de cubos
+            int maxValue = arr.Max();
+
+            // Crear los cubos visuales
+            int bucketCount = maxValue / 10 + 1; // Ajustar tamaño del cubo
+            List<List<int>> buckets = new List<List<int>>(bucketCount);
+            List<FlowLayoutPanel> cubosVisuales = new List<FlowLayoutPanel>();
+            FlowLayoutPanel cubosPanel = new FlowLayoutPanel
+            {
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = false,
+                AutoSize = true,
+                BackColor = Color.LightGray,
+                Margin = new Padding(10)
+            };
+            panel.Parent.Controls.Add(cubosPanel);
+
+            for (int i = 0; i < bucketCount; i++)
+            {
+                buckets.Add(new List<int>());
+                FlowLayoutPanel cuboVisual = new FlowLayoutPanel
+                {
+                    FlowDirection = FlowDirection.TopDown,
+                    AutoSize = true,
+                    BackColor = Color.AliceBlue,
+                    Margin = new Padding(5),
+                    BorderStyle = BorderStyle.FixedSingle
+                };
+                cubosPanel.Controls.Add(cuboVisual);
+                cubosVisuales.Add(cuboVisual);
+            }
+
+            // Animar distribución de elementos en los cubos
+            foreach (int num in arr)
+            {
+                int bucketIndex = num / 10; // Ajustar tamaño del cubo
+                buckets[bucketIndex].Add(num);
+
+                // Mover visualmente el cuadro al cubo correspondiente
+                Panel cuadro = cuadros.First(c => c.Controls[0].Text == num.ToString());
+                cuadros.Remove(cuadro);
+                AnimarMovimiento(cuadro, cubosVisuales[bucketIndex]);
+            }
+
+            // Ordenar cada cubo y animar
+            int index = 0;
+            foreach (List<int> bucket in buckets)
+            {
+                bucket.Sort(); // Ordenar cubo
+                FlowLayoutPanel cuboVisual = cubosVisuales[buckets.IndexOf(bucket)];
+
+                foreach (int num in bucket)
+                {
+                    Panel cuadro = cuboVisual.Controls.Cast<Panel>().First(c => c.Controls[0].Text == num.ToString());
+                    cuadros.Add(cuadro);
+
+                    // Combinar visualmente los elementos en el panel original
+                    AnimarMovimiento(cuadro, panel);
+                    arr[index++] = num;
+                }
+            }
+        }
+
+        private void AnimarMovimiento1(Panel cuadro, FlowLayoutPanel destino)
+        {
+            // Coordenadas iniciales y finales dentro del destino
+            Point startLocation = cuadro.Location;
+            Point endLocation = destino.PointToClient(cuadro.Parent.PointToScreen(cuadro.Location));
+
+            endLocation = new Point(
+                Clamp(endLocation.X, 0, destino.ClientSize.Width - cuadro.Width),
+                Clamp(endLocation.Y, 0, destino.ClientSize.Height - cuadro.Height)
+            );
+
+            int deltaX = (endLocation.X - startLocation.X) / 10;
+            int deltaY = (endLocation.Y - startLocation.Y) / 10;
+
+            // Animar movimiento
+            for (int i = 0; i < 10; i++)
+            {
+                cuadro.Location = new Point(
+                    Clamp(cuadro.Location.X + deltaX, 0, destino.ClientSize.Width - cuadro.Width),
+                    Clamp(cuadro.Location.Y + deltaY, 0, destino.ClientSize.Height - cuadro.Height)
+                                                       );
+
+                cuadro.Refresh();
+                Application.DoEvents();
+                Thread.Sleep(50);
+
+
+                // Asegurarse de agregar el cuadro al destino al final
+                destino.Controls.Add(cuadro);
+                destino.Refresh();
+            }
+
+            
+        }
+
+        public int Clamp(int value, int min, int max)
+        {
+            return (value < min) ? min : (value > max) ? max : value;
+        }
+
+
+        public void BucketSortAcendente(int[] arr, FlowLayoutPanel panel, int bucketCount)
+        {
+            // Crear lista de cuadros
+            if (panel.Controls.Count != arr.Length)
+            {
+                throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
+            }
+            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
+
+            // Encontrar el valor máximo para determinar el número de cubos
+            int maxValue = arr.Max();
+
+            // Crear los cubos visuales
+            //int bucketCount = maxValue / 10 + 1; // Ajustar tamaño del cubo
+
+            int bucketSize = (maxValue / bucketCount) + 1;
+
+            // Distribuir los números en las cubetas
+
+            List<List<int>> buckets = new List<List<int>>(bucketCount);
+            List<FlowLayoutPanel> cubosVisuales = new List<FlowLayoutPanel>();
+
+            FlowLayoutPanel cubosPanel = new FlowLayoutPanel
+            {
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = true, // Permitirá que los cubos se ajusten si hay muchos
+                AutoSize = true,
+                BackColor = Color.LightGray,
+                Margin = new Padding(10),
+                Dock = DockStyle.Top // Aseguramos que esté en la parte superior del contenedor
+            };
+
+            // Asegurarse de que el panel de cubos se añada al contenedor correcto
+            panel.Parent.Controls.Add(cubosPanel);
+
+            // Crear los cubos visuales
+            for (int i = 0; i < bucketCount; i++)
+            {
+                buckets.Add(new List<int>());
+                FlowLayoutPanel cuboVisual = new FlowLayoutPanel
+                {
+                    FlowDirection = FlowDirection.TopDown,
+                    AutoSize = true,
+                    BackColor = Color.AliceBlue,
+                    Margin = new Padding(5),
+                    BorderStyle = BorderStyle.FixedSingle,
+                    Padding = new Padding(5)
+                };
+                cubosPanel.Controls.Add(cuboVisual);
+                cubosVisuales.Add(cuboVisual);
+            }
+
+            // Animar distribución de elementos en los cubos
+            foreach (int num in arr)
+            {
+                int bucketIndex = num / (bucketCount); // Ajustar tamaño del cubo
+                buckets[bucketIndex].Add(num);
+
+                // Mover visualmente el cuadro al cubo correspondiente
+                Panel cuadro = cuadros.First(c => c.Controls[0].Text == num.ToString());
+                cuadros.Remove(cuadro);
+                AnimarMovimiento(cuadro, cubosVisuales[bucketIndex]);
+            }
+
+            // Ordenar cada cubo y animar
+            int index = 0;
+            foreach (List<int> bucket in buckets)
+            {
+                bucket.Sort(); // Ordenar cubo
+                FlowLayoutPanel cuboVisual = cubosVisuales[buckets.IndexOf(bucket)];
+
+                foreach (int num in bucket)
+                {
+                    Panel cuadro = cuboVisual.Controls.Cast<Panel>().First(c => c.Controls[0].Text == num.ToString());
+                    cuadros.Add(cuadro);
+
+                    // Combinar visualmente los elementos en el panel original
+                    AnimarMovimiento(cuadro, panel);
+                    arr[index++] = num;
+                }
+            }
+            panel.Parent.Controls.Remove(cubosPanel);
+
+
+        }
+
+        private void AnimarMovimiento(Panel cuadro, FlowLayoutPanel destino)
+        {
+            // Coordenadas iniciales y finales dentro del destino
+            Point startLocation = cuadro.Location;
+            Point endLocation = destino.PointToClient(cuadro.Parent.PointToScreen(cuadro.Location));
+
+            endLocation = new Point(
+                Clamp(endLocation.X, 0, destino.ClientSize.Width - cuadro.Width),
+                Clamp(endLocation.Y, 0, destino.ClientSize.Height - cuadro.Height)
+            );
+
+            int deltaX = (endLocation.X - startLocation.X) / 10;
+            int deltaY = (endLocation.Y - startLocation.Y) / 10;
+
+            // Animar movimiento
+            for (int i = 0; i < 10; i++)
+            {
+                cuadro.Location = new Point(
+                    Clamp(cuadro.Location.X + deltaX, 0, destino.ClientSize.Width - cuadro.Width),
+                    Clamp(cuadro.Location.Y + deltaY, 0, destino.ClientSize.Height - cuadro.Height)
+                );
+
+                cuadro.Refresh();
+                Application.DoEvents();
+                Thread.Sleep(50);
+            }
+
+            // Asegurarse de agregar el cuadro al destino al final
+            destino.Controls.Add(cuadro);
+            destino.Refresh();
+        }
+
+        
+
+
+
+
     }
 }
+
+
+
+
+    
+
