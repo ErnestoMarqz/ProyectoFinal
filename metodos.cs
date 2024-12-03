@@ -14,7 +14,7 @@ namespace ProyectoFinal
     {
 
         Cuadritos cuadrito = new Cuadritos();
-       
+
         //public void ShellAsendente(int[] A, FlowLayoutPanel panel)
         //{
         //    int N = A.Length;
@@ -145,76 +145,74 @@ namespace ProyectoFinal
         //    }
         //}
 
-        public void ShellAsendente(int[] A, FlowLayoutPanel panel)
+        public async Task OrdenarShellConAnimacion(FlowLayoutPanel parent, bool ascendente)
         {
-            int N = A.Length;
+            int n = parent.Controls.Count;
 
-            if (panel.Controls.Count != N)
+            // Inicializar la distancia (gap)
+            int gap = n / 2;
+
+            // Realizar el ordenamiento Shell
+            while (gap > 0)
             {
-                throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
-            }
-
-            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
-
-            // Hacer que todos los cuadros sean blancos al inicio
-            foreach (var cuadro in cuadros)
-            {
-                cuadro.BackColor = Color.White; // Establecer el color de fondo a blanco
-                cuadro.Refresh();
-            }
-
-            // Se comienza con una secuencia de gaps (puedes ajustar la secuencia de "h" según tu preferencia)
-            int h = N / 2;
-
-            while (h > 0)
-            {
-                // Realizamos una inserción con el gap actual
-                for (int i = h; i < N; i++)
+                for (int i = gap; i < n; i++)
                 {
-                    int AUX = A[i];
+                    // Obtener el cuadro actual
+                    Panel cuadroActual = parent.Controls[i] as Panel;
+
+                    // Validar que el cuadro existe
+                    if (cuadroActual == null) continue;
+
+                    // Obtener el valor del cuadro actual
+                    int valorActual = int.Parse((cuadroActual.Controls[0] as Label).Text);
                     int j = i;
 
-                    Panel cuadroActual = cuadros[i];
-                    cuadroActual.BackColor = cuadrito.GenerarColorUnico();
-                    cuadroActual.Refresh();
-                    Application.DoEvents();
-                    Thread.Sleep(700); // Pausa para que se vea el cambio de color
-
-                    // Desplazar los elementos hacia la derecha
-                    while (j >= h && A[j - h] > AUX)
+                    // Comparar e insertar en la posición correcta
+                    while (j >= gap)
                     {
-                        A[j] = A[j - h];
+                        // Obtener el cuadro en la posición j - gap
+                        Panel cuadroComparar = parent.Controls[j - gap] as Panel;
 
-                        // Actualizamos el cuadro visualmente
-                        cuadros[j].Controls[0].Text = A[j].ToString();
-                        cuadrito.AnimarCambioDeTamaño(cuadros[j], A[j]);
+                        // Validar que el cuadro a comparar existe
+                        if (cuadroComparar == null) break;
 
-                        // Resaltamos el cuadro que está siendo desplazado
-                        cuadros[j].BackColor = cuadrito.GenerarColorUnico();
-                        cuadros[j - h].BackColor = Color.Red; // Resaltamos el cuadro que se está comparando
+                        // Obtener el valor del cuadro a comparar
+                        int valorComparar = int.Parse((cuadroComparar.Controls[0] as Label).Text);
 
-                        // Forzar actualización visual
-                        panel.Refresh();
-                        Application.DoEvents();
-                        Thread.Sleep(700); // Pausa para que se vea el cambio de color
+                        // Resaltar cuadros
+                        Color colorOriginalActual = (Color)cuadroActual.Tag;
+                        Color colorOriginalComparar = (Color)cuadroComparar.Tag;
 
-                        j -= h;
+                        cuadroActual.BackColor = Color.Yellow;
+                        cuadroComparar.BackColor = Color.Yellow;
+                        cuadroActual.Refresh();
+                        cuadroComparar.Refresh();
+
+                        await Task.Delay(500);
+
+                        // Determinar si intercambiar basado en el orden ascendente/descendente
+                        bool intercambiar = ascendente ? valorActual < valorComparar : valorActual > valorComparar;
+                        if (intercambiar)
+                        {
+                            // Intercambiar con animación
+                            await Cuadritos.IntercambiarCuadrosAnimado(parent, j, j - gap);
+                            j -= gap; // Mover hacia atrás
+                        }
+                        else
+                        {
+                            break; // Si no se necesita intercambiar, salir del bucle
+                        }
+
+                        // Restaurar colores originales
+                        cuadroActual.BackColor = colorOriginalActual;
+                        cuadroComparar.BackColor = colorOriginalComparar;
+                        cuadroActual.Refresh();
+                        cuadroComparar.Refresh();
                     }
-
-                    // Insertamos el elemento en la posición correcta
-                    A[j] = AUX;
-                    cuadros[j].Controls[0].Text = AUX.ToString();
-                    cuadrito.AnimarCambioDeTamaño(cuadros[j], AUX);
-
-                    // Resaltamos el cuadro que ha sido colocado en la posición correcta
-                    cuadros[j].BackColor = Color.Green; // Indicar que este cuadro está en su posición final
-                    panel.Refresh();
-                    Application.DoEvents();
-                    Thread.Sleep(700); // Pausa para que se vea el cambio de color
                 }
 
-                // Reducir el gap según la secuencia
-                h /= 2;
+                // Reducir la distancia (gap)
+                gap /= 2;
             }
         }
 
