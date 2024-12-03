@@ -15,232 +15,135 @@ namespace ProyectoFinal
 
         Cuadritos cuadrito = new Cuadritos();
        
-        public void BarajaAcendnete(int[] A, FlowLayoutPanel panel)
-        {
-            int N = A.Length;
+        //public void ShellAsendente(int[] A, FlowLayoutPanel panel)
+        //{
+        //    int N = A.Length;
 
-            if (panel.Controls.Count != N)
-            {
-                throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
-            }
+        //    if (panel.Controls.Count != N)
+        //    {
+        //        throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
+        //    }
 
-            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
+        //    List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
 
-            for (int I = 1; I < N; I++)
-            {
-                int AUX = A[I];
-                int K = I - 1;
+        //    // Se comienza con una secuencia de gaps (puedes ajustar la secuencia de "h" según tu preferencia)
+        //    int h = N / 2;
 
-                Panel cuadroActual = cuadros[I];
-                cuadroActual.BackColor = Color.Orange;
-                panel.Refresh();
-                Application.DoEvents();
-                Thread.Sleep(500);
+        //    while (h > 0)
+        //    {
+        //        // Realizamos una inserción con el gap actual
+        //        for (int i = h; i < N; i++)
+        //        {
+        //            int AUX = A[i];
+        //            int j = i;
 
-                while (K >= 0 && AUX < A[K])
-                {
-                    Panel cuadroMayor = cuadros[K];
-                    cuadroMayor.BackColor = Color.Red;
+        //            Panel cuadroActual = cuadros[i];
+        //            cuadroActual.BackColor = cuadrito.GenerarColorUnico();
+        //            cuadroActual.Refresh();
+        //            Application.DoEvents();
+        //            Thread.Sleep(500); // Pausa para que se vea el cambio de color
 
-                    A[K + 1] = A[K];
+        //            // Desplazar los elementos hacia la derecha
+        //            while (j >= h && A[j - h] > AUX)
+        //            {
+        //                A[j] = A[j - h];
 
-                    cuadros[K + 1].Controls[0].Text = cuadroMayor.Controls[0].Text;
-                    cuadrito.AnimarCambioDeTamaño(cuadros[K + 1], A[K + 1]);
-                    cuadros[K + 1].BackColor = cuadrito.GenerarColorUnico(); 
-                    panel.Refresh();
-                    Application.DoEvents();
-                    Thread.Sleep(500);
+        //                // Actualizamos el cuadro visualmente
+        //                cuadros[j].Controls[0].Text = A[j].ToString();
+        //                cuadrito.AnimarCambioDeTamaño(cuadros[j], A[j]);
 
-                    cuadroMayor.BackColor = cuadrito.GenerarColorUnico();
-                    K--;
-                }
-                A[K + 1] = AUX;
-                cuadros[K + 1].Controls[0].Text = AUX.ToString();
-                cuadrito.AnimarCambioDeTamaño(cuadros[K + 1], AUX);
-                cuadrito.GenerarColorUnico();
-                panel.Refresh();
-                Application.DoEvents();
-                Thread.Sleep(500);
-            }
-        }
+        //                cuadros[j].BackColor = cuadrito.GenerarColorUnico(); ; // Resaltamos el cuadro que está siendo desplazado
+        //                cuadros[j - h].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
 
+        //                // Forzar actualización visual
+        //                panel.Refresh();
+        //                Application.DoEvents();
+        //                Thread.Sleep(500);
 
-        public void HeapSortAcendente(int[] A, FlowLayoutPanel panel)
-        {
-            int N = A.Length;
-            
-            // Obtener los cuadros como una lista
-            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
+        //                j -= h;
+        //            }
 
-            for (int I = 1; I < N; I++) // Adaptado a índices base 0
-            {
-                int K = I + 1; // Ajuste para representar la posición correcta
-                bool BAND = true;
+        //            // Insertamos el elemento en la posición correcta
+        //            A[j] = AUX;
+        //            cuadros[j].Controls[0].Text = AUX.ToString();
+        //            cuadrito.AnimarCambioDeTamaño(cuadros[j], AUX);
 
-                // Propagación hacia arriba en el montículo
-                while (K > 1 && BAND)
-                {
-                    BAND = false;
-                    int padre = (K - 1) / 2; // Índice del nodo padre
+        //            cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que ha sido colocado en la posición correcta
+        //            panel.Refresh();
+        //            Application.DoEvents();
+        //            Thread.Sleep(500); // Pausa para que se vea el cambio de color
+        //        }
 
-                    // Validar que los índices son válidos
-                    if (padre < 0 || padre >= A.Length || K - 1 >= A.Length)
-                        break;
+        //        // Reducir el gap según la secuencia
+        //        h /= 2;
+        //    }
+        //}
 
-                    // Si el hijo es mayor que el padre
-                    if (A[K - 1] > A[padre])
-                    {
-                        // Intercambiar A[K - 1] con A[padre]
-                        int AUX = A[padre];
-                        A[padre] = A[K - 1];
-                        A[K - 1] = AUX;
+        //public void ShellAsendente(int[] A, FlowLayoutPanel panel)
+        //{
+        //    int N = A.Length;
 
-                        // Actualizar textos en los cuadros
-                        cuadros[K - 1].Controls[0].Text = A[K - 1].ToString();
-                        cuadros[padre].Controls[0].Text = A[padre].ToString();
+        //    if (panel.Controls.Count != N)
+        //    {
+        //        throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
+        //    }
 
-                        // Animar el cambio de tamaño de los cuadros
-                        cuadrito.AnimarCambioDeTamaño(cuadros[K - 1], A[K - 1]);
-                        cuadrito.AnimarCambioDeTamaño(cuadros[padre], A[padre]);
+        //    List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
 
-                        // Actualizar índice K y marcar BAND como true
-                        K = padre + 1; // Ajuste en K para índices base 0
-                        BAND = true;
+        //    // Se comienza con una secuencia de gaps (puedes ajustar la secuencia de "h" según tu preferencia)
+        //    int h = N / 2;
 
-                        // Pausa para hacer visible la animación
-                        Thread.Sleep(500);
-                    }
-                }
-            }
-            EliminarMonticuloAnimado(A, panel);
-        }
-        public void EliminarMonticuloAnimado(int[] A, FlowLayoutPanel panel)
-        {
-           int N = A.Length;
-            if (panel.Controls.Count != N)
-            {
-                throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
-            }
+        //    while (h > 0)
+        //    {
+        //        // Realizamos una inserción con el gap actual
+        //        for (int i = h; i < N; i++)
+        //        {
+        //            int AUX = A[i];
+        //            int j = i;
 
-            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
+        //            Panel cuadroActual = cuadros[i];
+        //            cuadroActual.BackColor = cuadrito.GenerarColorUnico();
+        //            cuadroActual.Refresh();
+        //            Application.DoEvents();
+        //            Thread.Sleep(700); // Aumentamos la pausa para que se vea el cambio de color
 
-            for (int I = N - 1; I >= 1; I--) // Ajuste para índices base 0
-            {
-                int AUX = A[I];
-                A[I] = A[0];
+        //            // Desplazar los elementos hacia la derecha
+        //            while (j >= h && A[j - h] > AUX)
+        //            {
+        //                A[j] = A[j - h];
 
-                // Actualizar textos
-                cuadros[I].Controls[0].Text = A[I].ToString();
-                cuadros[0].Controls[0].Text = AUX.ToString();
+        //                // Actualizamos el cuadro visualmente
+        //                cuadros[j].Controls[0].Text = A[j].ToString();
+        //                cuadrito.AnimarCambioDeTamaño(cuadros[j], A[j]);
 
-                int IZQ = 1, DER = 2, K = 0;
-                bool BOOL = true;
+        //                // Resaltamos el cuadro que está siendo desplazado
+        //                cuadros[j].BackColor = cuadrito.GenerarColorUnico();
+        //                cuadros[j - h].BackColor = Color.Red; // Usamos un color fijo para destacar el cuadro que se está comparando
 
-                while ((IZQ < I) && BOOL)
-                {
-                    int MAYOR = A[IZQ];
-                    int AP = IZQ;
+        //                // Forzar actualización visual
+        //                panel.Refresh();
+        //                Application.DoEvents();
+        //                Thread.Sleep(700); // Aumentamos la pausa para que se vea el cambio de color
 
-                    if ((DER < I) && (MAYOR < A[DER]))
-                    {
-                        MAYOR = A[DER];
-                        AP = DER;
-                    }
+        //                j -= h;
+        //            }
 
-                    if (AUX < MAYOR)
-                    {
-                        A[K] = A[AP];
+        //            // Insertamos el elemento en la posición correcta
+        //            A[j] = AUX;
+        //            cuadros[j].Controls[0].Text = AUX.ToString();
+        //            cuadrito.AnimarCambioDeTamaño(cuadros[j], AUX);
 
-                        cuadros[K].Controls[0].Text = A[K].ToString();
-                        cuadros[AP].Controls[0].Text = MAYOR.ToString();
+        //            // Resaltamos el cuadro que ha sido colocado en la posición correcta
+        //            cuadros[j].BackColor = Color.Green; // Usamos un color fijo para indicar que este cuadro está en su posición final
+        //            panel.Refresh();
+        //            Application.DoEvents();
+        //            Thread.Sleep(700); // Aumentamos la pausa para que se vea el cambio de color
+        //        }
 
-                        K = AP;
-                    }
-                    else
-                    {
-                        BOOL = false;
-                    }
-
-                    IZQ = 2 * K + 1;
-                    DER = IZQ + 1;
-                }
-
-                A[K] = AUX;
-                cuadros[K].Controls[0].Text = AUX.ToString();
-
-                // **Corregir tamaños al final**
-                cuadrito.AnimarCambioDeTamaño(cuadros[K], A[K]);
-                cuadrito.AnimarCambioDeTamaño(cuadros[I], A[I]); // Aplicar al último cuadro procesado
-            }
-
-            // Ajustar tamaño del cuadro inicial (A[0]) al final del proceso
-            cuadrito.AnimarCambioDeTamaño(cuadros[0], A[0]);
-        }
-
-        public void BarajaDescendente(int[] A, FlowLayoutPanel panel)
-        {
-            int N = A.Length;
-            if (panel.Controls.Count != N)
-            {
-                throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
-            }
-
-            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
-
-            for (int I = 1; I < N; I++)
-            {
-                int AUX = A[I];
-                int K = I - 1;
-
-                Panel cuadroActual = cuadros[I];
-                cuadroActual.BackColor = Color.Orange;  // Resaltar el cuadro actual
-                panel.Refresh();
-                Application.DoEvents();
-                Thread.Sleep(500);
-
-                // Desplazar elementos menores que AUX
-                while (K >= 0 && AUX > A[K])
-                {
-                    Panel cuadroMayor = cuadros[K];
-                    cuadroMayor.BackColor = Color.Red;  // Resaltar el cuadro mayor
-                    panel.Refresh();
-                    Application.DoEvents();
-                    Thread.Sleep(500);
-
-                    // Actualizar el valor en el arreglo
-                    A[K + 1] = A[K];
-
-                    // Desplazar visualmente el cuadro hacia la derecha
-                    cuadros[K + 1].Controls[0].Text = cuadros[K].Controls[0].Text;
-
-                    // Animar el tamaño del cuadro desplazado
-                    cuadrito.AnimarCambioDeTamaño(cuadros[K + 1], A[K + 1]);
-                    cuadros[K + 1].BackColor = cuadrito.GenerarColorUnico();
-                    panel.Refresh();
-                    Application.DoEvents();
-                    Thread.Sleep(500);
-
-                    // Restaurar color original del cuadro mayor
-                    cuadroMayor.BackColor = cuadrito.GenerarColorUnico();
-                    panel.Refresh();
-                    Application.DoEvents();
-                    Thread.Sleep(500);
-
-                    K--;
-                }
-
-                // Insertar el elemento en la posición correcta
-                A[K + 1] = AUX;
-                cuadros[K + 1].Controls[0].Text = AUX.ToString();
-
-                // Animar el tamaño del cuadro insertado
-                cuadrito.AnimarCambioDeTamaño(cuadros[K + 1], AUX);
-                cuadros[K + 1].BackColor = Color.LightBlue;  // Restaurar color
-                panel.Refresh();
-                Application.DoEvents();
-                Thread.Sleep(500);
-            }
-        }
+        //        // Reducir el gap según la secuencia
+        //        h /= 2;
+        //    }
+        //}
 
         public void ShellAsendente(int[] A, FlowLayoutPanel panel)
         {
@@ -252,6 +155,13 @@ namespace ProyectoFinal
             }
 
             List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
+
+            // Hacer que todos los cuadros sean blancos al inicio
+            foreach (var cuadro in cuadros)
+            {
+                cuadro.BackColor = Color.White; // Establecer el color de fondo a blanco
+                cuadro.Refresh();
+            }
 
             // Se comienza con una secuencia de gaps (puedes ajustar la secuencia de "h" según tu preferencia)
             int h = N / 2;
@@ -268,7 +178,7 @@ namespace ProyectoFinal
                     cuadroActual.BackColor = cuadrito.GenerarColorUnico();
                     cuadroActual.Refresh();
                     Application.DoEvents();
-                    Thread.Sleep(500); // Pausa para que se vea el cambio de color
+                    Thread.Sleep(700); // Pausa para que se vea el cambio de color
 
                     // Desplazar los elementos hacia la derecha
                     while (j >= h && A[j - h] > AUX)
@@ -279,13 +189,14 @@ namespace ProyectoFinal
                         cuadros[j].Controls[0].Text = A[j].ToString();
                         cuadrito.AnimarCambioDeTamaño(cuadros[j], A[j]);
 
-                        cuadros[j].BackColor = cuadrito.GenerarColorUnico(); ; // Resaltamos el cuadro que está siendo desplazado
-                        cuadros[j - h].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
+                        // Resaltamos el cuadro que está siendo desplazado
+                        cuadros[j].BackColor = cuadrito.GenerarColorUnico();
+                        cuadros[j - h].BackColor = Color.Red; // Resaltamos el cuadro que se está comparando
 
                         // Forzar actualización visual
                         panel.Refresh();
                         Application.DoEvents();
-                        Thread.Sleep(500);
+                        Thread.Sleep(700); // Pausa para que se vea el cambio de color
 
                         j -= h;
                     }
@@ -295,16 +206,82 @@ namespace ProyectoFinal
                     cuadros[j].Controls[0].Text = AUX.ToString();
                     cuadrito.AnimarCambioDeTamaño(cuadros[j], AUX);
 
-                    cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que ha sido colocado en la posición correcta
+                    // Resaltamos el cuadro que ha sido colocado en la posición correcta
+                    cuadros[j].BackColor = Color.Green; // Indicar que este cuadro está en su posición final
                     panel.Refresh();
                     Application.DoEvents();
-                    Thread.Sleep(500); // Pausa para que se vea el cambio de color
+                    Thread.Sleep(700); // Pausa para que se vea el cambio de color
                 }
 
                 // Reducir el gap según la secuencia
                 h /= 2;
             }
         }
+
+        //public void ShellDescendente(int[] A, FlowLayoutPanel panel)
+        //{
+        //    int N = A.Length;
+
+        //    if (panel.Controls.Count != N)
+        //    {
+        //        throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
+        //    }
+
+        //    List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
+
+        //     Se comienza con una secuencia de gaps (puedes ajustar la secuencia de "h" según tu preferencia)
+        //    int h = N / 2;
+
+        //    while (h > 0)
+        //    {
+        //         Realizamos una inserción con el gap actual
+        //        for (int i = h; i < N; i++)
+        //        {
+        //            int AUX = A[i];
+        //            int j = i;
+
+        //            Panel cuadroActual = cuadros[i];
+        //            cuadroActual.BackColor = cuadrito.GenerarColorUnico();
+        //            cuadroActual.Refresh();
+        //            Application.DoEvents();
+        //            Thread.Sleep(500); // Pausa para que se vea el cambio de color
+
+        //             Desplazar los elementos hacia la izquierda (para orden descendente)
+        //            while (j >= h && A[j - h] < AUX)  // Cambiado de > a <
+        //            {
+        //                A[j] = A[j - h];
+
+        //                 Actualizamos el cuadro visualmente
+        //                cuadros[j].Controls[0].Text = A[j].ToString();
+        //                cuadrito.AnimarCambioDeTamaño(cuadros[j], A[j]);
+
+        //                cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
+        //                cuadros[j - h].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
+
+        //                 Forzar actualización visual
+        //                panel.Refresh();
+        //                Application.DoEvents();
+        //                Thread.Sleep(500); // Pausa para que se vea el cambio de color
+
+        //                j -= h;
+        //            }
+
+        //             Insertamos el elemento en la posición correcta
+        //            A[j] = AUX;
+        //            cuadros[j].Controls[0].Text = AUX.ToString();
+        //            cuadrito.AnimarCambioDeTamaño(cuadros[j], AUX);
+
+        //            cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que ha sido colocado en la posición correcta
+        //            panel.Refresh();
+        //            Application.DoEvents();
+        //            Thread.Sleep(500); // Pausa para que se vea el cambio de color
+        //        }
+
+        //         Reducir el gap según la secuencia
+        //        h /= 2;
+        //    }
+        //}
+
         public void ShellDescendente(int[] A, FlowLayoutPanel panel)
         {
             int N = A.Length;
@@ -315,6 +292,13 @@ namespace ProyectoFinal
             }
 
             List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
+
+            // Hacer que todos los cuadros sean blancos al inicio
+            foreach (var cuadro in cuadros)
+            {
+                cuadro.BackColor = Color.White; // Establecer el color de fondo a blanco
+                cuadro.Refresh();
+            }
 
             // Se comienza con una secuencia de gaps (puedes ajustar la secuencia de "h" según tu preferencia)
             int h = N / 2;
@@ -342,8 +326,9 @@ namespace ProyectoFinal
                         cuadros[j].Controls[0].Text = A[j].ToString();
                         cuadrito.AnimarCambioDeTamaño(cuadros[j], A[j]);
 
-                        cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
-                        cuadros[j - h].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
+                        // Resaltamos el cuadro que está siendo desplazado
+                        cuadros[j].BackColor = cuadrito.GenerarColorUnico();
+                        cuadros[j - h].BackColor = cuadrito.GenerarColorUnico();
 
                         // Forzar actualización visual
                         panel.Refresh();
@@ -358,6 +343,7 @@ namespace ProyectoFinal
                     cuadros[j].Controls[0].Text = AUX.ToString();
                     cuadrito.AnimarCambioDeTamaño(cuadros[j], AUX);
 
+                    // Resaltamos el cuadro que ha sido colocado en la posición correcta
                     cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que ha sido colocado en la posición correcta
                     panel.Refresh();
                     Application.DoEvents();
@@ -368,6 +354,7 @@ namespace ProyectoFinal
                 h /= 2;
             }
         }
+
         public void InsertionDirecta(int[] A, FlowLayoutPanel panel)
         {
             int N = A.Length;
