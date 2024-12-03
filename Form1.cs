@@ -108,60 +108,60 @@ namespace ProyectoFinal
 
             }
 
-            if (comboBox1.SelectedItem.ToString() == "Baraja")
-            {
-                if (rbAsendente.Checked == true)
-                {
-                    metodos.BarajaAcendnete(arreglo, flowLayoutPanel1);
-                }
-                else
-                {
-                    metodos.BarajaDescendente(arreglo, flowLayoutPanel1);
-                }
-            }
-            if (comboBox1.SelectedItem.ToString() == "Shell")
-            {
-                if (rbAsendente.Checked == true)
-                {
-                    metodos.ShellAsendente(arreglo, flowLayoutPanel1);
-                }
-                if (rbDesendente.Checked == true)
-                {
-                    metodos.ShellDescendente(arreglo, flowLayoutPanel1);
-                }
-            }
-            if (comboBox1.SelectedItem.ToString() == "Inter. Directa")
-            {
-                if (rbAsendente.Checked == true)
-                {
-                    metodos.InsertionDirecta(arreglo, flowLayoutPanel1);
-                }
-                if (rbDesendente.Checked == true)
-                {
-                    metodos.InsertionDescendente(arreglo, flowLayoutPanel1);
-                }
-            }
-            if (comboBox1.SelectedItem.ToString() == "Quick Sort")
-            {
-                if (rbAsendente.Checked == true)
-                {
-                    metodos.QuicksortAscendente(arreglo, flowLayoutPanel1);
-                }
-                if (rbDesendente.Checked == true)
-                {
-                    metodos.QuicksortDescendente(arreglo, flowLayoutPanel1);
-                }
-            }
-            if (comboBox1.SelectedItem.ToString() == "Heap Sort")
-            {
-                if (rbAsendente.Checked == true)
-                {
-                    metodos.HeapSortAcendente(arreglo, flowLayoutPanel1);
-                }
-                if (rbDesendente.Checked == true)
-                {
-                }
-            }
+            //if (comboBox1.SelectedItem.ToString() == "Baraja")
+            //{
+            //    if (rbAsendente.Checked == true)
+            //    {
+            //        metodos.BarajaAcendnete(arreglo, flowLayoutPanel1);
+            //    }
+            //    else
+            //    {
+            //        metodos.BarajaDescendente(arreglo, flowLayoutPanel1);
+            //    }
+            //}
+            //if (comboBox1.SelectedItem.ToString() == "Shell")
+            //{
+            //    if (rbAsendente.Checked == true)
+            //    {
+            //        metodos.ShellAsendente(arreglo, flowLayoutPanel1);
+            //    }
+            //    if (rbDesendente.Checked == true)
+            //    {
+            //        metodos.ShellDescendente(arreglo, flowLayoutPanel1);
+            //    }
+            //}
+            //if (comboBox1.SelectedItem.ToString() == "Inter. Directa")
+            //{
+            //    if (rbAsendente.Checked == true)
+            //    {
+            //        metodos.InsertionDirecta(arreglo, flowLayoutPanel1);
+            //    }
+            //    if (rbDesendente.Checked == true)
+            //    {
+            //        metodos.InsertionDescendente(arreglo, flowLayoutPanel1);
+            //    }
+            //}
+            //if (comboBox1.SelectedItem.ToString() == "Quick Sort")
+            //{
+            //    if (rbAsendente.Checked == true)
+            //    {
+            //        metodos.QuicksortAscendente(arreglo, flowLayoutPanel1);
+            //    }
+            //    if (rbDesendente.Checked == true)
+            //    {
+            //        metodos.QuicksortDescendente(arreglo, flowLayoutPanel1);
+            //    }
+            //}
+            //if (comboBox1.SelectedItem.ToString() == "Heap Sort")
+            //{
+            //    if (rbAsendente.Checked == true)
+            //    {
+            //        metodos.HeapSortAcendente(arreglo, flowLayoutPanel1);
+            //    }
+            //    if (rbDesendente.Checked == true)
+            //    {
+            //    }
+            //}
         }
 
         private int currentLineIndex = 0;
