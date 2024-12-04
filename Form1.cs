@@ -218,8 +218,31 @@ namespace ProyectoFinal
 
         private async void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            animacionTexto.Iniciar();
-            await Task.Delay(300); 
+
+            if (comboBox1.SelectedItem.ToString() == "Burbuja")
+            {
+                animacionTexto.Iniciar();
+                await Task.Delay(300);
+            }
+                animacionTexto.Iniciar();
+            await Task.Delay(300);
+
+            if (comboBox1.SelectedItem.ToString() == "Cubeta")
+            {
+                groupBox4.Visible = true;
+                LabelTam.Visible = true;
+                numericUpDown3.Visible = true;
+                Numcub.Visible = true;
+                numericUpDown4.Visible = true;
+            }
+            else
+            {
+                groupBox4.Visible = false;
+                LabelTam.Visible = false;
+                numericUpDown3.Visible = false;
+                Numcub.Visible = false;
+                numericUpDown4.Visible = false;
+            }
         }
 
         // Método asíncrono para animar las líneas de código
