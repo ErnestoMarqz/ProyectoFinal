@@ -25,7 +25,7 @@ namespace ProyectoFinal
             //poner el forms en el centro de la pantalla
             this.StartPosition = FormStartPosition.Manual;
             this.Location = new Point(250, 10); // Cambia a la posición deseada
-            animacionTexto = new AnimacionAlgoritmo();
+            animacionTexto = new AnimacionAlgoritmo(richTextBox2);
 
         }
 

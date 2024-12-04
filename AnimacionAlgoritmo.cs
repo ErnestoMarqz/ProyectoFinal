@@ -10,7 +10,8 @@ namespace ProyectoFinal
 {
     internal class AnimacionAlgoritmo
     {
-        private readonly string[] pasosAlgoritmo; // Pasos detallados del algoritmo
+        private readonly string[] pasosAlgoritmo, pasosAlgoritmoShell, pasosAlgoritmoInDirecta, pasosAlgoritmoQuickSort,
+            pasosAlgoritmoCubeta, pasosAlgoritmoRadixSort, pasosAlgoritmoInsercionBinaria, pasosAlgortimoHeapSort; // Pasos detallados del algoritmo
         private int pasoActual;
         private Timer textoTimer;
         private RichTextBox richTextBox;
@@ -163,23 +164,77 @@ namespace ProyectoFinal
 
         public AnimacionAlgoritmo (RichTextBox richTextBox)
         {
-            // Algoritmo de ordenamiento burbuja
-            pasosAlgoritmo = new string[]
-            {
-            "Inicio del bucle externo (i = 0 a n-1)",
-            "Inicio del bucle interno (j = 0 a n-i-1)",
-            "Comparar elementos adyacentes (arreglo[j] y arreglo[j+1])",
-            "Intercambiar si arreglo[j] > arreglo[j+1]",
-            "Finalizar iteración interna (incrementar j)",
-            "Verificar si hubo intercambios (optimización)",
-            "Finalizar si el arreglo ya está ordenado"
-            };
+
+            pasosAlgoritmoShell = new string[]
+    {
+        "Comienza con una secuencia de intervalos (gap) inicial",
+        "Realiza un ciclo mientras el gap sea mayor que 0",
+        "Para cada valor de j, compara los elementos con el gap",
+        "Si el elemento j es mayor que el elemento j - gap, intercámbialos",
+        "Reduce el gap (por lo general se divide por 2)",
+        "Repite hasta que el gap sea 1 y realiza la última pasada de comparación",
+        "El arreglo está ordenado cuando ya no se hacen intercambios"
+    };
+
+            pasosAlgoritmoInDirecta = new string[]
+    {
+        "Comienza con el segundo elemento del arreglo",
+        "Compara el elemento actual con los elementos anteriores",
+        "Si el elemento actual es menor que el anterior, intercámbialos",
+        "Continúa hacia atrás hasta encontrar el lugar correcto",
+        "Repite para cada elemento del arreglo",
+        "El arreglo estará ordenado cuando no haya más intercambios"
+    };
+
+            pasosAlgoritmoQuickSort = new string[]
+    {
+        "Elige un pivote (puede ser el primero, el último o el medio)",
+        "Divide el arreglo en dos partes: menor que el pivote y mayor que el pivote",
+        "Recursivamente ordena ambas partes",
+        "Cuando la partición es de tamaño 1, el arreglo está ordenado"
+    };
+
+            pasosAlgoritmoCubeta = new string[]
+    {
+        "Comienza con el segundo elemento del arreglo",
+        "Realiza una búsqueda binaria para encontrar la posición donde debe insertarse",
+        "Desplaza los elementos mayores para hacer espacio",
+        "Inserta el elemento en la posición encontrada",
+        "Repite el proceso para cada elemento del arreglo"
+    };
+
+            pasosAlgoritmoRadixSort = new string[]
+    {
+        "Encuentra el valor máximo en el arreglo para determinar el número de dígitos",
+        "Para cada dígito, realiza un ordenamiento por el dígito actual",
+        "Usa un algoritmo de ordenamiento estable (como el conteo) para ordenar por cada dígito",
+        "Repite para cada dígito (de menor a mayor orden de importancia)",
+        "Cuando todos los dígitos hayan sido ordenados, el arreglo estará completamente ordenado"
+    };
+
+            pasosAlgoritmoInsercionBinaria = new string[]
+    {
+        "Comienza con el segundo elemento del arreglo",
+        "Realiza una búsqueda binaria para encontrar la posición donde debe insertarse",
+        "Desplaza los elementos mayores para hacer espacio",
+        "Inserta el elemento en la posición encontrada",
+        "Repite el proceso para cada elemento del arreglo"
+    };
+
+            pasosAlgortimoHeapSort = new string[]
+    {
+        "Construye un heap máximo desde el arreglo",
+        "Intercambia el primer elemento (máximo) con el último",
+        "Reduce el tamaño del heap",
+        "Recursivamente ajusta el heap para restaurar la propiedad de heap máximo",
+        "Repite hasta que el heap esté vacío y el arreglo esté ordenado"
+    };
 
             this.richTextBox = richTextBox;
             textoTimer = new Timer();
         }
 
-        public void Iniciar()
+        public void IniciarShell()
         {
             // Muestra todo el texto del algoritmo
             MostrarAlgoritmoCompleto();
@@ -188,7 +243,139 @@ namespace ProyectoFinal
             textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
             textoTimer.Tick += (s, e) =>
             {
-                if (pasoActual < pasosAlgoritmo.Length)
+                if (pasoActual < pasosAlgoritmoShell.Length)
+                {
+                    ResaltarPaso(pasoActual);
+                    pasoActual++;
+                }
+                else
+                {
+                    textoTimer.Stop(); // Detener animación del texto al finalizar
+                }
+            };
+            textoTimer.Start();
+        }
+
+        public void Iniciar_Inserción_Directa()
+        {
+            // Muestra todo el texto del algoritmo
+            MostrarAlgoritmoCompleto();
+
+            pasoActual = 0;
+            textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
+            textoTimer.Tick += (s, e) =>
+            {
+                if (pasoActual < pasosAlgoritmoInDirecta.Length)
+                {
+                    ResaltarPaso(pasoActual);
+                    pasoActual++;
+                }
+                else
+                {
+                    textoTimer.Stop(); // Detener animación del texto al finalizar
+                }
+            };
+            textoTimer.Start();
+        }
+
+        public void IniciarQuickSort()
+        {
+            // Muestra todo el texto del algoritmo
+            MostrarAlgoritmoCompleto();
+
+            pasoActual = 0;
+            textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
+            textoTimer.Tick += (s, e) =>
+            {
+                if (pasoActual < pasosAlgoritmoQuickSort.Length)
+                {
+                    ResaltarPaso(pasoActual);
+                    pasoActual++;
+                }
+                else
+                {
+                    textoTimer.Stop(); // Detener animación del texto al finalizar
+                }
+            };
+            textoTimer.Start();
+        }
+
+        public void IniciarCubeta()
+        {
+            // Muestra todo el texto del algoritmo
+            MostrarAlgoritmoCompleto();
+
+            pasoActual = 0;
+            textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
+            textoTimer.Tick += (s, e) =>
+            {
+                if (pasoActual < pasosAlgoritmoCubeta.Length)
+                {
+                    ResaltarPaso(pasoActual);
+                    pasoActual++;
+                }
+                else
+                {
+                    textoTimer.Stop(); // Detener animación del texto al finalizar
+                }
+            };
+            textoTimer.Start();
+        }
+
+        public void IniciarRadixSort()
+        {
+            // Muestra todo el texto del algoritmo
+            MostrarAlgoritmoCompleto();
+
+            pasoActual = 0;
+            textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
+            textoTimer.Tick += (s, e) =>
+            {
+                if (pasoActual < pasosAlgoritmoRadixSort.Length)
+                {
+                    ResaltarPaso(pasoActual);
+                    pasoActual++;
+                }
+                else
+                {
+                    textoTimer.Stop(); // Detener animación del texto al finalizar
+                }
+            };
+            textoTimer.Start();
+        }
+
+        public void IniciarInsercionBinaria()
+        {
+            // Muestra todo el texto del algoritmo
+            MostrarAlgoritmoCompleto();
+
+            pasoActual = 0;
+            textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
+            textoTimer.Tick += (s, e) =>
+            {
+                if (pasoActual < pasosAlgoritmoInsercionBinaria.Length)
+                {
+                    ResaltarPaso(pasoActual);
+                    pasoActual++;
+                }
+                else
+                {
+                    textoTimer.Stop(); // Detener animación del texto al finalizar
+                }
+            };
+            textoTimer.Start();
+        }
+
+        public void IniciarHeapSort()
+        {
+            // Muestra todo el texto del algoritmo
+            MostrarAlgoritmoCompleto();
+
+            pasoActual = 0;
+            textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
+            textoTimer.Tick += (s, e) =>
+            {
+                if (pasoActual < pasosAlgoritmoInsercionBinaria.Length)
                 {
                     ResaltarPaso(pasoActual);
                     pasoActual++;
