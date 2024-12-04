@@ -46,11 +46,19 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
+            this.LabelTam = new System.Windows.Forms.Label();
+            this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
+            this.Numcub = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -282,6 +290,59 @@
             this.richTextBox2.TabIndex = 23;
             this.richTextBox2.Text = "";
             // 
+            // groupBox4
+            // 
+            this.groupBox4.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.groupBox4.Controls.Add(this.numericUpDown3);
+            this.groupBox4.Controls.Add(this.LabelTam);
+            this.groupBox4.Controls.Add(this.numericUpDown4);
+            this.groupBox4.Controls.Add(this.Numcub);
+            this.groupBox4.Location = new System.Drawing.Point(712, 726);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox4.Size = new System.Drawing.Size(224, 161);
+            this.groupBox4.TabIndex = 24;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Cubeta";
+            this.groupBox4.Visible = false;
+            // 
+            // numericUpDown3
+            // 
+            this.numericUpDown3.Location = new System.Drawing.Point(21, 48);
+            this.numericUpDown3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.numericUpDown3.Name = "numericUpDown3";
+            this.numericUpDown3.Size = new System.Drawing.Size(180, 26);
+            this.numericUpDown3.TabIndex = 23;
+            // 
+            // LabelTam
+            // 
+            this.LabelTam.AutoSize = true;
+            this.LabelTam.Location = new System.Drawing.Point(22, 84);
+            this.LabelTam.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LabelTam.Name = "LabelTam";
+            this.LabelTam.Size = new System.Drawing.Size(178, 20);
+            this.LabelTam.TabIndex = 24;
+            this.LabelTam.Text = "Tamaño de las cubetas:";
+            // 
+            // numericUpDown4
+            // 
+            this.numericUpDown4.Location = new System.Drawing.Point(21, 108);
+            this.numericUpDown4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.numericUpDown4.Name = "numericUpDown4";
+            this.numericUpDown4.Size = new System.Drawing.Size(180, 26);
+            this.numericUpDown4.TabIndex = 23;
+            // 
+            // Numcub
+            // 
+            this.Numcub.AutoSize = true;
+            this.Numcub.Location = new System.Drawing.Point(22, 26);
+            this.Numcub.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Numcub.Name = "Numcub";
+            this.Numcub.Size = new System.Drawing.Size(152, 20);
+            this.Numcub.TabIndex = 24;
+            this.Numcub.Text = "Numero de cubetas:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -289,6 +350,7 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Salmon;
             this.ClientSize = new System.Drawing.Size(1425, 939);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.richTextBox2);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -309,6 +371,10 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -333,6 +399,11 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.RichTextBox richTextBox2;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.NumericUpDown numericUpDown3;
+        private System.Windows.Forms.Label LabelTam;
+        private System.Windows.Forms.NumericUpDown numericUpDown4;
+        private System.Windows.Forms.Label Numcub;
     }
 }
 
