@@ -11,7 +11,7 @@ namespace ProyectoFinal
     internal class AnimacionAlgoritmo
     {
         private readonly string[] pasosAlgoritmo, pasosAlgoritmoShell, pasosAlgoritmoInDirecta, pasosAlgoritmoQuickSort,
-            pasosAlgoritmoCubetaAsc, pasosAlgoritmoCubetasDes, pasosAlgoritmoRadixSortAsc, pasosAlgoritmoRadixSortDes, pasosAlgoritmoInsercionBinaria, pasosAlgortimoHeapSort,pasosAlgoritmoBaraja; // Pasos detallados del algoritmo
+            pasosAlgoritmoCubetaAsc, pasosAlgoritmoCubetasDes, pasosAlgoritmoRadixSortAsc, pasosAlgoritmoRadixSortDes, pasosAlgoritmoInsercionBinaria, pasosAlgortimoHeapSort, AlgoritmoHeapSortDescendente, pasosAlgoritmoBaraja, AlgoritmoBarajaDescendente; // Pasos detallados del algoritmo
         private int pasoActual;
         private Timer textoTimer;
         private RichTextBox richTextBox;
@@ -224,17 +224,18 @@ namespace ProyectoFinal
 
     };
             pasosAlgoritmoCubetasDes = new string[]
+          {
 
-        "{,
+        "{",
             "if (arr.Length == 0) return;",
-           
+
            "List<List<int>> buckets = new List<List<int>>(bucketCount);" ,
-            "for (int i = 0; i < bucketCount; i++),
+            "for (int i = 0; i < bucketCount; i++)",
             "{",
                 "buckets.Add(new List<int>());",
             "}",
 
-            "foreach (int num in arr),
+            "foreach (int num in arr)",
             "{",
                 "int bucketIndex = num * bucketCount / (arr.Max() + 1);",
                 "buckets[bucketIndex].Add(num);",
@@ -248,18 +249,14 @@ namespace ProyectoFinal
                 "foreach (var num in bucket)",
                 "{",
                     "arr[index++] = num;",
-                "}"
+                "}",
             "}",
-        "}",
-
-    { 
-            
-    }
+        };
 
             pasosAlgoritmoRadixSortAsc = new string[]
     {
         "{    ",
-            "int max = arr.Max();"
+            "int max = arr.Max();",
                 "for (int exp = 1;max / exp > 0; exp *= 10)    ",
                 "{",
                     "CountingSort(arr, exp);",
@@ -289,7 +286,7 @@ namespace ProyectoFinal
             pasosAlgoritmoRadixSortDes = new string[]
     {
             "{",
-                "int max = arr.Max();,
+                "int max = arr.Max();",
                 "for (int exp = 1; max / exp > 0; exp *= 10)",
                 "{",
                     "CountingSortDescendente(arr, exp);",
@@ -317,7 +314,7 @@ namespace ProyectoFinal
                 "}",
 
                 "for (int i = 0; i < n; i++)",
-                    "arr[i] = output[i];"
+                    "arr[i] = output[i];",
             "}",
     };
 
@@ -393,6 +390,69 @@ namespace ProyectoFinal
           
                 };
 
+            AlgoritmoHeapSortDescendente = new string[]
+        {
+        "public void HeapSortDescendente(int N, int[] A)",
+            "{",
+                "for (int I = 1; I < N; I++)",
+                "{",
+                    "int K = I + 1;",
+                    "bool BAND = true;",
+
+                    "while (K > 1 && BAND)",
+                    "{",
+                        "BAND = false;",
+                        "int padre = (K - 1) / 2;",
+
+                        "if (A[K - 1] < A[padre])",
+                        "{",
+                            "int AUX = A[padre];",
+                            "A[padre] = A[K - 1];",
+                           " A[K - 1] = AUX;",
+
+                            "K = padre + 1;",
+                            "BAND = true;",
+                        "}",
+                    "}",
+                "}",
+                "for (int I = N - 1; I >= 1; I--)",
+                "{",
+                    "int AUX = A[I];",
+                    "A[I] = A[0];",
+                    "int IZQ = 1, DER = 2, K = 0;",
+                    "bool BOOL = true;",
+
+                    "while ((IZQ < I) && (BOOL == true))",
+                    "{",
+                        "int MAYOR = A[IZQ];",
+                        "int AP = IZQ;",
+
+                        "if ((DER < I) && (MAYOR < A[DER]))",
+                        "{",
+                            "MAYOR = A[DER];",
+                            "AP = DER;",
+                        "}",
+
+                        "if (AUX > MAYOR)",
+                        "{",
+                           " A[K] = A[AP];",
+                            "K = AP;",
+                        "}",
+                        "else",
+                        "{",
+                            "BOOL = false;",
+                        "}",
+
+                        "IZQ = 2 * K + 1;",
+                        "DER = IZQ + 1;",
+                    "}",
+
+                    "A[K] = AUX;",
+                "}",
+            "}",
+
+            };
+
             pasosAlgoritmoBaraja = new string[]
     {
             "int N = A.Length;",
@@ -408,6 +468,23 @@ namespace ProyectoFinal
                 "}",
                 "A[K + 1] = AUX;",
             "}"
+        };
+            AlgoritmoBarajaDescendente = new string[]
+    {
+        "int N = A.Length;",
+            "for (int I = 1; I < N; I++)",
+            "{",
+                "int AUX = A[I];",
+                "int K = I - 1;",
+
+                "while (K >= 0 && AUX > A[K])",
+                "{",
+                    "A[K + 1] = A[K];",
+                    "K--;",
+                "}",
+
+               " A[K + 1] = AUX;",
+            "}",
         };
 
 
@@ -490,15 +567,15 @@ namespace ProyectoFinal
             textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
             textoTimer.Tick += (s, e) =>
             {
-                if (pasoActual < pasosAlgoritmoCubeta.Length)
-                {
-                    ResaltarPaso(pasoActual);
-                    pasoActual++;
-                }
-                else
-                {
-                    textoTimer.Stop(); // Detener animación del texto al finalizar
-                }
+                //if (pasoActual < pasosAlgoritmoCubeta.Length)
+                //{
+                //    ResaltarPaso(pasoActual);
+                //    pasoActual++;
+                //}
+                //else
+                //{
+                //    textoTimer.Stop(); // Detener animación del texto al finalizar
+                //}
             };
             textoTimer.Start();
         }
@@ -512,15 +589,15 @@ namespace ProyectoFinal
             textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
             textoTimer.Tick += (s, e) =>
             {
-                if (pasoActual < pasosAlgoritmoRadixSort.Length)
-                {
-                    ResaltarPaso(pasoActual);
-                    pasoActual++;
-                }
-                else
-                {
-                    textoTimer.Stop(); // Detener animación del texto al finalizar
-                }
+                //if (pasoActual < pasosAlgoritmoRadixSort.Length)
+                //{
+                //    ResaltarPaso(pasoActual);
+                //    pasoActual++;
+                //}
+                //else
+                //{
+                //    textoTimer.Stop(); // Detener animación del texto al finalizar
+                //}
             };
             textoTimer.Start();
         }
