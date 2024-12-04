@@ -180,6 +180,38 @@ namespace ProyectoFinal
                 await metodos.OrdenarInsercionBinariaConAnimacion(flowLayoutPanel1, arreglo, ascendente);
 
             }
+
+            if (comboBox1.SelectedItem.ToString() == "Cubeta")
+            {
+                if (rbAsendente.Checked == true)
+                {
+                    //metodos.BucketSortAscendente(arreglo,flowLayoutPanel1,richTextBox1);
+                    metodos.BucketSortAscendente(arreglo, flowLayoutPanel1, (int)numericUpDown3.Value, (int)numericUpDown4.Value);
+                    richTextBox1.Visible = false;
+                }
+                if (rbDesendente.Checked == true)
+                {
+                    metodos.BucketSortDescendente(arreglo, flowLayoutPanel1, (int)numericUpDown3.Value, (int)numericUpDown4.Value);
+                    //metodos.BucketSortDescendente2(arreglo, flowLayoutPanel1, (int)numericUpDown3.Value,(int)numericUpDown4.Value);
+                    richTextBox1.Visible = false;
+                }
+            }
+            if (comboBox1.SelectedItem.ToString() == "Radix Sort")
+            {
+                if (rbAsendente.Checked == true)
+                {
+                    metodos.RadixSort(arreglo, flowLayoutPanel1, richTextBox1);
+                    //richTextBox1.Visible = false;
+                    //richTextBox1.Text = string.Empty;
+                }
+                if (rbDesendente.Checked == true)
+                {
+                    metodos.RadixSortDescendente(arreglo, flowLayoutPanel1, richTextBox1);
+                    //richTextBox1.Visible = false;
+                    //richTextBox1.Text = string.Empty;
+                }
+
+            }
         }
 
         private int currentLineIndex = 0;
