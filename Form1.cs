@@ -87,77 +87,20 @@ namespace ProyectoFinal
                 // Llamar al método de ordenamiento
                // metodos.OrdenarBurbujaConAnimacion(flowLayoutPanel1, ascendente);
             }
-            if(comboBox1.SelectedItem.ToString() == "Baraja")
-            {
-                if(rbAsendente.Checked == true)
-                {
-                    metodos.BarajaAcendnete(arreglo, flowLayoutPanel1);
-                }
-                else
-                {
-                    metodos.BarajaDescendente(arreglo, flowLayoutPanel1);
-                }
-            }
-            if (comboBox1.SelectedItem.ToString() == "Shell")
-            {
-                if (rbAsendente.Checked == true)
-                {
-                    metodos.ShellAsendente(arreglo, flowLayoutPanel1);
-                }
-                if (rbDesendente.Checked == true)
-                {
-                    metodos.ShellDescendente(arreglo, flowLayoutPanel1);
-                }
-            }
-            if (comboBox1.SelectedItem.ToString() == "Inter. Directa") 
-            {
-                if (rbAsendente.Checked == true)
-                {
-                    metodos.IntercalacionDirectaAscendente(arreglo, flowLayoutPanel1);
-                }
-                if (rbDesendente.Checked == true)
-                {
-                    metodos.IntercalacionDirectaDescendente(arreglo, flowLayoutPanel1);
-                }
-            }
-            if (comboBox1.SelectedItem.ToString() == "Quick Sort") 
-            {
-                if (rbAsendente.Checked == true) 
-                {
-                    metodos.QuicksortAscendente(arreglo, flowLayoutPanel1);
-                }
-                if (rbDesendente.Checked == true)
-                {
-                    metodos.QuicksortDescendente(arreglo, flowLayoutPanel1);
-                }
-            }
-            if (comboBox1.SelectedItem.ToString() == "Heap Sort")
-            {
-                if (rbAsendente.Checked == true)
-                {
-                    metodos.HeapSortAcendente(arreglo, flowLayoutPanel1);
-                }
-                if (rbDesendente.Checked == true)
-                {
-                }
-            }
+           
             if (comboBox1.SelectedItem.ToString() == "Cubeta")
             {
                 if (rbAsendente.Checked == true)
                 {
                     //metodos.BucketSortAscendente(arreglo,flowLayoutPanel1,richTextBox1);
-                    metodos.BucketSortAcendente(arreglo, flowLayoutPanel1, (int)numericUpDown3.Value,(int)numericUpDown4.Value);
+                    metodos.BucketSortAscendente(arreglo, flowLayoutPanel1, (int)numericUpDown3.Value,(int)numericUpDown4.Value);
                     richTextBox1.Visible = false;
-                    LabelTam.Visible = false;
-                    Numcub.Visible = false;
                 }
                 if (rbDesendente.Checked == true)
                 {
                     metodos.BucketSortDescendente(arreglo, flowLayoutPanel1, (int)numericUpDown3.Value, (int)numericUpDown4.Value);
                     //metodos.BucketSortDescendente2(arreglo, flowLayoutPanel1, (int)numericUpDown3.Value,(int)numericUpDown4.Value);
                     richTextBox1.Visible = false;
-                    LabelTam.Visible = false;
-                    Numcub.Visible = false;
                 }
             }
             if (comboBox1.SelectedItem.ToString() == "Radix Sort")
@@ -182,6 +125,7 @@ namespace ProyectoFinal
         {
             if (comboBox1.SelectedItem.ToString() == "Cubeta")
             {
+                groupBox4.Visible = true;
                 LabelTam.Visible = true;
                 numericUpDown3.Visible = true;
                 Numcub.Visible = true;
@@ -189,6 +133,7 @@ namespace ProyectoFinal
             }
             else
             {
+                groupBox4.Visible = false;
                 LabelTam.Visible = false;
                 numericUpDown3.Visible = false;
                 Numcub.Visible = false;
