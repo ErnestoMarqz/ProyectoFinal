@@ -246,13 +246,7 @@ namespace ProyectoFinal
                        " }",
                    " }",
                 "}",
-               " EliminarMonticulo(A, N);",
-            "}",
-
-
-            "EliminarMonticulo(int[] A, int N)",
-                "{",
-                "for (int I = N - 1; I >= 1; I--)",
+               "for (int I = N - 1; I >= 1; I--)",
                " {",
                    " int AUX = A[I];",
                     "A[I] = A[0];",
@@ -287,6 +281,7 @@ namespace ProyectoFinal
                    " A[K] = AUX;",
                 "}",
             "}",
+          
                 };
 
             pasosAlgoritmoCubeta = new string[]
