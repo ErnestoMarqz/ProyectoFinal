@@ -163,37 +163,133 @@ namespace ProyectoFinal
 
 
 
-        public AnimacionAlgoritmo (RichTextBox richTextBox)
+        public AnimacionAlgoritmo(RichTextBox richTextBox)
         {
 
             pasosAlgoritmoShell = new string[]
     {
-        "Comienza con una secuencia de intervalos (gap) inicial",
-        "Realiza un ciclo mientras el gap sea mayor que 0",
-        "Para cada valor de j, compara los elementos con el gap",
-        "Si el elemento j es mayor que el elemento j - gap, intercámbialos",
-        "Reduce el gap (por lo general se divide por 2)",
-        "Repite hasta que el gap sea 1 y realiza la última pasada de comparación",
-        "El arreglo está ordenado cuando ya no se hacen intercambios"
-    };
+            "{",
+
+                "while (intervalo > 0)",
+                "{",
+                    "for (int i = intervalo; i < n; i++)",
+                    "{",
+                        "int j = i;",
+
+                        "while (j >= intervalo)",
+                        "{",
+                           "Panel cuadroA = parent.Controls[j - intervalo] as Panel;",
+                            "Panel cuadroB = parent.Controls[j] as Panel;",
+
+                            "if (cuadroA == null || cuadroB == null) break;",
+
+                            "int valorA = int.Parse((cuadroA.Controls[0] as Label).Text);",
+                            "int valorB = int.Parse((cuadroB.Controls[0] as Label).Text);",
+
+                            "bool intercambiar = ascendente ? valorA > valorB : valorA < valorB;",
+                            "if (intercambiar)",
+                            "{",
+                                "parent.Controls.SetChildIndex(cuadroB, j - intervalo);",
+                                "parent.Controls.SetChildIndex(cuadroA, j);",
+                            "}",
+
+                            "j -= intervalo;",
+                        "}",
+                    "}",
+
+                    "intervalo /= 2;",
+                "}",
+            "}"
+        };
 
             pasosAlgoritmoInDirecta = new string[]
     {
-        "Comienza con el segundo elemento del arreglo",
-        "Compara el elemento actual con los elementos anteriores",
-        "Si el elemento actual es menor que el anterior, intercámbialos",
-        "Continúa hacia atrás hasta encontrar el lugar correcto",
-        "Repite para cada elemento del arreglo",
-        "El arreglo estará ordenado cuando no haya más intercambios"
-    };
+         "InsertionDirecta(int[] A, FlowLayoutPanel panel)",
+            "{",
+                "int N = A.Length;",
+
+                "if (panel.Controls.Count != N)",
+                "{",
+                    "throw new InvalidOperationException(El número de cuadros no coincide con el tamaño del arreglo.);",
+                "}",
+
+                "for (int i = 1; i < N; i++)",
+                "{",
+                    "int AUX = A[i];",
+                    "int j = i - 1; ",
+
+                    "while (j >= 0 && A[j] > AUX)",
+                    "{",
+                        "A[j + 1] = A[j];",
+
+                        "Panel cuadro = panel.Controls[j + 1] as Panel;",
+                        "if (cuadro != null)",
+                        "{",
+                            "Label label = cuadro.Controls[0] as Label;",
+                            "if (label != null)",
+                            "{",
+                                "label.Text = A[j].ToString();",
+                            "}",
+                        "}",
+
+                        "j--;",
+                    "}",
+
+                    "A[j + 1] = AUX;",
+
+                    "Panel cuadroInsertado = panel.Controls[j + 1] as Panel;",
+                    "if (cuadroInsertado != null)",
+                    "{",
+                        "Label label = cuadroInsertado.Controls[0] as Label;",
+                        "if (label != null)",
+                        "{",
+                            "label.Text = AUX.ToString();",
+                        "}",
+                    "}",
+                "}",
+            "}",
+
+        };
 
             pasosAlgoritmoQuickSort = new string[]
     {
-        "Elige un pivote (puede ser el primero, el último o el medio)",
-        "Divide el arreglo en dos partes: menor que el pivote y mayor que el pivote",
-        "Recursivamente ordena ambas partes",
-        "Cuando la partición es de tamaño 1, el arreglo está ordenado"
-    };
+            "{",
+                "if (panel.Controls.Count != A.Length)",
+                    "throw new InvalidOperationException(El número de cuadros no coincide con el tamaño del arreglo.);",
+
+                "if (low < high)",
+               "{",
+                    "int pivot = A[high];",
+                    "int i = low - 1;",
+
+                    "for (int j = low; j < high; j++)",
+                    "{",
+                        "if (A[j] < pivot) // Cambiar lógica para ascendente",
+                        "{",
+                            "i++;",
+                            "(A[i], A[j]) = (A[j], A[i]);",
+
+                            "var labelI = panel.Controls[i]?.Controls[0] as Label;",
+                            "var labelJ = panel.Controls[j]?.Controls[0] as Label;",
+                            "if (labelI != null && labelJ != null)",
+                                "(labelI.Text, labelJ.Text) = (labelJ.Text, labelI.Text);",
+                        "}",
+                    "}",
+
+                    "(A[i + 1], A[high]) = (A[high], A[i + 1]);",
+                    "var labelPivot = panel.Controls[i + 1]?.Controls[0] as Label;",
+                    "var labelHigh = panel.Controls[high]?.Controls[0] as Label;",
+                    "if (labelPivot != null && labelHigh != null)",
+                        "(labelPivot.Text, labelHigh.Text) = (labelHigh.Text, labelPivot.Text);",
+
+                    "int partitionIndex = i + 1;",
+
+                    "QuicksortAscendente(A, panel, low, partitionIndex - 1);",
+                    "QuicksortAscendente(A, panel, partitionIndex + 1, high);",
+                "}",
+            "};"
+
+        };
 
             pasosAlgoritmoCubetaAsc = new string[]
     {
