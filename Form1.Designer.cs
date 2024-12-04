@@ -51,6 +51,7 @@
             this.LabelTam = new System.Windows.Forms.Label();
             this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
             this.Numcub = new System.Windows.Forms.Label();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
@@ -221,7 +222,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1198, 888);
+            this.button1.Location = new System.Drawing.Point(1405, 860);
             this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(165, 35);
@@ -237,7 +238,7 @@
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1425, 529);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1699, 529);
             this.flowLayoutPanel1.TabIndex = 9;
             // 
             // numericUpDown2
@@ -343,13 +344,23 @@
             this.Numcub.TabIndex = 24;
             this.Numcub.Text = "Numero de cubetas:";
             // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(1405, 555);
+            this.richTextBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(170, 295);
+            this.richTextBox1.TabIndex = 25;
+            this.richTextBox1.Text = "";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Salmon;
-            this.ClientSize = new System.Drawing.Size(1425, 939);
+            this.ClientSize = new System.Drawing.Size(1699, 939);
+            this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.richTextBox2);
             this.Controls.Add(this.groupBox3);
@@ -404,6 +415,7 @@
         private System.Windows.Forms.Label LabelTam;
         private System.Windows.Forms.NumericUpDown numericUpDown4;
         private System.Windows.Forms.Label Numcub;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }
 
