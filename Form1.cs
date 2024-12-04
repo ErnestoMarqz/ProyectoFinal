@@ -235,7 +235,7 @@ namespace ProyectoFinal
                 Numcub.Visible = true;
                 numericUpDown4.Visible = true;
             }
-            else
+            if (comboBox1.SelectedItem.ToString() != "Cubeta")
             {
                 groupBox4.Visible = false;
                 LabelTam.Visible = false;
