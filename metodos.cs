@@ -10,71 +10,7 @@ namespace ProyectoFinal
 {
     internal class Metodos
     {
-        public async Task BuscarAnimado(FlowLayoutPanel parent, int valorBuscado)
-        {
-            // Validar que hay cuadros en el panel
-            if (parent.Controls.Count == 0)
-            {
-                MessageBox.Show("No hay elementos en el panel.");
-                return;
-            }
-
-            int inicio = 0;
-            int fin = parent.Controls.Count - 1;
-
-            while (inicio <= fin)
-            {
-                // Calcular el índice medio
-                int medio = (inicio + fin) / 2;
-
-                // Obtener el cuadro actual
-                Panel cuadroMedio = parent.Controls[medio] as Panel;
-                if (cuadroMedio == null) return;
-
-                // Obtener el valor del cuadro
-                int valorMedio = int.Parse((cuadroMedio.Controls[0] as Label).Text);
-
-                // Resaltar en amarillo el cuadro actual
-                cuadroMedio.BackColor = Color.Yellow;
-                cuadroMedio.Refresh();
-                await Task.Delay(500);
-
-                // Comparar valores
-                if (valorMedio == valorBuscado)
-                {
-                    // Resaltar en verde si el valor coincide
-                    cuadroMedio.BackColor = Color.Green;
-                    cuadroMedio.Refresh();
-
-                    // Mostrar mensaje con el índice
-                    MessageBox.Show($"Número encontrado en el índice {medio}.");
-                    return;
-                }
-                else
-                {
-                    // Resaltar en rojo si no coincide
-                    cuadroMedio.BackColor = Color.Red;
-                    cuadroMedio.Refresh();
-                    await Task.Delay(500);
-                    cuadroMedio.BackColor = Color.Black;
-                    cuadroMedio.Refresh();
-                }
-
-                // Ajustar límites de búsqueda (no aplicable para arreglos no ordenados)
-                if (valorBuscado < valorMedio)
-                {
-                    fin = medio - 1;
-                }
-                else
-                {
-                    inicio = medio + 1;
-                }
-            }
-
-            // Si no se encuentra el número
-            MessageBox.Show("El número no se encuentra en la lista.");
-
-        }
+      
         public async Task OrdenarInsercionBinariaConAnimacion(FlowLayoutPanel parent, bool ascendente)
         {
             int n = parent.Controls.Count;

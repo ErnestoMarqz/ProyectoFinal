@@ -263,7 +263,7 @@ namespace ProyectoFinal
 
         private async void button4_Click(object sender, EventArgs e)
         {
-            if (arreglo == null || arreglo.Length == 0)
+            if (flowLayoutPanel1.Controls.Count == 0)
             {
                 MessageBox.Show("Primero genera una lista de números.", "Advertencia");
                 return;
@@ -273,7 +273,7 @@ namespace ProyectoFinal
             if (int.TryParse(numericUpDown2.Text, out int numeroBuscar))
             {
                 // Llamar al método de búsqueda
-                int indice = await BuscarNumeroConAnimacion(flowLayoutPanel1, arreglo, numeroBuscar);
+                int indice = await BuscarNumeroConAnimacion(flowLayoutPanel1, numeroBuscar);
 
                 // Si no se encontró el número
                 if (indice == -1)
@@ -286,78 +286,89 @@ namespace ProyectoFinal
                 MessageBox.Show("Por favor, ingresa un número válido para buscar.", "Error");
             }
         }
-        private async Task<int> BuscarNumeroConAnimacion(FlowLayoutPanel parent, int[] arreglo, int objetivo)
+        private async Task<int> BuscarNumeroConAnimacion(FlowLayoutPanel parent, int valorBuscado)
         {
-            // Validar que el arreglo esté asociado al panel correctamente
-            if (parent.Controls.Count != arreglo.Length)
+            int totalElementos = parent.Controls.Count;
+
+            if (totalElementos == 0)
             {
-                MessageBox.Show("El número de elementos en el panel no coincide con el arreglo.", "Error");
+                MessageBox.Show("El panel está vacío. No hay elementos para buscar.", "Advertencia");
                 return -1;
             }
 
-            int centro = arreglo.Length / 2;
+            // Calcular el índice del centro
+            int centro = totalElementos / 2;
 
-            // Iniciar búsqueda desde el centro
+            // Variables para moverse hacia los extremos
             int izquierda = centro - 1;
             int derecha = centro + 1;
 
-            while (izquierda >= 0 || derecha < arreglo.Length)
+            // Revisar el elemento central primero
+            if (await RevisarIndiceConAnimacion(parent, centro, valorBuscado))
             {
-                // Buscar primero en el centro
-                if (await RevisarIndiceConAnimacion(parent, arreglo, centro, objetivo))
-                {
-                    return centro;
-                }
+                return centro;
+            }
 
-                // Luego buscar hacia la izquierda
-                if (izquierda >= 0 && await RevisarIndiceConAnimacion(parent, arreglo, izquierda, objetivo))
+            // Recorrer izquierda y derecha
+            while (izquierda >= 0 || derecha < totalElementos)
+            {
+                // Revisar a la izquierda
+                if (izquierda >= 0 && await RevisarIndiceConAnimacion(parent, izquierda, valorBuscado))
                 {
                     return izquierda;
                 }
 
-                // Y finalmente hacia la derecha
-                if (derecha < arreglo.Length && await RevisarIndiceConAnimacion(parent, arreglo, derecha, objetivo))
+                // Revisar a la derecha
+                if (derecha < totalElementos && await RevisarIndiceConAnimacion(parent, derecha, valorBuscado))
                 {
                     return derecha;
                 }
 
-                // Avanzar los índices
+                // Avanzar hacia los extremos
                 izquierda--;
                 derecha++;
             }
 
-            // Si no se encontró el número
-            MessageBox.Show($"El número {objetivo} no fue encontrado.", "Resultado");
+            // Si no se encuentra el número
+            MessageBox.Show($"El número {valorBuscado} no fue encontrado.", "Resultado");
             return -1;
         }
 
-        // Método auxiliar para revisar un índice con animación
-        private async Task<bool> RevisarIndiceConAnimacion(FlowLayoutPanel parent, int[] arreglo, int indice, int objetivo)
+        // Método auxiliar para revisar un índice y realizar animación
+        private async Task<bool> RevisarIndiceConAnimacion(FlowLayoutPanel parent, int indice, int valorBuscado)
         {
-            // Obtener el cuadro y verificar si coincide
+            if (indice < 0 || indice >= parent.Controls.Count) return false;
+
+            // Obtener el cuadro en el índice actual
             Panel cuadro = parent.Controls[indice] as Panel;
             if (cuadro == null) return false;
 
-            cuadro.BackColor = Color.Yellow; // Resaltar el cuadro
+            // Obtener el valor visual del cuadro
+            int valorActual = int.Parse((cuadro.Controls[0] as Label).Text);
+
+            // Resaltar el cuadro actual
+            cuadro.BackColor = Color.Yellow;
             cuadro.Refresh();
             await Task.Delay(500);
 
-            if (arreglo[indice] == objetivo)
+            if (valorActual == valorBuscado)
             {
-                cuadro.BackColor = Color.Green; // Resaltar en verde si coincide
+                // Resaltar en verde si coincide
+                cuadro.BackColor = Color.Green;
                 cuadro.Refresh();
                 await Task.Delay(500);
 
-                MessageBox.Show($"Número {objetivo} encontrado en el índice {indice}.", "Resultado");
+                MessageBox.Show($"Número {valorBuscado} encontrado en el índice {indice}.", "Resultado");
                 return true;
             }
             else
             {
-                cuadro.BackColor = Color.Red; // Resaltar en rojo si no coincide
+                // Resaltar en rojo si no coincide
+                cuadro.BackColor = Color.Red;
                 cuadro.Refresh();
                 await Task.Delay(500);
 
-                cuadro.BackColor = Color.Black; // Restaurar color original
+                cuadro.BackColor = Color.Black; // Restaurar el color original
                 cuadro.Refresh();
                 return false;
             }
