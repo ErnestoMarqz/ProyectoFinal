@@ -11,7 +11,7 @@ namespace ProyectoFinal
     internal class Metodos
     {
 
-        public async Task OrdenarInsercionBinariaConAnimacion(FlowLayoutPanel parent, bool ascendente)
+        public async Task OrdenarInsercionBinariaConAnimacion(FlowLayoutPanel parent, int[] arreglo, bool ascendente)
         {
             int n = parent.Controls.Count;
 
@@ -21,18 +21,27 @@ namespace ProyectoFinal
                 Panel cuadroActual = parent.Controls[i] as Panel;
                 int valorActual = int.Parse((cuadroActual.Controls[0] as Label).Text);
 
-                // Buscar la posición correcta usando búsqueda binaria
-                int posicion = await BuscarPosicionBinariaAnimada(parent, valorActual, 0, i - 1, ascendente);
+                // Buscar la posición correcta en el arreglo usando búsqueda binaria
+                int posicion = await BuscarPosicionBinariaAnimada(parent, arreglo, valorActual, 0, i - 1, ascendente);
 
-                // Mover el cuadro actual a la posición encontrada
+                // Mover el cuadro visualmente y actualizar el arreglo lógico
                 if (posicion < i)
                 {
+                    // Actualizar el arreglo lógico moviendo los elementos
+                    int temp = arreglo[i];
+                    for (int j = i; j > posicion; j--)
+                    {
+                        arreglo[j] = arreglo[j - 1];
+                    }
+                    arreglo[posicion] = temp;
+
+                    // Mover los cuadros visualmente
                     await MoverCuadroConIntercambio(parent, i, posicion);
                 }
             }
         }
 
-        private async Task<int> BuscarPosicionBinariaAnimada(FlowLayoutPanel parent, int valor, int inicio, int fin, bool ascendente)
+        private async Task<int> BuscarPosicionBinariaAnimada(FlowLayoutPanel parent, int[] arreglo, int valor, int inicio, int fin, bool ascendente)
         {
             while (inicio <= fin)
             {
@@ -40,7 +49,7 @@ namespace ProyectoFinal
 
                 // Comparar con el cuadro en la posición `medio`
                 Panel cuadroMedio = parent.Controls[medio] as Panel;
-                int valorMedio = int.Parse((cuadroMedio.Controls[0] as Label).Text);
+                int valorMedio = arreglo[medio];
 
                 // Resaltar los cuadros comparados
                 cuadroMedio.BackColor = Color.Yellow;
