@@ -558,7 +558,7 @@ namespace ProyectoFinal
             textoTimer.Start();
         }
 
-        public void IniciarCubeta()
+        public void IniciarCubetaAsc()
         {
             // Muestra todo el texto del algoritmo
             MostrarAlgoritmoCompleto();
@@ -567,20 +567,20 @@ namespace ProyectoFinal
             textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
             textoTimer.Tick += (s, e) =>
             {
-                //if (pasoActual < pasosAlgoritmoCubeta.Length)
-                //{
-                //    ResaltarPaso(pasoActual);
-                //    pasoActual++;
-                //}
-                //else
-                //{
-                //    textoTimer.Stop(); // Detener animación del texto al finalizar
-                //}
+                if (pasoActual < pasosAlgoritmoCubetaAsc.Length)
+                {
+                    ResaltarPaso(pasoActual);
+                    pasoActual++;
+                }
+                else
+                {
+                    textoTimer.Stop(); // Detener animación del texto al finalizar
+                }
             };
             textoTimer.Start();
         }
 
-        public void IniciarRadixSort()
+        public void IniciarCubetasDes()
         {
             // Muestra todo el texto del algoritmo
             MostrarAlgoritmoCompleto();
@@ -589,15 +589,59 @@ namespace ProyectoFinal
             textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
             textoTimer.Tick += (s, e) =>
             {
-                //if (pasoActual < pasosAlgoritmoRadixSort.Length)
-                //{
-                //    ResaltarPaso(pasoActual);
-                //    pasoActual++;
-                //}
-                //else
-                //{
-                //    textoTimer.Stop(); // Detener animación del texto al finalizar
-                //}
+                if (pasoActual < pasosAlgoritmoCubetasDes.Length)
+                {
+                    ResaltarPaso(pasoActual);
+                    pasoActual++;
+                }
+                else
+                {
+                    textoTimer.Stop(); // Detener animación del texto al finalizar
+                }
+            };
+            textoTimer.Start();
+        }
+
+        public void IniciarRadixSortAsc()
+        {
+            // Muestra todo el texto del algoritmo
+            MostrarAlgoritmoCompleto();
+
+            pasoActual = 0;
+            textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
+            textoTimer.Tick += (s, e) =>
+            {
+                if (pasoActual < pasosAlgoritmoRadixSortAsc.Length)
+                {
+                    ResaltarPaso(pasoActual);
+                    pasoActual++;
+                }
+                else
+                {
+                    textoTimer.Stop(); // Detener animación del texto al finalizar
+                }
+            };
+            textoTimer.Start();
+        }
+
+        public void IniciarRadixSortDes()
+        {
+            // Muestra todo el texto del algoritmo
+            MostrarAlgoritmoCompleto();
+
+            pasoActual = 0;
+            textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
+            textoTimer.Tick += (s, e) =>
+            {
+                if (pasoActual < pasosAlgoritmoRadixSortDes.Length)
+                {
+                    ResaltarPaso(pasoActual);
+                    pasoActual++;
+                }
+                else
+                {
+                    textoTimer.Stop(); // Detener animación del texto al finalizar
+                }
             };
             textoTimer.Start();
         }
@@ -624,7 +668,7 @@ namespace ProyectoFinal
             textoTimer.Start();
         }
 
-        public void IniciarHeapSort()
+        public void IniciarHeapSortAsc()
         {
             // Muestra todo el texto del algoritmo
             MostrarAlgoritmoCompleto();
@@ -633,7 +677,73 @@ namespace ProyectoFinal
             textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
             textoTimer.Tick += (s, e) =>
             {
-                if (pasoActual < pasosAlgoritmoInsercionBinaria.Length)
+                if (pasoActual < pasosAlgortimoHeapSort.Length)
+                {
+                    ResaltarPaso(pasoActual);
+                    pasoActual++;
+                }
+                else
+                {
+                    textoTimer.Stop(); // Detener animación del texto al finalizar
+                }
+            };
+            textoTimer.Start();
+        }
+
+        public void IniciarHeapSortDes()
+        {
+            // Muestra todo el texto del algoritmo
+            MostrarAlgoritmoCompleto();
+
+            pasoActual = 0;
+            textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
+            textoTimer.Tick += (s, e) =>
+            {
+                if (pasoActual < AlgoritmoHeapSortDescendente.Length)
+                {
+                    ResaltarPaso(pasoActual);
+                    pasoActual++;
+                }
+                else
+                {
+                    textoTimer.Stop(); // Detener animación del texto al finalizar
+                }
+            };
+            textoTimer.Start();
+        }
+
+        public void BarajaAsc()
+        {
+            // Muestra todo el texto del algoritmo
+            MostrarAlgoritmoCompleto();
+
+            pasoActual = 0;
+            textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
+            textoTimer.Tick += (s, e) =>
+            {
+                if (pasoActual < pasosAlgoritmoBaraja.Length)
+                {
+                    ResaltarPaso(pasoActual);
+                    pasoActual++;
+                }
+                else
+                {
+                    textoTimer.Stop(); // Detener animación del texto al finalizar
+                }
+            };
+            textoTimer.Start();
+        }
+
+        public void BarajaDes()
+        {
+            // Muestra todo el texto del algoritmo
+            MostrarAlgoritmoCompleto();
+
+            pasoActual = 0;
+            textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
+            textoTimer.Tick += (s, e) =>
+            {
+                if (pasoActual < AlgoritmoBarajaDescendente.Length)
                 {
                     ResaltarPaso(pasoActual);
                     pasoActual++;
