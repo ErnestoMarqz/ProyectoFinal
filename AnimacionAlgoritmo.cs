@@ -5,13 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace ProyectoFinal
 {
     internal class AnimacionAlgoritmo
     {
         private readonly string[] pasosAlgoritmo, pasosAlgoritmoShell, pasosAlgoritmoInDirecta, pasosAlgoritmoQuickSort,
-            pasosAlgoritmoCubetaAsc, pasosAlgoritmoCubetasDes, pasosAlgoritmoRadixSortAsc, pasosAlgoritmoRadixSortDes, pasosAlgoritmoInsercionBinaria, pasosAlgortimoHeapSort, AlgoritmoHeapSortDescendente, pasosAlgoritmoBaraja, AlgoritmoBarajaDescendente; // Pasos detallados del algoritmo
+            pasosAlgoritmoCubetaAsc, pasosAlgoritmoCubetasDes, pasosAlgoritmoRadixSortAsc, pasosAlgoritmoRadixSortDes, pasosAlgoritmoInsercionBinaria, pasosAlgortimoHeapSort, AlgoritmoHeapSortDescendente, pasosAlgoritmoBaraja, AlgoritmoBarajaDescendente, AlgoritmoBusquedaBinaria; // Pasos detallados del algoritmo
         private int pasoActual;
         private Timer textoTimer;
         private RichTextBox richTextBox;
@@ -315,17 +316,28 @@ namespace ProyectoFinal
 
                 "for (int i = 0; i < n; i++)",
                     "arr[i] = output[i];",
-            "}",
+        "}",
     };
 
     pasosAlgoritmoInsercionBinaria = new string[]
     {
-        "Comienza con el segundo elemento del arreglo",
-        "Realiza una búsqueda binaria para encontrar la posición donde debe insertarse",
-        "Desplaza los elementos mayores para hacer espacio",
-        "Inserta el elemento en la posición encontrada",
-        "Repite el proceso para cada elemento del arreglo"
-    };
+            "int n = parent.Controls.Count;",
+            "for (int i = 1; i < n; i++)",
+            "{",
+                "Panel cuadroActual = parent.Controls[i] as Panel;",
+                "int valorActual = int.Parse((cuadroActual.Controls[0] as Label).Text);",
+                "int posicion = await BuscarPosicionBinariaAnimada(parent, arreglo, valorActual, 0, i - 1, ascendente);",
+                "if (posicion < i)",
+                "{",
+                    "int temp = arreglo[i];",
+                    "for (int j = i; j > posicion; j--)",
+                    "{",
+                        "arreglo[j] = arreglo[j - 1];",
+                    "}",
+                    "arreglo[posicion] = temp;",
+                "}",
+            "}"
+        };
 
             pasosAlgortimoHeapSort = new string[]
              {
@@ -486,7 +498,37 @@ namespace ProyectoFinal
                " A[K + 1] = AUX;",
             "}",
         };
-
+            AlgoritmoBusquedaBinaria = new string[]
+        {
+            "int totalElementos = parent.Controls.Count;",
+            "if (totalElementos == 0)",
+            "{",
+                "MessageBox.Show('El panel está vacío. No hay elementos para buscar.', 'Advertencia');",
+                "return -1;",
+            "}",
+            "int centro = totalElementos / 2;",
+            "int izquierda = centro - 1;",
+            "int derecha = centro + 1;",
+            "if (await RevisarIndiceConAnimacion(parent, centro, valorBuscado))",
+            "{",
+                "return centro;",
+            "}",
+            "while (izquierda >= 0 || derecha < totalElementos)",
+            "{",
+                "if (izquierda >= 0 && await RevisarIndiceConAnimacion(parent, izquierda, valorBuscado))",
+                "{",
+                    "return izquierda;",
+                "}",
+                "if (derecha < totalElementos && await RevisarIndiceConAnimacion(parent, derecha, valorBuscado))",
+                "{",
+                    "return derecha;",
+                "}",
+                "izquierda--;",
+                "derecha++;",
+            "}",
+            "MessageBox.Show($'El número {valorBuscado} no fue encontrado.', 'Resultado');",
+            "return -1;"
+        };
 
             this.richTextBox = richTextBox;
             textoTimer = new Timer();
@@ -744,6 +786,27 @@ namespace ProyectoFinal
             textoTimer.Tick += (s, e) =>
             {
                 if (pasoActual < AlgoritmoBarajaDescendente.Length)
+                {
+                    ResaltarPaso(pasoActual);
+                    pasoActual++;
+                }
+                else
+                {
+                    textoTimer.Stop(); // Detener animación del texto al finalizar
+                }
+            };
+            textoTimer.Start();
+        }
+        public void BusqBin()
+        {
+            // Muestra todo el texto del algoritmo
+            MostrarAlgoritmoCompleto();
+
+            pasoActual = 0;
+            textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
+            textoTimer.Tick += (s, e) =>
+            {
+                if (pasoActual < AlgoritmoBusquedaBinaria.Length)
                 {
                     ResaltarPaso(pasoActual);
                     pasoActual++;
