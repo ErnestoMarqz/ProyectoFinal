@@ -26,7 +26,21 @@ namespace ProyectoFinal
             this.StartPosition = FormStartPosition.Manual;
             this.Location = new Point(250, 10); // Cambia a la posición deseada
             animacionTexto = new AnimacionAlgoritmo(richTextBox2);
+            // Configurar valores mínimo y máximo para el NumericUpDown
+            numericUpDown1.Minimum = 1; // Valor mínimo
+            numericUpDown1.Maximum = 20; // Valor máximo
+        }
 
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            if (numericUpDown1.Value < numericUpDown1.Minimum)
+            {
+                numericUpDown1.Value = numericUpDown1.Minimum;
+            }
+            else if (numericUpDown1.Value > numericUpDown1.Maximum)
+            {
+                numericUpDown1.Value = numericUpDown1.Maximum;
+            }
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -330,6 +344,8 @@ namespace ProyectoFinal
             {
                 // Llamar al método de búsqueda
                 int indice = await BuscarNumeroConAnimacion(flowLayoutPanel1, numeroBuscar);
+                animacionTexto.BusqBin();
+                await Task.Delay(300);
 
                 // Si no se encontró el número
                 if (indice == -1)
