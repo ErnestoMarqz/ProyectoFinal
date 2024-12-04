@@ -11,41 +11,83 @@ namespace ProyectoFinal
     internal class Metodos
     {
 
-        public async Task OrdenarInsercionBinariaConAnimacion(FlowLayoutPanel parent, int[] arreglo, bool ascendente)
+        public async Task OrdenarInsercionBinariaConAnimacion(FlowLayoutPanel parent, int[] arreglo, bool ascendente, RichTextBox richTextBox)
         {
+            // Código fuente que se mostrará en el RichTextBox
+            string codigoFuente = @"
+int n = parent.Controls.Count;                         // Línea 1
+for (int i = 1; i < n; i++)                             // Línea 2
+{
+    int valorActual = int.Parse((cuadroActual.Controls[0] as Label).Text); // Línea 3
+    int posicion = await BuscarPosicionBinariaAnimada(parent, arreglo, valorActual, 0, i - 1, ascendente); // Línea 4
+    if (posicion < i)                                  // Línea 5
+    {
+        int temp = arreglo[i];                         // Línea 6
+        for (int j = i; j > posicion; j--)             // Línea 7
+        {
+            arreglo[j] = arreglo[j - 1];               // Línea 8
+        }
+        arreglo[posicion] = temp;                       // Línea 9
+        await MoverCuadroConIntercambio(parent, i, posicion); // Línea 10
+    }
+}";
+
+            // Mostrar el código en el RichTextBox
+            richTextBox.Clear();
+            richTextBox.Text = codigoFuente.Trim();
+            richTextBox.SelectAll();
+            richTextBox.SelectionColor = Color.Black; // Todo el texto empieza en negro
+            richTextBox.DeselectAll();
+
             int n = parent.Controls.Count;
 
             for (int i = 1; i < n; i++)
             {
-                // Obtener el cuadro actual y su valor
+                // Obtener el cuadro actual y su valor en el panel visual
                 Panel cuadroActual = parent.Controls[i] as Panel;
                 int valorActual = int.Parse((cuadroActual.Controls[0] as Label).Text);
 
-                // Buscar la posición correcta en el arreglo usando búsqueda binaria
-                int posicion = await BuscarPosicionBinariaAnimada(parent, arreglo, valorActual, 0, i - 1, ascendente);
+                // Resaltamos la línea del código que está procesando el valor actual
+                await ResaltarCodigoAsync(richTextBox, 1); // Resaltar el inicio del bucle for (Línea 2)
 
-                // Mover el cuadro visualmente y actualizar el arreglo lógico
+                // Usar la búsqueda binaria para encontrar la posición donde insertar el valor actual
+                // Resaltamos la búsqueda binaria y el proceso de comparación
+                int posicion = await BuscarPosicionBinariaAnimada(parent, arreglo, valorActual, 0, i - 1, ascendente, richTextBox);
+
+                // Si la posición encontrada es antes de la posición actual, es necesario mover los elementos
                 if (posicion < i)
                 {
-                    // Actualizar el arreglo lógico moviendo los elementos
+                    // Resaltamos el proceso de desplazamiento en el código
+                    await ResaltarCodigoAsync(richTextBox, 6); // Resaltar la línea donde se compara la posición (Línea 5)
+
+                    // Actualizar el arreglo lógico moviendo los elementos de lugar
                     int temp = arreglo[i];
                     for (int j = i; j > posicion; j--)
                     {
-                        arreglo[j] = arreglo[j - 1];
+                        arreglo[j] = arreglo[j - 1]; // Desplazar el elemento
                     }
-                    arreglo[posicion] = temp;
+                    arreglo[posicion] = temp; // Colocar el valor actual en su nueva posición
 
-                    // Mover los cuadros visualmente
-                    await MoverCuadroConIntercambio(parent, i, posicion);
+                    // Resaltamos la línea en donde el valor es colocado en la nueva posición
+                    await ResaltarCodigoAsync(richTextBox, 12); // Resaltar la línea donde se coloca el valor (Línea 9)
+
+                    // Mover los cuadros visualmente en el panel
+                    await MoverCuadroConIntercambio(parent, i, posicion,richTextBox); // Animación visual
                 }
+
+                // Resaltamos la línea final del bucle (Fin de la inserción)
+                await ResaltarCodigoAsync(richTextBox, 13); // Resaltar el final del ciclo for
             }
         }
 
-        private async Task<int> BuscarPosicionBinariaAnimada(FlowLayoutPanel parent, int[] arreglo, int valor, int inicio, int fin, bool ascendente)
+        private async Task<int> BuscarPosicionBinariaAnimada(FlowLayoutPanel parent, int[] arreglo, int valor, int inicio, int fin, bool ascendente, RichTextBox richTextBox)
         {
             while (inicio <= fin)
             {
                 int medio = (inicio + fin) / 2;
+
+                // Resaltamos la línea de comparación con el cuadro `medio`
+                await ResaltarCodigoAsync(richTextBox, 4); // Resaltar la línea de búsqueda binaria (Línea 4)
 
                 // Comparar con el cuadro en la posición `medio`
                 Panel cuadroMedio = parent.Controls[medio] as Panel;
@@ -78,13 +120,17 @@ namespace ProyectoFinal
 
             return inicio;
         }
-        private async Task MoverCuadroConIntercambio(FlowLayoutPanel parent, int origen, int destino)
+
+        private async Task MoverCuadroConIntercambio(FlowLayoutPanel parent, int origen, int destino, RichTextBox richTextBox)
         {
             // Mover los cuadros desde `origen` hasta `destino`
             for (int i = origen; i > destino; i--)
             {
+                // Resaltamos el código que está intercambiando los cuadros
+                await ResaltarCodigoAsync(richTextBox, 6); // Resaltar la línea de intercambio de cuadros (Línea 6)
+
                 // Llamar al método animado para intercambiar cuadros
-                await Cuadritos.IntercambiarCuadrosAnimado(parent, i, i - 1);
+                await Cuadritos.IntercambiarCuadrosAnimado(parent, i, i - 1); // Aquí es donde se mueve visualmente el cuadro
             }
         }
 
@@ -429,7 +475,7 @@ private async Task MergeAnimado(...)
                     valores[j + 1] = valores[j];
 
                     // Animar el movimiento de cuadros
-                    Cuadritos.IntercambiarCuadrosAnimado(parent, j, j + 1);
+                    await Cuadritos.IntercambiarCuadrosAnimado(parent, j, j + 1);
 
                     await Task.Delay(500); // Pausa para observar la animación
 

@@ -220,9 +220,9 @@ namespace ProyectoFinal
                 bool ascendente = rbAsendente.Checked;
 
                 Metodos metodos = new Metodos(); // Tu clase que contiene los algoritmos
-                await metodos.OrdenarInsercionBinariaConAnimacion(flowLayoutPanel1, arreglo, ascendente);
-                animacionTexto.IniciarInsercionBinaria();
-                await Task.Delay(300);
+                await metodos.OrdenarInsercionBinariaConAnimacion(flowLayoutPanel1, arreglo, ascendente, richTextBox2);
+                //animacionTexto.IniciarInsercionBinaria();
+                //await Task.Delay(300);
 
             }
 
@@ -267,18 +267,8 @@ namespace ProyectoFinal
             }
         }
 
-        private int currentLineIndex = 0;
-
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-            //if (comboBox1.SelectedItem.ToString() == "Burbuja")
-            //{
-            //    animacionTexto.Iniciar();
-            //    await Task.Delay(300);
-            //}
-            //    animacionTexto.Iniciar();
-            //await Task.Delay(300);
 
             if (comboBox1.SelectedItem.ToString() == "Cubeta")
             {
@@ -298,47 +288,6 @@ namespace ProyectoFinal
             }
         }
 
-        // Método asíncrono para animar las líneas de código
-        private async Task AnimateCodeAsync()
-        {
-            for (currentLineIndex = 0; currentLineIndex < richTextBox2.Lines.Length; currentLineIndex++)
-            {
-                // Resaltamos la línea actual
-                HighlightLine(currentLineIndex);
-
-                // Esperamos 500 ms antes de resaltar la siguiente línea
-                await Task.Delay(500);  // Retraso de 500ms
-            }
-        }
-
-        // Método para resaltar la línea actual en el RichTextBox
-        private void HighlightLine(int lineIndex)
-        {
-            int startIndex = richTextBox2.GetFirstCharIndexFromLine(lineIndex);
-            int length = richTextBox2.Lines[lineIndex].Length;
-
-            // Aseguramos que la actualización del RichTextBox ocurra en el hilo principal
-            richTextBox2.Invoke((MethodInvoker)(() =>
-            {
-                // Resaltamos la línea actual (esto cambiará el color o el fondo)
-                richTextBox2.SelectionStart = startIndex;
-                richTextBox2.SelectionLength = length;
-                richTextBox2.SelectionBackColor = Color.LightBlue;  // Cambiar el color de fondo para simular "sombreado azul"
-                richTextBox2.SelectionColor = Color.Black;  // Cambiar el color del texto si es necesario
-            }));
-
-            // Después de un pequeño retraso, revertimos el resaltado de la línea
-            var revertTimer = Task.Delay(500);  // Duración del resaltado
-            revertTimer.ContinueWith(_ =>
-            {
-                // Revertimos el color de fondo en el hilo principal
-                richTextBox2.Invoke((MethodInvoker)(() =>
-                {
-                    richTextBox2.SelectionBackColor = richTextBox2.BackColor; // Revertimos el color de fondo
-                }));
-            });
-        }
-
         private async void button4_Click(object sender, EventArgs e)
         {
             if (flowLayoutPanel1.Controls.Count == 0)
@@ -352,8 +301,8 @@ namespace ProyectoFinal
             {
                 // Llamar al método de búsqueda
                 int indice = await BuscarNumeroConAnimacion(flowLayoutPanel1, numeroBuscar);
-                animacionTexto.BusqBin();
-                await Task.Delay(300);
+                //animacionTexto.BusqBin();
+                //await Task.Delay(300);
 
                 // Si no se encontró el número
                 if (indice == -1)
