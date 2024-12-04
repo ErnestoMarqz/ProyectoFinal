@@ -124,51 +124,57 @@ namespace ProyectoFinal
 
             if (comboBox1.SelectedItem.ToString() == "Baraja")
             {
-                bool ascendente = true;
+                
                 if (rbAsendente.Checked == true)
                 {
-                    ascendente = true;
-                    metodos.Baraja(arreglo, flowLayoutPanel1, ascendente);
-                    animacionTexto.BarajaAsc();
-                    await Task.Delay(300);
+                    
+                    await metodos.OrdenarBarajaConAlgoritmoAnimado(flowLayoutPanel1, richTextBox2, true); // Orden ascendente
+                    //metodos.Baraja(arreglo, flowLayoutPanel1, ascendente);
+                    //animacionTexto.BarajaAsc();
+                    //await Task.Delay(300);
 
                 }
                 else
                 {
-                    ascendente = false;
-                    metodos.Baraja(arreglo, flowLayoutPanel1, ascendente);
-                    animacionTexto.BarajaDes();
-                    await Task.Delay(300);
+                    
+                    await metodos.OrdenarBarajaConAlgoritmoAnimado(flowLayoutPanel1, richTextBox2, false); // Orden descendente
+                    //metodos.Baraja(arreglo, flowLayoutPanel1, ascendente);
+                    //animacionTexto.BarajaDes();
+                    //await Task.Delay(300);
                 }
             }
             if (comboBox1.SelectedItem.ToString() == "Shell")
             {
                 if (rbAsendente.Checked == true)
                 {
-                    metodos.ShellAsendente(arreglo, flowLayoutPanel1);
-                    animacionTexto.IniciarShell();
-                    await Task.Delay(300);
+                    await metodos.ShellSortAnimadoAscendenteAsync(arreglo, flowLayoutPanel1, richTextBox2);
+                    //metodos.ShellAsendente(arreglo, flowLayoutPanel1);
+                    //animacionTexto.IniciarShell();
+                    //await Task.Delay(300);
                 }
                 if (rbDesendente.Checked == true)
                 {
-                    metodos.ShellDescendente(arreglo, flowLayoutPanel1);
-                    animacionTexto.IniciarShell();
-                    await Task.Delay(300);
+                    await metodos.ShellSortAnimadoDescendenteAsync(arreglo, flowLayoutPanel1, richTextBox2);
+                    //metodos.ShellDescendente(arreglo, flowLayoutPanel1);
+                    //animacionTexto.IniciarShell();
+                    //await Task.Delay(300);
                 }
             }
             if (comboBox1.SelectedItem.ToString() == "Inter. Directa")
             {
                 if (rbAsendente.Checked == true)
                 {
-                    metodos.InsertionDirecta(arreglo, flowLayoutPanel1);
-                    animacionTexto.Iniciar_Inserción_Directa();
-                    await Task.Delay(300);
+                    await metodos.InsertionDirectaAnimadoAsync(arreglo, flowLayoutPanel1, richTextBox2);
+                    //metodos.InsertionDirecta(arreglo, flowLayoutPanel1);
+                    //animacionTexto.Iniciar_Inserción_Directa();
+                    //await Task.Delay(300);
                 }
                 if (rbDesendente.Checked == true)
                 {
-                    metodos.InsertionDescendente(arreglo, flowLayoutPanel1);
-                    animacionTexto.Iniciar_Inserción_Directa();
-                    await Task.Delay(300);
+                    await metodos.InsertionDescendenteAnimadoAsync(arreglo, flowLayoutPanel1, richTextBox2);
+                    //metodos.InsertionDescendente(arreglo, flowLayoutPanel1);
+                    //animacionTexto.Iniciar_Inserción_Directa();
+                    //await Task.Delay(300);
                 }
             }
             if (comboBox1.SelectedItem.ToString() == "Quick Sort")
@@ -189,20 +195,22 @@ namespace ProyectoFinal
             if (comboBox1.SelectedItem.ToString() == "Heap Sort")
             {
 
-                bool ascendente = true;
+                
                 if (rbAsendente.Checked == true)
                 {
-                    ascendente = true;
-                    metodos.HeapSort(arreglo, flowLayoutPanel1, ascendente);
-                    animacionTexto.IniciarHeapSortAsc();
-                    await Task.Delay(300);
+                    
+                    await metodos.HeapSortAnimadoAsync(arreglo,flowLayoutPanel1, richTextBox2, true); // Orden ascendente
+                    //metodos.HeapSort(arreglo, flowLayoutPanel1, ascendente);
+                    //animacionTexto.IniciarHeapSortAsc();
+                    //await Task.Delay(300);
                 }
                 else
                 {
-                    ascendente = false;
-                    metodos.HeapSort(arreglo, flowLayoutPanel1, ascendente);
-                    animacionTexto.IniciarHeapSortDes();
-                    await Task.Delay(300);
+                    
+                    await metodos.HeapSortAnimadoAsync(arreglo, flowLayoutPanel1, richTextBox2, false); // Orden descendente
+                    //metodos.HeapSort(arreglo, flowLayoutPanel1, ascendente);
+                    //animacionTexto.IniciarHeapSortDes();
+                    //await Task.Delay(300);
                 }
             }
 

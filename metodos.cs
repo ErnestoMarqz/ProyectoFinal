@@ -373,373 +373,793 @@ private async Task MergeAnimado(...)
 
         Cuadritos cuadrito = new Cuadritos();
 
-        public void Baraja(int[] A, FlowLayoutPanel panel, bool esAscendente)
+        public async Task OrdenarBarajaConAlgoritmoAnimado(FlowLayoutPanel parent, RichTextBox richTextBox, bool ascendente)
         {
-            int N = A.Length;
+            // Código del algoritmo de la Baraja como referencia
+            string codigoFuente = @"
+    for (int i = 1; i < valores.Length; i++)
+    {
+        int aux = valores[i];
+        int j = i - 1;
+        while (j >= 0 && (ascendente ? aux < valores[j] : aux > valores[j]))
+        {
+            valores[j + 1] = valores[j];
+            j--;
+        }
+        valores[j + 1] = aux;
+    }";
 
-            if (panel.Controls.Count != N)
+            // Inicializar el RichTextBox con el código del algoritmo
+            richTextBox.Clear();
+            richTextBox.Text = codigoFuente.Trim();
+            richTextBox.SelectAll();
+            richTextBox.SelectionColor = Color.Black;
+            richTextBox.DeselectAll();
+
+            // Obtener los valores de los cuadros en el FlowLayoutPanel
+            List<int> valores = new List<int>();
+            foreach (Panel panel in parent.Controls)
             {
-                throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
+                int valor = int.Parse((panel.Controls[0] as Label).Text);
+                valores.Add(valor);
             }
 
-            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
-
-            for (int I = 1; I < N; I++)
+            // Algoritmo de Baraja con animaciones
+            for (int i = 1; i < valores.Count; i++)
             {
-                int AUX = A[I];
-                int K = I - 1;
+                // Resaltar el inicio del bucle externo
+                await ResaltarCodigoAsync(richTextBox, 0);
 
-                Panel cuadroActual = cuadros[I];
-                cuadroActual.BackColor = Color.Red;  // Resaltar el cuadro actual
-                panel.Refresh();
-                Application.DoEvents();
-                Thread.Sleep(500);
+                int aux = valores[i];
+                int j = i - 1;
 
-                // Ajustar la comparación según el orden ascendente o descendente
-                while (K >= 0 && (esAscendente ? AUX < A[K] : AUX > A[K]))  // Dependiendo del booleano
+                // Resaltar la declaración del valor auxiliar
+                await ResaltarCodigoAsync(richTextBox, 2);
+
+                // Resaltar el inicio del bucle interno
+                await ResaltarCodigoAsync(richTextBox, 4);
+
+                // Animar la comparación y el desplazamiento de elementos
+                while (j >= 0 && (ascendente ? aux < valores[j] : aux > valores[j]))
                 {
-                    Panel cuadroMayor = cuadros[K];
-                    cuadroMayor.BackColor = Color.Red;  // Resaltar el cuadro mayor
-                    panel.Refresh();
-                    Application.DoEvents();
-                    Thread.Sleep(500);
+                    // Resaltar la condición del bucle interno
+                    await ResaltarCodigoAsync(richTextBox, 5);
 
-                    // Actualizar el valor en el arreglo
-                    A[K + 1] = A[K];
+                    // Actualizar los valores y animar el desplazamiento
+                    valores[j + 1] = valores[j];
 
-                    // Desplazar visualmente el cuadro hacia la derecha o izquierda según el orden
-                    cuadros[K + 1].Controls[0].Text = cuadros[K].Controls[0].Text;
+                    // Animar el movimiento de cuadros
+                    Cuadritos.IntercambiarCuadrosAnimado(parent, j, j + 1);
 
-                    // Animar el tamaño del cuadro desplazado
-                    cuadrito.AnimarCambioDeTamaño(cuadros[K + 1], A[K + 1]);
-                    cuadros[K + 1].BackColor = cuadrito.GenerarColorUnico();
-                    panel.Refresh();
-                    Application.DoEvents();
-                    Thread.Sleep(500);
+                    await Task.Delay(500); // Pausa para observar la animación
 
-                    // Restaurar color original del cuadro mayor
-                    cuadroMayor.BackColor = cuadrito.GenerarColorUnico();
-                    panel.Refresh();
-                    Application.DoEvents();
-                    Thread.Sleep(500);
+                    j--;
 
-                    K--;
+                    // Resaltar la actualización del índice j
+                    await ResaltarCodigoAsync(richTextBox, 7);
                 }
 
-                // Insertar el elemento en la posición correcta
-                A[K + 1] = AUX;
-                cuadros[K + 1].Controls[0].Text = AUX.ToString();
+                // Insertar el elemento en su posición correcta
+                valores[j + 1] = aux;
 
-                // Animar el tamaño del cuadro insertado
-                cuadrito.AnimarCambioDeTamaño(cuadros[K + 1], AUX);
-                cuadros[K + 1].BackColor = Color.LightBlue;  // Restaurar color
-                panel.Refresh();
-                Application.DoEvents();
-                Thread.Sleep(500);
+                // Resaltar la asignación final
+                await ResaltarCodigoAsync(richTextBox, 9);
+
+                // Animar el cuadro que contiene el valor auxiliar
+                Panel cuadroDestino = parent.Controls[j + 1] as Panel;
+                cuadroDestino.Controls[0].Text = aux.ToString();
+                cuadroDestino.BackColor = Color.LightBlue; // Restaurar color del cuadro
+
+                await Task.Delay(500); // Pausa para observar el cambio
             }
         }
-        public void HeapSort(int[] A, FlowLayoutPanel panel, bool esAscendente)
+
+        //public void Baraja(int[] A, FlowLayoutPanel panel, bool esAscendente)
+        //{
+        //    int N = A.Length;
+
+        //    if (panel.Controls.Count != N)
+        //    {
+        //        throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
+        //    }
+
+        //    List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
+
+        //    for (int I = 1; I < N; I++)
+        //    {
+        //        int AUX = A[I];
+        //        int K = I - 1;
+
+        //        Panel cuadroActual = cuadros[I];
+        //        cuadroActual.BackColor = Color.Red;  // Resaltar el cuadro actual
+        //        panel.Refresh();
+        //        Application.DoEvents();
+        //        Thread.Sleep(500);
+
+        //        // Ajustar la comparación según el orden ascendente o descendente
+        //        while (K >= 0 && (esAscendente ? AUX < A[K] : AUX > A[K]))  // Dependiendo del booleano
+        //        {
+        //            Panel cuadroMayor = cuadros[K];
+        //            cuadroMayor.BackColor = Color.Red;  // Resaltar el cuadro mayor
+        //            panel.Refresh();
+        //            Application.DoEvents();
+        //            Thread.Sleep(500);
+
+        //            // Actualizar el valor en el arreglo
+        //            A[K + 1] = A[K];
+
+        //            // Desplazar visualmente el cuadro hacia la derecha o izquierda según el orden
+        //            cuadros[K + 1].Controls[0].Text = cuadros[K].Controls[0].Text;
+
+        //            // Animar el tamaño del cuadro desplazado
+        //            cuadrito.AnimarCambioDeTamaño(cuadros[K + 1], A[K + 1]);
+        //            cuadros[K + 1].BackColor = cuadrito.GenerarColorUnico();
+        //            panel.Refresh();
+        //            Application.DoEvents();
+        //            Thread.Sleep(500);
+
+        //            // Restaurar color original del cuadro mayor
+        //            cuadroMayor.BackColor = cuadrito.GenerarColorUnico();
+        //            panel.Refresh();
+        //            Application.DoEvents();
+        //            Thread.Sleep(500);
+
+        //            K--;
+        //        }
+
+        //        // Insertar el elemento en la posición correcta
+        //        A[K + 1] = AUX;
+        //        cuadros[K + 1].Controls[0].Text = AUX.ToString();
+
+        //        // Animar el tamaño del cuadro insertado
+        //        cuadrito.AnimarCambioDeTamaño(cuadros[K + 1], AUX);
+        //        cuadros[K + 1].BackColor = Color.LightBlue;  // Restaurar color
+        //        panel.Refresh();
+        //        Application.DoEvents();
+        //        Thread.Sleep(500);
+        //    }
+        //}
+
+        public async Task HeapSortAnimadoAsync(int[] A, FlowLayoutPanel panel, RichTextBox richTextBox, bool esAscendente)
         {
+            // Código del algoritmo de Heap Sort como referencia
+            string codigoFuente = @"
+    for (int I = (N / 2) - 1; I >= 0; I--)
+    {
+        HacerMonticulo(A, I, N, esAscendente);
+    }
+
+    for (int I = N - 1; I > 0; I--)
+    {
+        Intercambiar(A[0], A[I]);
+        HacerMonticulo(A, 0, I, esAscendente);
+    }";
+
+            // Mostrar el código en el RichTextBox
+            richTextBox.Clear();
+            richTextBox.Text = codigoFuente.Trim();
+            richTextBox.SelectAll();
+            richTextBox.SelectionColor = Color.Black;
+            richTextBox.DeselectAll();
+
             int N = A.Length;
             List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
 
+            // Crear el montículo inicial
             for (int I = (N / 2) - 1; I >= 0; I--)
             {
-                int K = I;
-                bool BAND = true;
-
-                while (K < N)
-                {
-                    int IZQ = 2 * K + 1;
-                    int DER = IZQ + 1;
-                    int AP = K;
-
-                    if (IZQ < N && (esAscendente ? A[IZQ] > A[AP] : A[IZQ] < A[AP]))
-                    {
-                        AP = IZQ;
-                    }
-
-                    if (DER < N && (esAscendente ? A[DER] > A[AP] : A[DER] < A[AP]))
-                    {
-                        AP = DER;
-                    }
-
-                    // Si el nodo es mayor/menor que el hijo, intercambiar
-                    if (AP != K)
-                    {
-                        // Resaltar los cuadros para animación
-                        cuadros[K].BackColor = Color.Red;
-                        cuadros[AP].BackColor = Color.Red;
-                        Thread.Sleep(200);
-
-                        int AUX = A[K];
-                        A[K] = A[AP];
-                        A[AP] = AUX;
-
-                        // Actualizar el texto de los cuadros
-                        cuadros[K].Controls[0].Text = A[K].ToString();
-                        cuadros[AP].Controls[0].Text = A[AP].ToString();
-                        cuadrito.AnimarCambioDeTamaño(cuadros[K], A[K]);
-                        cuadrito.AnimarCambioDeTamaño(cuadros[AP], A[AP]);
-
-                        // Restaurar colores a aleatorio
-                        cuadros[K].BackColor = cuadrito.GenerarColorUnico();
-                        cuadros[AP].BackColor = cuadrito.GenerarColorUnico();
-
-                        K = AP; // Avanzar el índice
-                    }
-                    else
-                    {
-                        break;
-                    }
-
-                    // Forzar actualización visual
-                    cuadros[K].Refresh();
-                    Thread.Sleep(500); // Pausa para visualizar el cambio
-                }
+                // Resaltar la línea del código que construye el montículo
+                await ResaltarCodigoAsync(richTextBox, 2);
+                await HacerMonticuloAnimadoAsync(A, cuadros, I, N, panel, richTextBox, esAscendente);
             }
 
-            // Llamar a la función de eliminación del montículo
-            EliminarMonticulo(A, panel, esAscendente);
-        }
-
-        public void EliminarMonticulo(int[] A, FlowLayoutPanel panel, bool esAscendente)
-        {
-            int N = A.Length;
-            List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
-
-            for (int I = N - 1; I >= 1; I--)
+            // Realizar el ordenamiento
+            for (int I = N - 1; I > 0; I--)
             {
-                int AUX = A[I];
-                A[I] = A[0];
+                // Resaltar la línea de intercambio
+                await ResaltarCodigoAsync(richTextBox, 7);
 
-                // Resaltar en rojo los cuadros que van a cambiar
-                cuadros[I].BackColor = Color.Red;
+                // Intercambiar el primer y último elemento del montículo
+                int AUX = A[0];
+                A[0] = A[I];
+                A[I] = AUX;
+
+                // Animar el intercambio de cuadros
                 cuadros[0].BackColor = Color.Red;
-
-                // Forzar actualización visual
-                cuadros[I].Refresh();
-                cuadros[0].Refresh();
-
-                Thread.Sleep(500); // Pausa para visualizar el cambio
+                cuadros[I].BackColor = Color.Red;
+                await Task.Delay(500); // Pausa para animación visual
 
                 // Actualizar visualmente los cuadros
+                cuadros[0].Controls[0].Text = A[0].ToString();
                 cuadros[I].Controls[0].Text = A[I].ToString();
-                cuadros[0].Controls[0].Text = AUX.ToString();
 
-                // Cambiar a un color aleatorio después de la actualización
-                cuadros[I].BackColor = cuadrito.GenerarColorUnico();
                 cuadros[0].BackColor = cuadrito.GenerarColorUnico();
+                cuadros[I].BackColor = cuadrito.GenerarColorUnico();
 
-                cuadros[I].Refresh();
-                cuadros[0].Refresh();
-
-                int IZQ = 1, DER = 2, K = 0;
-                bool BOOL = true;
-
-                while ((IZQ < I) && BOOL)
-                {
-                    int valorComparado = esAscendente ? A[IZQ] : A[IZQ];
-                    int AP = IZQ;
-
-                    if ((DER < I) && (esAscendente ? valorComparado < A[DER] : valorComparado > A[DER]))
-                    {
-                        valorComparado = A[DER];
-                        AP = DER;
-                    }
-
-                    // Resaltar en rojo los cuadros que van a cambiar
-                    cuadros[K].BackColor = Color.Red;
-                    cuadros[AP].BackColor = Color.Red;
-
-                    // Forzar actualización visual
-                    cuadros[K].Refresh();
-                    cuadros[AP].Refresh();
-
-                    Thread.Sleep(500); // Pausa para visualizar el cambio
-
-                    if ((esAscendente && AUX < valorComparado) || (!esAscendente && AUX > valorComparado))
-                    {
-                        A[K] = A[AP];
-
-                        // Actualizar visualmente los cuadros
-                        cuadros[K].Controls[0].Text = A[K].ToString();
-                        cuadros[AP].Controls[0].Text = valorComparado.ToString();
-
-                        // Cambiar a un color aleatorio después de la actualización
-                        cuadros[K].BackColor = cuadrito.GenerarColorUnico();
-                        cuadros[AP].BackColor = cuadrito.GenerarColorUnico();
-
-                        cuadros[K].Refresh();
-                        cuadros[AP].Refresh();
-
-                        K = AP;
-                    }
-                    else
-                    {
-                        BOOL = false;
-                    }
-
-                    IZQ = 2 * K + 1;
-                    DER = IZQ + 1;
-                }
-
-                A[K] = AUX;
-
-                // Resaltar en rojo el cuadro final que va a cambiar
-                cuadros[K].BackColor = Color.Red;
-                cuadros[K].Refresh();
-
-                Thread.Sleep(500); // Pausa para visualizar el cambio
-
-                cuadros[K].Controls[0].Text = AUX.ToString();
-
-                // Cambiar a un color aleatorio después de la actualización
-                cuadros[K].BackColor = cuadrito.GenerarColorUnico();
-                cuadros[K].Refresh();
-
-                // Animar el cambio de tamaño
-                cuadrito.AnimarCambioDeTamaño(cuadros[K], A[K]);
+                cuadrito.AnimarCambioDeTamaño(cuadros[0], A[0]);
                 cuadrito.AnimarCambioDeTamaño(cuadros[I], A[I]);
+                await Task.Delay(500); // Pausa para visualizar el cambio
+
+                // Reconstruir el montículo con el elemento restante
+                await ResaltarCodigoAsync(richTextBox, 8);
+                await HacerMonticuloAnimadoAsync(A, cuadros, 0, I, panel, richTextBox, esAscendente);
             }
 
             // Animar el último cuadro restante
             cuadrito.AnimarCambioDeTamaño(cuadros[0], A[0]);
         }
 
+        private async Task HacerMonticuloAnimadoAsync(int[] A, List<Panel> cuadros, int K, int N, FlowLayoutPanel panel, RichTextBox richTextBox, bool esAscendente)
+        {
+            bool BAND = true;
+
+            while (BAND && K < N)
+            {
+                // Resaltar la línea que calcula los índices de los hijos
+                await ResaltarCodigoAsync(richTextBox, 4);
+
+                int IZQ = 2 * K + 1;
+                int DER = IZQ + 1;
+                int AP = K;
+
+                // Comparar con el hijo izquierdo
+                if (IZQ < N && (esAscendente ? A[IZQ] > A[AP] : A[IZQ] < A[AP]))
+                {
+                    AP = IZQ;
+                }
+
+                // Comparar con el hijo derecho
+                if (DER < N && (esAscendente ? A[DER] > A[AP] : A[DER] < A[AP]))
+                {
+                    AP = DER;
+                }
+
+                if (AP != K)
+                {
+                    // Resaltar la línea que intercambia los elementos
+                    await ResaltarCodigoAsync(richTextBox, 8);
+
+                    // Animar el intercambio de cuadros
+                    cuadros[K].BackColor = Color.Red;
+                    cuadros[AP].BackColor = Color.Red;
+                    await Task.Delay(500); // Pausa para animación visual
+
+                    int AUX = A[K];
+                    A[K] = A[AP];
+                    A[AP] = AUX;
+
+                    cuadros[K].Controls[0].Text = A[K].ToString();
+                    cuadros[AP].Controls[0].Text = A[AP].ToString();
+
+                    cuadros[K].BackColor = cuadrito.GenerarColorUnico();
+                    cuadros[AP].BackColor = cuadrito.GenerarColorUnico();
+
+                    cuadrito.AnimarCambioDeTamaño(cuadros[K], A[K]);
+                    cuadrito.AnimarCambioDeTamaño(cuadros[AP], A[AP]);
+                    await Task.Delay(500); // Pausa para visualizar el cambio
+
+                    K = AP;
+                }
+                else
+                {
+                    BAND = false;
+                }
+            }
+        }
+
+        //public void HeapSort(int[] A, FlowLayoutPanel panel, bool esAscendente)
+        //{
+        //    int N = A.Length;
+        //    List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
+
+        //    for (int I = (N / 2) - 1; I >= 0; I--)
+        //    {
+        //        int K = I;
+        //        bool BAND = true;
+
+        //        while (K < N)
+        //        {
+        //            int IZQ = 2 * K + 1;
+        //            int DER = IZQ + 1;
+        //            int AP = K;
+
+        //            if (IZQ < N && (esAscendente ? A[IZQ] > A[AP] : A[IZQ] < A[AP]))
+        //            {
+        //                AP = IZQ;
+        //            }
+
+        //            if (DER < N && (esAscendente ? A[DER] > A[AP] : A[DER] < A[AP]))
+        //            {
+        //                AP = DER;
+        //            }
+
+        //            // Si el nodo es mayor/menor que el hijo, intercambiar
+        //            if (AP != K)
+        //            {
+        //                // Resaltar los cuadros para animación
+        //                cuadros[K].BackColor = Color.Red;
+        //                cuadros[AP].BackColor = Color.Red;
+        //                Thread.Sleep(200);
+
+        //                int AUX = A[K];
+        //                A[K] = A[AP];
+        //                A[AP] = AUX;
+
+        //                // Actualizar el texto de los cuadros
+        //                cuadros[K].Controls[0].Text = A[K].ToString();
+        //                cuadros[AP].Controls[0].Text = A[AP].ToString();
+        //                cuadrito.AnimarCambioDeTamaño(cuadros[K], A[K]);
+        //                cuadrito.AnimarCambioDeTamaño(cuadros[AP], A[AP]);
+
+        //                // Restaurar colores a aleatorio
+        //                cuadros[K].BackColor = cuadrito.GenerarColorUnico();
+        //                cuadros[AP].BackColor = cuadrito.GenerarColorUnico();
+
+        //                K = AP; // Avanzar el índice
+        //            }
+        //            else
+        //            {
+        //                break;
+        //            }
+
+        //            // Forzar actualización visual
+        //            cuadros[K].Refresh();
+        //            Thread.Sleep(500); // Pausa para visualizar el cambio
+        //        }
+        //    }
+
+        //    // Llamar a la función de eliminación del montículo
+        //    EliminarMonticulo(A, panel, esAscendente);
+        //}
+
+        //public void EliminarMonticulo(int[] A, FlowLayoutPanel panel, bool esAscendente)
+        //{
+        //    int N = A.Length;
+        //    List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
+
+        //    for (int I = N - 1; I >= 1; I--)
+        //    {
+        //        int AUX = A[I];
+        //        A[I] = A[0];
+
+        //        // Resaltar en rojo los cuadros que van a cambiar
+        //        cuadros[I].BackColor = Color.Red;
+        //        cuadros[0].BackColor = Color.Red;
+
+        //        // Forzar actualización visual
+        //        cuadros[I].Refresh();
+        //        cuadros[0].Refresh();
+
+        //        Thread.Sleep(500); // Pausa para visualizar el cambio
+
+        //        // Actualizar visualmente los cuadros
+        //        cuadros[I].Controls[0].Text = A[I].ToString();
+        //        cuadros[0].Controls[0].Text = AUX.ToString();
+
+        //        // Cambiar a un color aleatorio después de la actualización
+        //        cuadros[I].BackColor = cuadrito.GenerarColorUnico();
+        //        cuadros[0].BackColor = cuadrito.GenerarColorUnico();
+
+        //        cuadros[I].Refresh();
+        //        cuadros[0].Refresh();
+
+        //        int IZQ = 1, DER = 2, K = 0;
+        //        bool BOOL = true;
+
+        //        while ((IZQ < I) && BOOL)
+        //        {
+        //            int valorComparado = esAscendente ? A[IZQ] : A[IZQ];
+        //            int AP = IZQ;
+
+        //            if ((DER < I) && (esAscendente ? valorComparado < A[DER] : valorComparado > A[DER]))
+        //            {
+        //                valorComparado = A[DER];
+        //                AP = DER;
+        //            }
+
+        //            // Resaltar en rojo los cuadros que van a cambiar
+        //            cuadros[K].BackColor = Color.Red;
+        //            cuadros[AP].BackColor = Color.Red;
+
+        //            // Forzar actualización visual
+        //            cuadros[K].Refresh();
+        //            cuadros[AP].Refresh();
+
+        //            Thread.Sleep(500); // Pausa para visualizar el cambio
+
+        //            if ((esAscendente && AUX < valorComparado) || (!esAscendente && AUX > valorComparado))
+        //            {
+        //                A[K] = A[AP];
+
+        //                // Actualizar visualmente los cuadros
+        //                cuadros[K].Controls[0].Text = A[K].ToString();
+        //                cuadros[AP].Controls[0].Text = valorComparado.ToString();
+
+        //                // Cambiar a un color aleatorio después de la actualización
+        //                cuadros[K].BackColor = cuadrito.GenerarColorUnico();
+        //                cuadros[AP].BackColor = cuadrito.GenerarColorUnico();
+
+        //                cuadros[K].Refresh();
+        //                cuadros[AP].Refresh();
+
+        //                K = AP;
+        //            }
+        //            else
+        //            {
+        //                BOOL = false;
+        //            }
+
+        //            IZQ = 2 * K + 1;
+        //            DER = IZQ + 1;
+        //        }
+
+        //        A[K] = AUX;
+
+        //        // Resaltar en rojo el cuadro final que va a cambiar
+        //        cuadros[K].BackColor = Color.Red;
+        //        cuadros[K].Refresh();
+
+        //        Thread.Sleep(500); // Pausa para visualizar el cambio
+
+        //        cuadros[K].Controls[0].Text = AUX.ToString();
+
+        //        // Cambiar a un color aleatorio después de la actualización
+        //        cuadros[K].BackColor = cuadrito.GenerarColorUnico();
+        //        cuadros[K].Refresh();
+
+        //        // Animar el cambio de tamaño
+        //        cuadrito.AnimarCambioDeTamaño(cuadros[K], A[K]);
+        //        cuadrito.AnimarCambioDeTamaño(cuadros[I], A[I]);
+        //    }
+
+        //    // Animar el último cuadro restante
+        //    cuadrito.AnimarCambioDeTamaño(cuadros[0], A[0]);
+        //}
+
         //MEtodos ernesto
 
-
-        public void ShellAsendente(int[] A, FlowLayoutPanel panel)
+        public async Task ShellSortAnimadoAscendenteAsync(int[] A, FlowLayoutPanel panel, RichTextBox richTextBox)
         {
-            int N = A.Length;
+            // Código del algoritmo Shell Sort para mostrar en el RichTextBox
+            string codigoFuente = @"
+    int h = N / 2;
+    while (h > 0)
+    {
+        for (int i = h; i < N; i++)
+        {
+            int AUX = A[i];
+            int j = i;
 
-            if (panel.Controls.Count != N)
+            while (j >= h && A[j - h] > AUX)
             {
-                throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
+                A[j] = A[j - h];
+                j -= h;
             }
 
+            A[j] = AUX;
+        }
+
+        h /= 2;
+    }";
+
+            // Mostrar el código en el RichTextBox
+            richTextBox.Clear();
+            richTextBox.Text = codigoFuente.Trim();
+            richTextBox.SelectAll();
+            richTextBox.SelectionColor = Color.Black;
+            richTextBox.DeselectAll();
+
+            int N = A.Length;
             List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
 
-            // Se comienza con una secuencia de gaps (puedes ajustar la secuencia de "h" según tu preferencia)
-            int h = N / 2;
+            int h = N / 2; // Secuencia inicial de gaps
 
             while (h > 0)
             {
-                // Realizamos una inserción con el gap actual
+                // Resaltar la línea que inicializa el gap
+                await ResaltarCodigoAsync(richTextBox, 0);
+
                 for (int i = h; i < N; i++)
                 {
                     int AUX = A[i];
                     int j = i;
 
-                    Panel cuadroActual = cuadros[i];
-                    cuadroActual.BackColor = cuadrito.GenerarColorUnico();
-                    cuadroActual.Refresh();
-                    Application.DoEvents();
-                    Thread.Sleep(500); // Pausa para que se vea el cambio de color
+                    // Resaltar la línea que comienza el bucle interno
+                    await ResaltarCodigoAsync(richTextBox, 8);
 
-                    // Desplazar los elementos hacia la derecha
+                    Panel cuadroActual = cuadros[i];
+                    cuadroActual.BackColor = Color.LightBlue;
+                    cuadroActual.Refresh();
+                    await Task.Delay(500);
+
                     while (j >= h && A[j - h] > AUX)
                     {
+                        // Resaltar la línea que realiza el desplazamiento
+                        await ResaltarCodigoAsync(richTextBox, 10);
+
+                        // Desplazar el valor en el arreglo
                         A[j] = A[j - h];
 
-                        // Actualizamos el cuadro visualmente
+                        // Animar el desplazamiento de cuadros
                         cuadros[j].Controls[0].Text = A[j].ToString();
                         cuadrito.AnimarCambioDeTamaño(cuadros[j], A[j]);
 
-                        cuadros[j].BackColor = cuadrito.GenerarColorUnico(); ; // Resaltamos el cuadro que está siendo desplazado
-                        cuadros[j - h].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
+                        cuadros[j].BackColor = Color.Red; // Resaltar cuadro afectado
+                        cuadros[j - h].BackColor = Color.Yellow; // Resaltar cuadro que se compara
 
-                        // Forzar actualización visual
                         panel.Refresh();
-                        Application.DoEvents();
-                        Thread.Sleep(500);
+                        await Task.Delay(500);
 
+                        cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Restaurar color del cuadro
+                        cuadros[j - h].BackColor = cuadrito.GenerarColorUnico(); // Restaurar color del cuadro
                         j -= h;
                     }
 
-                    // Insertamos el elemento en la posición correcta
+                    // Resaltar la línea que inserta el valor en la posición correcta
+                    await ResaltarCodigoAsync(richTextBox, 14);
+
                     A[j] = AUX;
+
+                    // Animar el cuadro insertado
                     cuadros[j].Controls[0].Text = AUX.ToString();
                     cuadrito.AnimarCambioDeTamaño(cuadros[j], AUX);
 
-                    cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que ha sido colocado en la posición correcta
+                    cuadros[j].BackColor = Color.Green; // Resaltar cuadro final
                     panel.Refresh();
-                    Application.DoEvents();
-                    Thread.Sleep(500); // Pausa para que se vea el cambio de color
+                    await Task.Delay(500);
                 }
 
-                // Reducir el gap según la secuencia
+                // Reducir el gap y resaltar la línea correspondiente
+                await ResaltarCodigoAsync(richTextBox, 17);
                 h /= 2;
             }
         }
-        public void ShellDescendente(int[] A, FlowLayoutPanel panel)
-        {
-            int N = A.Length;
 
-            if (panel.Controls.Count != N)
+        //public void ShellAsendente(int[] A, FlowLayoutPanel panel)
+        //{
+        //    int N = A.Length;
+
+        //    if (panel.Controls.Count != N)
+        //    {
+        //        throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
+        //    }
+
+        //    List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
+
+        //    // Se comienza con una secuencia de gaps (puedes ajustar la secuencia de "h" según tu preferencia)
+        //    int h = N / 2;
+
+        //    while (h > 0)
+        //    {
+        //        // Realizamos una inserción con el gap actual
+        //        for (int i = h; i < N; i++)
+        //        {
+        //            int AUX = A[i];
+        //            int j = i;
+
+        //            Panel cuadroActual = cuadros[i];
+        //            cuadroActual.BackColor = cuadrito.GenerarColorUnico();
+        //            cuadroActual.Refresh();
+        //            Application.DoEvents();
+        //            Thread.Sleep(500); // Pausa para que se vea el cambio de color
+
+        //            // Desplazar los elementos hacia la derecha
+        //            while (j >= h && A[j - h] > AUX)
+        //            {
+        //                A[j] = A[j - h];
+
+        //                // Actualizamos el cuadro visualmente
+        //                cuadros[j].Controls[0].Text = A[j].ToString();
+        //                cuadrito.AnimarCambioDeTamaño(cuadros[j], A[j]);
+
+        //                cuadros[j].BackColor = cuadrito.GenerarColorUnico(); ; // Resaltamos el cuadro que está siendo desplazado
+        //                cuadros[j - h].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
+
+        //                // Forzar actualización visual
+        //                panel.Refresh();
+        //                Application.DoEvents();
+        //                Thread.Sleep(500);
+
+        //                j -= h;
+        //            }
+
+        //            // Insertamos el elemento en la posición correcta
+        //            A[j] = AUX;
+        //            cuadros[j].Controls[0].Text = AUX.ToString();
+        //            cuadrito.AnimarCambioDeTamaño(cuadros[j], AUX);
+
+        //            cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que ha sido colocado en la posición correcta
+        //            panel.Refresh();
+        //            Application.DoEvents();
+        //            Thread.Sleep(500); // Pausa para que se vea el cambio de color
+        //        }
+
+        //        // Reducir el gap según la secuencia
+        //        h /= 2;
+        //    }
+        //}
+
+        public async Task ShellSortAnimadoDescendenteAsync(int[] A, FlowLayoutPanel panel, RichTextBox richTextBox)
+        {
+            // Código del algoritmo de Shell Sort
+            string codigoFuente = @"
+    int h = N / 2;                                    // Línea 1
+    while (h > 0)                                     // Línea 2
+    {
+        for (int i = h; i < N; i++)                   // Línea 3
+        {
+            int AUX = A[i];                           // Línea 4
+            int j = i;                                // Línea 5
+
+            while (j >= h && A[j - h] < AUX)          // Línea 6
             {
-                throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
+                A[j] = A[j - h];                      // Línea 7
+                j -= h;                               // Línea 8
             }
 
+            A[j] = AUX;                               // Línea 9
+        }
+
+        h /= 2;                                       // Línea 10
+    }";
+
+            // Configurar el RichTextBox con el código fuente
+            richTextBox.Clear();
+            richTextBox.Text = codigoFuente.Trim();
+            richTextBox.SelectAll();
+            richTextBox.SelectionColor = Color.Black; // Todo el texto empieza en negro
+            richTextBox.DeselectAll();
+
+            int N = A.Length;
             List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
 
-            // Se comienza con una secuencia de gaps (puedes ajustar la secuencia de "h" según tu preferencia)
             int h = N / 2;
 
             while (h > 0)
             {
-                // Realizamos una inserción con el gap actual
+                await ResaltarCodigoAsync(richTextBox, 0); // Resaltando la línea: "int h = N / 2;"
+
                 for (int i = h; i < N; i++)
                 {
                     int AUX = A[i];
                     int j = i;
 
-                    Panel cuadroActual = cuadros[i];
-                    cuadroActual.BackColor = cuadrito.GenerarColorUnico();
-                    cuadroActual.Refresh();
-                    Application.DoEvents();
-                    Thread.Sleep(500); // Pausa para que se vea el cambio de color
+                    await ResaltarCodigoAsync(richTextBox, 5); // Resaltando la línea: "int AUX = A[i];"
 
-                    // Desplazar los elementos hacia la izquierda (para orden descendente)
-                    while (j >= h && A[j - h] < AUX)  // Cambiado de > a <
+                    Panel cuadroActual = cuadros[i];
+                    cuadroActual.BackColor = Color.LightBlue; // Resaltar cuadro actual
+                    cuadroActual.Refresh();
+                    await Task.Delay(500);
+
+                    while (j >= h && A[j - h] < AUX) // Comparación para descendente
                     {
+                        await ResaltarCodigoAsync(richTextBox, 8); // Resaltando la línea: "while (j >= h && A[j - h] < AUX)"
+
                         A[j] = A[j - h];
 
-                        // Actualizamos el cuadro visualmente
-                        cuadros[j].Controls[0].Text = A[j].ToString();
+                        cuadros[j].Controls[0].Text = A[j].ToString(); // Actualizar visualmente el cuadro
                         cuadrito.AnimarCambioDeTamaño(cuadros[j], A[j]);
 
-                        cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
-                        cuadros[j - h].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
+                        cuadros[j].BackColor = Color.Red; // Resaltar cuadro desplazado
+                        cuadros[j - h].BackColor = Color.Yellow; // Resaltar cuadro comparado
 
-                        // Forzar actualización visual
                         panel.Refresh();
-                        Application.DoEvents();
-                        Thread.Sleep(500); // Pausa para que se vea el cambio de color
+                        await Task.Delay(500);
 
+                        cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Restaurar colores originales
+                        cuadros[j - h].BackColor = cuadrito.GenerarColorUnico();
                         j -= h;
+
+                        await ResaltarCodigoAsync(richTextBox, 11); // Resaltando la línea: "j -= h;"
                     }
 
-                    // Insertamos el elemento en la posición correcta
+                    await ResaltarCodigoAsync(richTextBox, 14); // Resaltando la línea: "A[j] = AUX;"
+
                     A[j] = AUX;
-                    cuadros[j].Controls[0].Text = AUX.ToString();
+
+                    cuadros[j].Controls[0].Text = AUX.ToString(); // Insertar elemento en la posición correcta
                     cuadrito.AnimarCambioDeTamaño(cuadros[j], AUX);
 
-                    cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que ha sido colocado en la posición correcta
+                    cuadros[j].BackColor = Color.Green; // Resaltar cuadro insertado
                     panel.Refresh();
-                    Application.DoEvents();
-                    Thread.Sleep(500); // Pausa para que se vea el cambio de color
+                    await Task.Delay(500);
                 }
 
-                // Reducir el gap según la secuencia
+                await ResaltarCodigoAsync(richTextBox, 17); // Resaltando la línea: "h /= 2;"
                 h /= 2;
             }
         }
-        public void InsertionDirecta(int[] A, FlowLayoutPanel panel)
-        {
-            int N = A.Length;
+        //public void ShellDescendente(int[] A, FlowLayoutPanel panel)
+        //{
+        //    int N = A.Length;
 
+        //    if (panel.Controls.Count != N)
+        //    {
+        //        throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
+        //    }
+
+        //    List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
+
+        //    // Se comienza con una secuencia de gaps (puedes ajustar la secuencia de "h" según tu preferencia)
+        //    int h = N / 2;
+
+        //    while (h > 0)
+        //    {
+        //        // Realizamos una inserción con el gap actual
+        //        for (int i = h; i < N; i++)
+        //        {
+        //            int AUX = A[i];
+        //            int j = i;
+
+        //            Panel cuadroActual = cuadros[i];
+        //            cuadroActual.BackColor = cuadrito.GenerarColorUnico();
+        //            cuadroActual.Refresh();
+        //            Application.DoEvents();
+        //            Thread.Sleep(500); // Pausa para que se vea el cambio de color
+
+        //            // Desplazar los elementos hacia la izquierda (para orden descendente)
+        //            while (j >= h && A[j - h] < AUX)  // Cambiado de > a <
+        //            {
+        //                A[j] = A[j - h];
+
+        //                // Actualizamos el cuadro visualmente
+        //                cuadros[j].Controls[0].Text = A[j].ToString();
+        //                cuadrito.AnimarCambioDeTamaño(cuadros[j], A[j]);
+
+        //                cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
+        //                cuadros[j - h].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
+
+        //                // Forzar actualización visual
+        //                panel.Refresh();
+        //                Application.DoEvents();
+        //                Thread.Sleep(500); // Pausa para que se vea el cambio de color
+
+        //                j -= h;
+        //            }
+
+        //            // Insertamos el elemento en la posición correcta
+        //            A[j] = AUX;
+        //            cuadros[j].Controls[0].Text = AUX.ToString();
+        //            cuadrito.AnimarCambioDeTamaño(cuadros[j], AUX);
+
+        //            cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que ha sido colocado en la posición correcta
+        //            panel.Refresh();
+        //            Application.DoEvents();
+        //            Thread.Sleep(500); // Pausa para que se vea el cambio de color
+        //        }
+
+        //        // Reducir el gap según la secuencia
+        //        h /= 2;
+        //    }
+        //}
+
+
+        public async Task InsertionDirectaAnimadoAsync(int[] A, FlowLayoutPanel panel, RichTextBox richTextBox)
+        {
+            // Código del algoritmo de Inserción Directa
+            string codigoFuente = @"
+    for (int i = 1; i < N; i++)
+    {
+        int AUX = A[i];
+        int j = i - 1;
+
+        while (j >= 0 && A[j] > AUX)
+        {
+            A[j + 1] = A[j];
+            j--;
+        }
+
+        A[j + 1] = AUX;
+    }";
+
+            // Mostrar el código en el RichTextBox
+            richTextBox.Clear();
+            richTextBox.Text = codigoFuente.Trim();
+            richTextBox.SelectAll();
+            richTextBox.SelectionColor = Color.Black;
+            richTextBox.DeselectAll();
+
+            int N = A.Length;
             if (panel.Controls.Count != N)
             {
                 throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
@@ -749,52 +1169,137 @@ private async Task MergeAnimado(...)
 
             for (int i = 1; i < N; i++)
             {
+                // Resaltar la línea inicial del ciclo externo
+                await ResaltarCodigoAsync(richTextBox, 0);
+
                 int AUX = A[i];
                 int j = i - 1;
 
                 Panel cuadroActual = cuadros[i];
-                cuadroActual.BackColor = cuadrito.GenerarColorUnico();
+                cuadroActual.BackColor = Color.LightBlue;
                 cuadroActual.Refresh();
-                Application.DoEvents();
-                Thread.Sleep(500); // Pausa para que se vea el cambio de color
+                await Task.Delay(500); // Pausa para resaltar el cuadro actual
 
-                // Mover los elementos de A[0..i-1], que son mayores que AUX,
-                // a una posición adelante de su posición actual
+                // Resaltar la línea del bucle interno
+                await ResaltarCodigoAsync(richTextBox, 5);
+
                 while (j >= 0 && A[j] > AUX)
                 {
+                    // Resaltar la línea que realiza el desplazamiento
+                    await ResaltarCodigoAsync(richTextBox, 7);
+
+                    // Desplazar los elementos en el arreglo
                     A[j + 1] = A[j];
 
-                    // Actualizamos el cuadro visualmente
+                    // Actualizar el cuadro visualmente
                     cuadros[j + 1].Controls[0].Text = A[j].ToString();
                     cuadrito.AnimarCambioDeTamaño(cuadros[j + 1], A[j]);
 
-                    cuadros[j + 1].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
-                    cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
+                    cuadros[j + 1].BackColor = Color.Red; // Resaltar el cuadro desplazado
+                    cuadros[j].BackColor = Color.Yellow; // Resaltar el cuadro comparado
 
-                    // Forzar actualización visual
                     panel.Refresh();
-                    Application.DoEvents();
-                    Thread.Sleep(500);
+                    await Task.Delay(500);
 
+                    cuadros[j + 1].BackColor = cuadrito.GenerarColorUnico(); // Restaurar color
+                    cuadros[j].BackColor = cuadrito.GenerarColorUnico();
                     j--;
                 }
 
-                // Insertar el elemento en la posición correcta
+                // Resaltar la línea que inserta el elemento en la posición correcta
+                await ResaltarCodigoAsync(richTextBox, 11);
+
                 A[j + 1] = AUX;
+
                 cuadros[j + 1].Controls[0].Text = AUX.ToString();
                 cuadrito.AnimarCambioDeTamaño(cuadros[j + 1], AUX);
 
-                cuadros[j + 1].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que ha sido colocado en la posición correcta
+                cuadros[j + 1].BackColor = Color.Green; // Resaltar el cuadro insertado
                 panel.Refresh();
-                Application.DoEvents();
-                Thread.Sleep(500); // Pausa para que se vea el cambio de color
+                await Task.Delay(500);
             }
         }
+        //public void InsertionDirecta(int[] A, FlowLayoutPanel panel)
+        //{
+        //    int N = A.Length;
 
-        public void InsertionDescendente(int[] A, FlowLayoutPanel panel)
+        //    if (panel.Controls.Count != N)
+        //    {
+        //        throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
+        //    }
+
+        //    List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
+
+        //    for (int i = 1; i < N; i++)
+        //    {
+        //        int AUX = A[i];
+        //        int j = i - 1;
+
+        //        Panel cuadroActual = cuadros[i];
+        //        cuadroActual.BackColor = cuadrito.GenerarColorUnico();
+        //        cuadroActual.Refresh();
+        //        Application.DoEvents();
+        //        Thread.Sleep(500); // Pausa para que se vea el cambio de color
+
+        //        // Mover los elementos de A[0..i-1], que son mayores que AUX,
+        //        // a una posición adelante de su posición actual
+        //        while (j >= 0 && A[j] > AUX)
+        //        {
+        //            A[j + 1] = A[j];
+
+        //            // Actualizamos el cuadro visualmente
+        //            cuadros[j + 1].Controls[0].Text = A[j].ToString();
+        //            cuadrito.AnimarCambioDeTamaño(cuadros[j + 1], A[j]);
+
+        //            cuadros[j + 1].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
+        //            cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
+
+        //            // Forzar actualización visual
+        //            panel.Refresh();
+        //            Application.DoEvents();
+        //            Thread.Sleep(500);
+
+        //            j--;
+        //        }
+
+        //        // Insertar el elemento en la posición correcta
+        //        A[j + 1] = AUX;
+        //        cuadros[j + 1].Controls[0].Text = AUX.ToString();
+        //        cuadrito.AnimarCambioDeTamaño(cuadros[j + 1], AUX);
+
+        //        cuadros[j + 1].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que ha sido colocado en la posición correcta
+        //        panel.Refresh();
+        //        Application.DoEvents();
+        //        Thread.Sleep(500); // Pausa para que se vea el cambio de color
+        //    }
+        //}
+
+        public async Task InsertionDescendenteAnimadoAsync(int[] A, FlowLayoutPanel panel, RichTextBox richTextBox)
         {
-            int N = A.Length;
+            // Código del algoritmo de Inserción Descendente
+            string codigoFuente = @"
+    for (int i = 1; i < N; i++)                      // Línea 1
+    {
+        int AUX = A[i];                              // Línea 2
+        int j = i - 1;                               // Línea 3
 
+        while (j >= 0 && A[j] < AUX)                 // Línea 4
+        {
+            A[j + 1] = A[j];                         // Línea 5
+            j--;                                     // Línea 6
+        }
+
+        A[j + 1] = AUX;                              // Línea 7
+    }";
+
+            // Mostrar el código en el RichTextBox
+            richTextBox.Clear();
+            richTextBox.Text = codigoFuente.Trim();
+            richTextBox.SelectAll();
+            richTextBox.SelectionColor = Color.Black; // Inicializamos con todo el texto en negro
+            richTextBox.DeselectAll();
+
+            int N = A.Length;
             if (panel.Controls.Count != N)
             {
                 throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
@@ -804,47 +1309,107 @@ private async Task MergeAnimado(...)
 
             for (int i = 1; i < N; i++)
             {
+                await ResaltarCodigoAsync(richTextBox, 0); // Resaltando la línea: "for (int i = 1; i < N; i++)"
+
                 int AUX = A[i];
                 int j = i - 1;
 
                 Panel cuadroActual = cuadros[i];
-                cuadroActual.BackColor = cuadrito.GenerarColorUnico();
+                cuadroActual.BackColor = Color.LightBlue; // Resaltar el cuadro actual en el panel
                 cuadroActual.Refresh();
-                Application.DoEvents();
-                Thread.Sleep(500); // Pausa para que se vea el cambio de color
+                await Task.Delay(500);
 
-                // Mover los elementos de A[0..i-1], que son menores que AUX,
-                // a una posición adelante de su posición actual
-                while (j >= 0 && A[j] < AUX) // Cambiado de > a < para orden descendente
+                await ResaltarCodigoAsync(richTextBox, 5); // Resaltando la línea: "while (j >= 0 && A[j] < AUX)"
+
+                while (j >= 0 && A[j] < AUX)
                 {
+                    await ResaltarCodigoAsync(richTextBox, 7); // Resaltando la línea: "A[j + 1] = A[j];"
+
                     A[j + 1] = A[j];
 
-                    // Actualizamos el cuadro visualmente
-                    cuadros[j + 1].Controls[0].Text = A[j].ToString();
+                    cuadros[j + 1].Controls[0].Text = A[j].ToString(); // Actualizar el valor del cuadro
                     cuadrito.AnimarCambioDeTamaño(cuadros[j + 1], A[j]);
 
-                    cuadros[j + 1].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
-                    cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
+                    cuadros[j + 1].BackColor = Color.Red; // Resaltar el cuadro desplazado
+                    cuadros[j].BackColor = Color.Yellow; // Resaltar el cuadro comparado
 
-                    // Forzar actualización visual
                     panel.Refresh();
-                    Application.DoEvents();
-                    Thread.Sleep(500);
+                    await Task.Delay(500);
 
+                    cuadros[j + 1].BackColor = cuadrito.GenerarColorUnico(); // Restaurar el color del cuadro
+                    cuadros[j].BackColor = cuadrito.GenerarColorUnico();
                     j--;
+
+                    await ResaltarCodigoAsync(richTextBox, 8); // Resaltando la línea: "j--;"
                 }
 
-                // Insertar el elemento en la posición correcta
+                await ResaltarCodigoAsync(richTextBox, 11); // Resaltando la línea: "A[j + 1] = AUX;"
+
                 A[j + 1] = AUX;
-                cuadros[j + 1].Controls[0].Text = AUX.ToString();
+
+                cuadros[j + 1].Controls[0].Text = AUX.ToString(); // Insertar el elemento en la posición correcta
                 cuadrito.AnimarCambioDeTamaño(cuadros[j + 1], AUX);
 
-                cuadros[j + 1].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que ha sido colocado en la posición correcta
+                cuadros[j + 1].BackColor = Color.Green; // Resaltar el cuadro insertado
                 panel.Refresh();
-                Application.DoEvents();
-                Thread.Sleep(500); // Pausa para que se vea el cambio de color
+                await Task.Delay(500);
             }
         }
+
+        //public void InsertionDescendente(int[] A, FlowLayoutPanel panel)
+        //{
+        //    int N = A.Length;
+
+        //    if (panel.Controls.Count != N)
+        //    {
+        //        throw new InvalidOperationException("El número de cuadros no coincide con el tamaño del arreglo.");
+        //    }
+
+        //    List<Panel> cuadros = panel.Controls.Cast<Panel>().ToList();
+
+        //    for (int i = 1; i < N; i++)
+        //    {
+        //        int AUX = A[i];
+        //        int j = i - 1;
+
+        //        Panel cuadroActual = cuadros[i];
+        //        cuadroActual.BackColor = cuadrito.GenerarColorUnico();
+        //        cuadroActual.Refresh();
+        //        Application.DoEvents();
+        //        Thread.Sleep(500); // Pausa para que se vea el cambio de color
+
+        //        // Mover los elementos de A[0..i-1], que son menores que AUX,
+        //        // a una posición adelante de su posición actual
+        //        while (j >= 0 && A[j] < AUX) // Cambiado de > a < para orden descendente
+        //        {
+        //            A[j + 1] = A[j];
+
+        //            // Actualizamos el cuadro visualmente
+        //            cuadros[j + 1].Controls[0].Text = A[j].ToString();
+        //            cuadrito.AnimarCambioDeTamaño(cuadros[j + 1], A[j]);
+
+        //            cuadros[j + 1].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
+        //            cuadros[j].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que está siendo desplazado
+
+        //            // Forzar actualización visual
+        //            panel.Refresh();
+        //            Application.DoEvents();
+        //            Thread.Sleep(500);
+
+        //            j--;
+        //        }
+
+        //        // Insertar el elemento en la posición correcta
+        //        A[j + 1] = AUX;
+        //        cuadros[j + 1].Controls[0].Text = AUX.ToString();
+        //        cuadrito.AnimarCambioDeTamaño(cuadros[j + 1], AUX);
+
+        //        cuadros[j + 1].BackColor = cuadrito.GenerarColorUnico(); // Resaltamos el cuadro que ha sido colocado en la posición correcta
+        //        panel.Refresh();
+        //        Application.DoEvents();
+        //        Thread.Sleep(500); // Pausa para que se vea el cambio de color
+        //    }
+        //}
 
         public void QuicksortAscendente(int[] A, FlowLayoutPanel panel)
         {
