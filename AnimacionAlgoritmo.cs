@@ -11,7 +11,7 @@ namespace ProyectoFinal
     internal class AnimacionAlgoritmo
     {
         private readonly string[] pasosAlgoritmo, pasosAlgoritmoShell, pasosAlgoritmoInDirecta, pasosAlgoritmoQuickSort,
-            pasosAlgoritmoCubeta, pasosAlgoritmoRadixSort, pasosAlgoritmoInsercionBinaria, pasosAlgortimoHeapSort; // Pasos detallados del algoritmo
+            pasosAlgoritmoCubetaAsc, pasosAlgoritmoCubetasDes, pasosAlgoritmoRadixSortAsc, pasosAlgoritmoRadixSortDes, pasosAlgoritmoInsercionBinaria, pasosAlgortimoHeapSort,pasosAlgoritmoBaraja; // Pasos detallados del algoritmo
         private int pasoActual;
         private Timer textoTimer;
         private RichTextBox richTextBox;
@@ -194,25 +194,134 @@ namespace ProyectoFinal
         "Cuando la partición es de tamaño 1, el arreglo está ordenado"
     };
 
-            pasosAlgoritmoCubeta = new string[]
+            pasosAlgoritmoCubetaAsc = new string[]
     {
-        "Comienza con el segundo elemento del arreglo",
-        "Realiza una búsqueda binaria para encontrar la posición donde debe insertarse",
-        "Desplaza los elementos mayores para hacer espacio",
-        "Inserta el elemento en la posición encontrada",
-        "Repite el proceso para cada elemento del arreglo"
+        "{",
+            "if (arr.Length == 0) return;",
+
+            "List<List<int>> buckets = new List<List<int>>(bucketCount);",
+            "for (int i = 0; i < bucketCount; i++)",
+            "{",
+                "buckets.Add(new List<int>());",
+            "}",
+
+            "foreach (int num in arr)",
+            "{",
+                "int bucketIndex = num * bucketCount / (arr.Max() + 1);",
+                "buckets[bucketIndex].Add(num);",
+            "}",
+
+            "int index = 0;",
+            "foreach (var bucket in buckets)",
+            "{",
+                "bucket.Sort();",
+                "foreach (var num in bucket)",
+                "{",
+                    "arr[index++] = num;",
+                "}",
+            "}",
+        "}",
+
+    };
+            pasosAlgoritmoCubetasDes = new string[]
+
+        "{,
+            "if (arr.Length == 0) return;",
+           
+           "List<List<int>> buckets = new List<List<int>>(bucketCount);" ,
+            "for (int i = 0; i < bucketCount; i++),
+            "{",
+                "buckets.Add(new List<int>());",
+            "}",
+
+            "foreach (int num in arr),
+            "{",
+                "int bucketIndex = num * bucketCount / (arr.Max() + 1);",
+                "buckets[bucketIndex].Add(num);",
+            "}",
+
+            "int index = 0;",
+            "foreach (var bucket in buckets)",
+            "{",
+                "bucket.Sort();" ,
+                "bucket.Reverse();",
+                "foreach (var num in bucket)",
+                "{",
+                    "arr[index++] = num;",
+                "}"
+            "}",
+        "}",
+
+    { 
+            
+    }
+
+            pasosAlgoritmoRadixSortAsc = new string[]
+    {
+        "{    ",
+            "int max = arr.Max();"
+                "for (int exp = 1;max / exp > 0; exp *= 10)    ",
+                "{",
+                    "CountingSort(arr, exp);",
+                "}",
+        "}",
+                                        
+        "{",
+            " int n = arr.Length;",
+                    "int[] output = new int[n];",
+                    "int[] count = new int[10];",
+
+                    "for (int i = 0; i < count.Length; i++)",
+                        "count[i] = 0;",
+                    "for (int i = 0; i < n; i++)",
+                        "count[(arr[i] / exp) % 10]++;",
+                    " for (int i = 1; i < 10; i++)",
+                        "count[i] += count[i - 1];2",
+                    "for (int i = n - 1; i >= 0; i--)",
+                    "{",
+                        "output[count[(arr[i] / exp) % 10] - 1] = arr[i];",
+                        "count[(arr[i] / exp) % 10]--;",
+                    "}",
+                    "for (int i = 0; i < n; i++)",
+                        "arr[i] = output[i];",
+        "}",
+    };
+            pasosAlgoritmoRadixSortDes = new string[]
+    {
+            "{",
+                "int max = arr.Max();,
+                "for (int exp = 1; max / exp > 0; exp *= 10)",
+                "{",
+                    "CountingSortDescendente(arr, exp);",
+                "}",
+            "}",
+
+            "{",
+                "int n = arr.Length;",
+                "int[] output = new int[n];",
+                "int[] count = new int[10];",
+
+                "for (int i = 0; i < count.Length; i++)",
+                    "count[i] = 0;",
+
+                "for (int i = 0; i < n; i++)",
+                    "count[(arr[i] / exp) % 10]++;",
+
+                "for (int i = 8; i >= 0; i--)",
+                    "count[i] += count[i + 1];",
+
+                "for (int i = 0; i < n; i++)",
+                "{",
+                    "output[count[(arr[i] / exp) % 10] - 1] = arr[i];",
+                    "count[(arr[i] / exp) % 10]--;",
+                "}",
+
+                "for (int i = 0; i < n; i++)",
+                    "arr[i] = output[i];"
+            "}",
     };
 
-            pasosAlgoritmoRadixSort = new string[]
-    {
-        "Encuentra el valor máximo en el arreglo para determinar el número de dígitos",
-        "Para cada dígito, realiza un ordenamiento por el dígito actual",
-        "Usa un algoritmo de ordenamiento estable (como el conteo) para ordenar por cada dígito",
-        "Repite para cada dígito (de menor a mayor orden de importancia)",
-        "Cuando todos los dígitos hayan sido ordenados, el arreglo estará completamente ordenado"
-    };
-
-            pasosAlgoritmoInsercionBinaria = new string[]
+    pasosAlgoritmoInsercionBinaria = new string[]
     {
         "Comienza con el segundo elemento del arreglo",
         "Realiza una búsqueda binaria para encontrar la posición donde debe insertarse",
@@ -284,7 +393,7 @@ namespace ProyectoFinal
           
                 };
 
-            pasosAlgoritmoCubeta = new string[]
+            pasosAlgoritmoBaraja = new string[]
     {
             "int N = A.Length;",
             "for (int I = 1; I < N; I++) ",
