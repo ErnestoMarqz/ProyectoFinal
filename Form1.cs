@@ -170,6 +170,8 @@ namespace ProyectoFinal
                     metodos.HeapSort(arreglo, flowLayoutPanel1, ascendente);
                 }
             }
+
+
         }
 
         private int currentLineIndex = 0;
