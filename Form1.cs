@@ -115,11 +115,16 @@ namespace ProyectoFinal
                 {
                     ascendente = true;
                     metodos.Baraja(arreglo, flowLayoutPanel1, ascendente);
+                    animacionTexto.BarajaAsc();
+                    await Task.Delay(300);
+
                 }
                 else
                 {
                     ascendente = false;
                     metodos.Baraja(arreglo, flowLayoutPanel1, ascendente);
+                    animacionTexto.BarajaDes();
+                    await Task.Delay(300);
                 }
             }
             if (comboBox1.SelectedItem.ToString() == "Shell")
@@ -127,10 +132,14 @@ namespace ProyectoFinal
                 if (rbAsendente.Checked == true)
                 {
                     metodos.ShellAsendente(arreglo, flowLayoutPanel1);
+                    animacionTexto.IniciarShell();
+                    await Task.Delay(300);
                 }
                 if (rbDesendente.Checked == true)
                 {
                     metodos.ShellDescendente(arreglo, flowLayoutPanel1);
+                    animacionTexto.IniciarShell();
+                    await Task.Delay(300);
                 }
             }
             if (comboBox1.SelectedItem.ToString() == "Inter. Directa")
@@ -138,10 +147,14 @@ namespace ProyectoFinal
                 if (rbAsendente.Checked == true)
                 {
                     metodos.InsertionDirecta(arreglo, flowLayoutPanel1);
+                    animacionTexto.Iniciar_Inserción_Directa();
+                    await Task.Delay(300);
                 }
                 if (rbDesendente.Checked == true)
                 {
                     metodos.InsertionDescendente(arreglo, flowLayoutPanel1);
+                    animacionTexto.Iniciar_Inserción_Directa();
+                    await Task.Delay(300);
                 }
             }
             if (comboBox1.SelectedItem.ToString() == "Quick Sort")
@@ -149,10 +162,14 @@ namespace ProyectoFinal
                 if (rbAsendente.Checked == true)
                 {
                     metodos.QuicksortAscendente(arreglo, flowLayoutPanel1);
+                    animacionTexto.IniciarQuickSort();
+                    await Task.Delay(300);
                 }
                 if (rbDesendente.Checked == true)
                 {
                     metodos.QuicksortDescendente(arreglo, flowLayoutPanel1);
+                    animacionTexto.IniciarQuickSort();
+                    await Task.Delay(300);
                 }
             }
             if (comboBox1.SelectedItem.ToString() == "Heap Sort")
@@ -163,11 +180,15 @@ namespace ProyectoFinal
                 {
                     ascendente = true;
                     metodos.HeapSort(arreglo, flowLayoutPanel1, ascendente);
+                    animacionTexto.IniciarHeapSortAsc();
+                    await Task.Delay(300);
                 }
                 else
                 {
                     ascendente = false;
                     metodos.HeapSort(arreglo, flowLayoutPanel1, ascendente);
+                    animacionTexto.IniciarHeapSortDes();
+                    await Task.Delay(300);
                 }
             }
 
@@ -178,6 +199,8 @@ namespace ProyectoFinal
 
                 Metodos metodos = new Metodos(); // Tu clase que contiene los algoritmos
                 await metodos.OrdenarInsercionBinariaConAnimacion(flowLayoutPanel1, arreglo, ascendente);
+                animacionTexto.IniciarInsercionBinaria();
+                await Task.Delay(300);
 
             }
 
@@ -188,12 +211,16 @@ namespace ProyectoFinal
                     //metodos.BucketSortAscendente(arreglo,flowLayoutPanel1,richTextBox1);
                     metodos.BucketSortAscendente(arreglo, flowLayoutPanel1, (int)numericUpDown3.Value, (int)numericUpDown4.Value);
                     richTextBox1.Visible = false;
+                    animacionTexto.IniciarCubetaAsc();
+                    await Task.Delay(300);
                 }
                 if (rbDesendente.Checked == true)
                 {
                     metodos.BucketSortDescendente(arreglo, flowLayoutPanel1, (int)numericUpDown3.Value, (int)numericUpDown4.Value);
                     //metodos.BucketSortDescendente2(arreglo, flowLayoutPanel1, (int)numericUpDown3.Value,(int)numericUpDown4.Value);
                     richTextBox1.Visible = false;
+                    animacionTexto.IniciarCubetasDes();
+                    await Task.Delay(300);
                 }
             }
             if (comboBox1.SelectedItem.ToString() == "Radix Sort")
@@ -203,12 +230,16 @@ namespace ProyectoFinal
                     metodos.RadixSort(arreglo, flowLayoutPanel1, richTextBox1);
                     //richTextBox1.Visible = false;
                     //richTextBox1.Text = string.Empty;
+                    animacionTexto.IniciarRadixSortAsc();
+                    await Task.Delay(300);
                 }
                 if (rbDesendente.Checked == true)
                 {
                     metodos.RadixSortDescendente(arreglo, flowLayoutPanel1, richTextBox1);
                     //richTextBox1.Visible = false;
                     //richTextBox1.Text = string.Empty;
+                    animacionTexto.IniciarRadixSortDes();
+                    await Task.Delay(300);
                 }
 
             }

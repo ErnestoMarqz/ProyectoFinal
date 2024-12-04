@@ -11,7 +11,7 @@ namespace ProyectoFinal
 {
     internal class AnimacionAlgoritmo
     {
-        private readonly string[] pasosAlgoritmo, pasosAlgoritmoShell, pasosAlgoritmoInDirecta, pasosAlgoritmoQuickSort,
+        private readonly string[] pasosAlgoritmoShell, pasosAlgoritmoInDirecta, pasosAlgoritmoQuickSort,
             pasosAlgoritmoCubetaAsc, pasosAlgoritmoCubetasDes, pasosAlgoritmoRadixSortAsc, pasosAlgoritmoRadixSortDes, pasosAlgoritmoInsercionBinaria, pasosAlgortimoHeapSort, AlgoritmoHeapSortDescendente, pasosAlgoritmoBaraja, AlgoritmoBarajaDescendente, AlgoritmoBusquedaBinaria; // Pasos detallados del algoritmo
         private int pasoActual;
         private Timer textoTimer;
@@ -67,18 +67,18 @@ namespace ProyectoFinal
                     if (intercambiar)
                     {
                         // Resaltar la línea del intercambio
-                        MostrarAlgoritmoRichTextBox(algoritmo, richTextBox, 6);
+                        MostrarAlgoritmoRichTextBox(algoritmo, richTextBox, 7);
                         (valores[j], valores[j + 1]) = (valores[j + 1], valores[j]);
 
                         await Cuadritos.IntercambiarCuadrosAnimado(parent, j, j + 1);
 
                         intercambio = true;
-                        MostrarAlgoritmoRichTextBox(algoritmo, richTextBox, 7); // Línea donde "intercambio" se actualiza
+                        MostrarAlgoritmoRichTextBox(algoritmo, richTextBox, 8); // Línea donde "intercambio" se actualiza
                         await Task.Delay(500);
                     }
                 }
 
-                MostrarAlgoritmoRichTextBox(algoritmo, richTextBox, 10); // Línea del "if (!intercambio)"
+                MostrarAlgoritmoRichTextBox(algoritmo, richTextBox, 11); // Línea del "if (!intercambio)"
                 if (!intercambio) break;
             }
 
@@ -633,7 +633,7 @@ namespace ProyectoFinal
         public void IniciarShell()
         {
             // Muestra todo el texto del algoritmo
-            MostrarAlgoritmoCompleto();
+            MostrarAlgoritmoCompletoShell();
 
             pasoActual = 0;
             textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
@@ -641,7 +641,7 @@ namespace ProyectoFinal
             {
                 if (pasoActual < pasosAlgoritmoShell.Length)
                 {
-                    ResaltarPaso(pasoActual);
+                    ResaltarPasoShell(pasoActual);
                     pasoActual++;
                 }
                 else
@@ -651,11 +651,52 @@ namespace ProyectoFinal
             };
             textoTimer.Start();
         }
+        private void MostrarAlgoritmoCompletoShell()
+        {
+            richTextBox.Clear();
+            foreach (string paso in pasosAlgoritmoShell)
+            {
+                richTextBox.AppendText(paso + Environment.NewLine);
+            }
+        }
+        private void ResaltarPasoShell(int paso)
+        {
+            // Remueve cualquier resaltado previo
+            richTextBox.SelectAll();
+            richTextBox.SelectionBackColor = Color.White;
+
+            // Resalta el paso actual
+            int inicio = ObtenerInicioDeLineaShell(paso);
+            int longitud = pasosAlgoritmoShell[paso].Length;
+
+            richTextBox.Select(inicio, longitud);
+            richTextBox.SelectionBackColor = Color.LightBlue;
+            richTextBox.ScrollToCaret(); // Desplaza el texto para que el paso sea visible
+        }
+
+        private int ObtenerInicioDeLineaShell(int linea)
+        {
+            int inicio = 0;
+            for (int i = 0; i < linea; i++)
+            {
+                inicio += pasosAlgoritmoShell[i].Length + Environment.NewLine.Length;
+            }
+            return inicio;
+        }
+
+        public void AvanzarPasoManualShell(int paso)
+        {
+            // Método para avanzar manualmente el paso desde otro punto
+            if (paso >= 0 && paso < pasosAlgoritmoShell.Length)
+            {
+                ResaltarPasoShell(paso);
+            }
+        }
 
         public void Iniciar_Inserción_Directa()
         {
             // Muestra todo el texto del algoritmo
-            MostrarAlgoritmoCompleto();
+            MostrarAlgoritmoCompleto_Inserción_Directa();
 
             pasoActual = 0;
             textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
@@ -663,7 +704,7 @@ namespace ProyectoFinal
             {
                 if (pasoActual < pasosAlgoritmoInDirecta.Length)
                 {
-                    ResaltarPaso(pasoActual);
+                    ResaltarPaso_Inserción_Directa(pasoActual);
                     pasoActual++;
                 }
                 else
@@ -673,11 +714,52 @@ namespace ProyectoFinal
             };
             textoTimer.Start();
         }
+        private void MostrarAlgoritmoCompleto_Inserción_Directa()
+        {
+            richTextBox.Clear();
+            foreach (string paso in pasosAlgoritmoInDirecta)
+            {
+                richTextBox.AppendText(paso + Environment.NewLine);
+            }
+        }
+        private void ResaltarPaso_Inserción_Directa(int paso)
+        {
+            // Remueve cualquier resaltado previo
+            richTextBox.SelectAll();
+            richTextBox.SelectionBackColor = Color.White;
+
+            // Resalta el paso actual
+            int inicio = ObtenerInicioDeLinea_Inserción_Directa(paso);
+            int longitud = pasosAlgoritmoInDirecta[paso].Length;
+
+            richTextBox.Select(inicio, longitud);
+            richTextBox.SelectionBackColor = Color.LightBlue;
+            richTextBox.ScrollToCaret(); // Desplaza el texto para que el paso sea visible
+        }
+
+        private int ObtenerInicioDeLinea_Inserción_Directa(int linea)
+        {
+            int inicio = 0;
+            for (int i = 0; i < linea; i++)
+            {
+                inicio += pasosAlgoritmoInDirecta[i].Length + Environment.NewLine.Length;
+            }
+            return inicio;
+        }
+
+        public void AvanzarPasoManual_Inserción_Directa(int paso)
+        {
+            // Método para avanzar manualmente el paso desde otro punto
+            if (paso >= 0 && paso < pasosAlgoritmoInDirecta.Length)
+            {
+                ResaltarPaso_Inserción_Directa(paso);
+            }
+        }
 
         public void IniciarQuickSort()
         {
             // Muestra todo el texto del algoritmo
-            MostrarAlgoritmoCompleto();
+            MostrarAlgoritmoCompletoQuickSort();
 
             pasoActual = 0;
             textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
@@ -685,7 +767,7 @@ namespace ProyectoFinal
             {
                 if (pasoActual < pasosAlgoritmoQuickSort.Length)
                 {
-                    ResaltarPaso(pasoActual);
+                    ResaltarPasoQuickSort(pasoActual);
                     pasoActual++;
                 }
                 else
@@ -696,10 +778,53 @@ namespace ProyectoFinal
             textoTimer.Start();
         }
 
+        private void MostrarAlgoritmoCompletoQuickSort()
+        {
+            richTextBox.Clear();
+            foreach (string paso in pasosAlgoritmoQuickSort)
+            {
+                richTextBox.AppendText(paso + Environment.NewLine);
+            }
+        }
+
+        private void ResaltarPasoQuickSort(int paso)
+        {
+            // Remueve cualquier resaltado previo
+            richTextBox.SelectAll();
+            richTextBox.SelectionBackColor = Color.White;
+
+            // Resalta el paso actual
+            int inicio = ObtenerInicioDeLineaQuickSort(paso);
+            int longitud = pasosAlgoritmoQuickSort[paso].Length;
+
+            richTextBox.Select(inicio, longitud);
+            richTextBox.SelectionBackColor = Color.LightBlue;
+            richTextBox.ScrollToCaret(); // Desplaza el texto para que el paso sea visible
+        }
+
+        private int ObtenerInicioDeLineaQuickSort(int linea)
+        {
+            int inicio = 0;
+            for (int i = 0; i < linea; i++)
+            {
+                inicio += pasosAlgoritmoQuickSort[i].Length + Environment.NewLine.Length;
+            }
+            return inicio;
+        }
+
+        public void AvanzarPasoManualQuickSort(int paso)
+        {
+            // Método para avanzar manualmente el paso desde otro punto
+            if (paso >= 0 && paso < pasosAlgoritmoQuickSort.Length)
+            {
+                ResaltarPasoQuickSort(paso);
+            }
+        }
+
         public void IniciarCubetaAsc()
         {
             // Muestra todo el texto del algoritmo
-            MostrarAlgoritmoCompleto();
+            MostrarAlgoritmoCompletoCubetaAsc();
 
             pasoActual = 0;
             textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
@@ -707,7 +832,7 @@ namespace ProyectoFinal
             {
                 if (pasoActual < pasosAlgoritmoCubetaAsc.Length)
                 {
-                    ResaltarPaso(pasoActual);
+                    ResaltarPasoCubetaAsc(pasoActual);
                     pasoActual++;
                 }
                 else
@@ -718,10 +843,52 @@ namespace ProyectoFinal
             textoTimer.Start();
         }
 
+        private void MostrarAlgoritmoCompletoCubetaAsc()
+        {
+            richTextBox.Clear();
+            foreach (string paso in pasosAlgoritmoCubetaAsc)
+            {
+                richTextBox.AppendText(paso + Environment.NewLine);
+            }
+        }
+        private void ResaltarPasoCubetaAsc(int paso)
+        {
+            // Remueve cualquier resaltado previo
+            richTextBox.SelectAll();
+            richTextBox.SelectionBackColor = Color.White;
+
+            // Resalta el paso actual
+            int inicio = ObtenerInicioDeLineaCubetaAsc(paso);
+            int longitud = pasosAlgoritmoCubetaAsc[paso].Length;
+
+            richTextBox.Select(inicio, longitud);
+            richTextBox.SelectionBackColor = Color.LightBlue;
+            richTextBox.ScrollToCaret(); // Desplaza el texto para que el paso sea visible
+        }
+
+        private int ObtenerInicioDeLineaCubetaAsc(int linea)
+        {
+            int inicio = 0;
+            for (int i = 0; i < linea; i++)
+            {
+                inicio += pasosAlgoritmoCubetaAsc[i].Length + Environment.NewLine.Length;
+            }
+            return inicio;
+        }
+
+        public void AvanzarPasoManualCubetaAsc(int paso)
+        {
+            // Método para avanzar manualmente el paso desde otro punto
+            if (paso >= 0 && paso < pasosAlgoritmoCubetaAsc.Length)
+            {
+                ResaltarPasoCubetaAsc(paso);
+            }
+        }
+
         public void IniciarCubetasDes()
         {
             // Muestra todo el texto del algoritmo
-            MostrarAlgoritmoCompleto();
+            MostrarAlgoritmoCompletoCubetasDes();
 
             pasoActual = 0;
             textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
@@ -729,7 +896,7 @@ namespace ProyectoFinal
             {
                 if (pasoActual < pasosAlgoritmoCubetasDes.Length)
                 {
-                    ResaltarPaso(pasoActual);
+                    ResaltarPasoCubetasDes(pasoActual);
                     pasoActual++;
                 }
                 else
@@ -740,10 +907,53 @@ namespace ProyectoFinal
             textoTimer.Start();
         }
 
+        private void MostrarAlgoritmoCompletoCubetasDes()
+        {
+            richTextBox.Clear();
+            foreach (string paso in pasosAlgoritmoCubetasDes)
+            {
+                richTextBox.AppendText(paso + Environment.NewLine);
+            }
+        }
+
+        private void ResaltarPasoCubetasDes(int paso)
+        {
+            // Remueve cualquier resaltado previo
+            richTextBox.SelectAll();
+            richTextBox.SelectionBackColor = Color.White;
+
+            // Resalta el paso actual
+            int inicio = ObtenerInicioDeLineaCubetasDes(paso);
+            int longitud = pasosAlgoritmoCubetasDes[paso].Length;
+
+            richTextBox.Select(inicio, longitud);
+            richTextBox.SelectionBackColor = Color.LightBlue;
+            richTextBox.ScrollToCaret(); // Desplaza el texto para que el paso sea visible
+        }
+
+        private int ObtenerInicioDeLineaCubetasDes(int linea)
+        {
+            int inicio = 0;
+            for (int i = 0; i < linea; i++)
+            {
+                inicio += pasosAlgoritmoCubetasDes[i].Length + Environment.NewLine.Length;
+            }
+            return inicio;
+        }
+
+        public void AvanzarPasoManualCubetasDes(int paso)
+        {
+            // Método para avanzar manualmente el paso desde otro punto
+            if (paso >= 0 && paso < pasosAlgoritmoCubetasDes.Length)
+            {
+                ResaltarPasoCubetasDes(paso);
+            }
+        }
+
         public void IniciarRadixSortAsc()
         {
             // Muestra todo el texto del algoritmo
-            MostrarAlgoritmoCompleto();
+            MostrarAlgoritmoCompletoRadixSortAsc();
 
             pasoActual = 0;
             textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
@@ -751,7 +961,7 @@ namespace ProyectoFinal
             {
                 if (pasoActual < pasosAlgoritmoRadixSortAsc.Length)
                 {
-                    ResaltarPaso(pasoActual);
+                    ResaltarPasoRadixSortAsc(pasoActual);
                     pasoActual++;
                 }
                 else
@@ -761,11 +971,52 @@ namespace ProyectoFinal
             };
             textoTimer.Start();
         }
+        private void MostrarAlgoritmoCompletoRadixSortAsc()
+        {
+            richTextBox.Clear();
+            foreach (string paso in pasosAlgoritmoRadixSortAsc)
+            {
+                richTextBox.AppendText(paso + Environment.NewLine);
+            }
+        }
+        private void ResaltarPasoRadixSortAsc(int paso)
+        {
+            // Remueve cualquier resaltado previo
+            richTextBox.SelectAll();
+            richTextBox.SelectionBackColor = Color.White;
+
+            // Resalta el paso actual
+            int inicio = ObtenerInicioDeLineaRadixSortAsc(paso);
+            int longitud = pasosAlgoritmoRadixSortAsc[paso].Length;
+
+            richTextBox.Select(inicio, longitud);
+            richTextBox.SelectionBackColor = Color.LightBlue;
+            richTextBox.ScrollToCaret(); // Desplaza el texto para que el paso sea visible
+        }
+
+        private int ObtenerInicioDeLineaRadixSortAsc(int linea)
+        {
+            int inicio = 0;
+            for (int i = 0; i < linea; i++)
+            {
+                inicio += pasosAlgoritmoRadixSortAsc[i].Length + Environment.NewLine.Length;
+            }
+            return inicio;
+        }
+
+        public void AvanzarPasoManualRadixSortAsc(int paso)
+        {
+            // Método para avanzar manualmente el paso desde otro punto
+            if (paso >= 0 && paso < pasosAlgoritmoRadixSortAsc.Length)
+            {
+                ResaltarPasoRadixSortAsc(paso);
+            }
+        }
 
         public void IniciarRadixSortDes()
         {
             // Muestra todo el texto del algoritmo
-            MostrarAlgoritmoCompleto();
+            MostrarAlgoritmoCompletoRadixSortDes();
 
             pasoActual = 0;
             textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
@@ -773,7 +1024,7 @@ namespace ProyectoFinal
             {
                 if (pasoActual < pasosAlgoritmoRadixSortDes.Length)
                 {
-                    ResaltarPaso(pasoActual);
+                    ResaltarPasoRadixSortDes(pasoActual);
                     pasoActual++;
                 }
                 else
@@ -784,10 +1035,53 @@ namespace ProyectoFinal
             textoTimer.Start();
         }
 
+        private void MostrarAlgoritmoCompletoRadixSortDes()
+        {
+            richTextBox.Clear();
+            foreach (string paso in pasosAlgoritmoRadixSortDes)
+            {
+                richTextBox.AppendText(paso + Environment.NewLine);
+            }
+        }
+
+        private void ResaltarPasoRadixSortDes(int paso)
+        {
+            // Remueve cualquier resaltado previo
+            richTextBox.SelectAll();
+            richTextBox.SelectionBackColor = Color.White;
+
+            // Resalta el paso actual
+            int inicio = ObtenerInicioDeLineaRadixSortDes(paso);
+            int longitud = pasosAlgoritmoRadixSortDes[paso].Length;
+
+            richTextBox.Select(inicio, longitud);
+            richTextBox.SelectionBackColor = Color.LightBlue;
+            richTextBox.ScrollToCaret(); // Desplaza el texto para que el paso sea visible
+        }
+
+        private int ObtenerInicioDeLineaRadixSortDes(int linea)
+        {
+            int inicio = 0;
+            for (int i = 0; i < linea; i++)
+            {
+                inicio += pasosAlgoritmoRadixSortDes[i].Length + Environment.NewLine.Length;
+            }
+            return inicio;
+        }
+
+        public void AvanzarPasoManualRadixSortDes(int paso)
+        {
+            // Método para avanzar manualmente el paso desde otro punto
+            if (paso >= 0 && paso < pasosAlgoritmoRadixSortDes.Length)
+            {
+                ResaltarPasoRadixSortDes(paso);
+            }
+        }
+
         public void IniciarInsercionBinaria()
         {
             // Muestra todo el texto del algoritmo
-            MostrarAlgoritmoCompleto();
+            MostrarAlgoritmoCompletoInsercionBinaria();
 
             pasoActual = 0;
             textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
@@ -795,7 +1089,7 @@ namespace ProyectoFinal
             {
                 if (pasoActual < pasosAlgoritmoInsercionBinaria.Length)
                 {
-                    ResaltarPaso(pasoActual);
+                    ResaltarPasoInsercionBinaria(pasoActual);
                     pasoActual++;
                 }
                 else
@@ -806,10 +1100,53 @@ namespace ProyectoFinal
             textoTimer.Start();
         }
 
+        private void MostrarAlgoritmoCompletoInsercionBinaria()
+        {
+            richTextBox.Clear();
+            foreach (string paso in pasosAlgoritmoInsercionBinaria)
+            {
+                richTextBox.AppendText(paso + Environment.NewLine);
+            }
+        }
+
+        private void ResaltarPasoInsercionBinaria(int paso)
+        {
+            // Remueve cualquier resaltado previo
+            richTextBox.SelectAll();
+            richTextBox.SelectionBackColor = Color.White;
+
+            // Resalta el paso actual
+            int inicio = ObtenerInicioDeLineaInsercionBinaria(paso);
+            int longitud = pasosAlgoritmoInsercionBinaria[paso].Length;
+
+            richTextBox.Select(inicio, longitud);
+            richTextBox.SelectionBackColor = Color.LightBlue;
+            richTextBox.ScrollToCaret(); // Desplaza el texto para que el paso sea visible
+        }
+
+        private int ObtenerInicioDeLineaInsercionBinaria(int linea)
+        {
+            int inicio = 0;
+            for (int i = 0; i < linea; i++)
+            {
+                inicio += pasosAlgoritmoInsercionBinaria[i].Length + Environment.NewLine.Length;
+            }
+            return inicio;
+        }
+
+        public void AvanzarPasoManualInsercionBinaria(int paso)
+        {
+            // Método para avanzar manualmente el paso desde otro punto
+            if (paso >= 0 && paso < pasosAlgoritmoInsercionBinaria.Length)
+            {
+                ResaltarPasoInsercionBinaria(paso);
+            }
+        }
+
         public void IniciarHeapSortAsc()
         {
             // Muestra todo el texto del algoritmo
-            MostrarAlgoritmoCompleto();
+            MostrarAlgoritmoCompletoHeapSort();
 
             pasoActual = 0;
             textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
@@ -817,7 +1154,7 @@ namespace ProyectoFinal
             {
                 if (pasoActual < pasosAlgortimoHeapSort.Length)
                 {
-                    ResaltarPaso(pasoActual);
+                    ResaltarPasoHeapSort(pasoActual);
                     pasoActual++;
                 }
                 else
@@ -828,10 +1165,53 @@ namespace ProyectoFinal
             textoTimer.Start();
         }
 
+        private void MostrarAlgoritmoCompletoHeapSort()
+        {
+            richTextBox.Clear();
+            foreach (string paso in pasosAlgortimoHeapSort)
+            {
+                richTextBox.AppendText(paso + Environment.NewLine);
+            }
+        }
+
+        private void ResaltarPasoHeapSort(int paso)
+        {
+            // Remueve cualquier resaltado previo
+            richTextBox.SelectAll();
+            richTextBox.SelectionBackColor = Color.White;
+
+            // Resalta el paso actual
+            int inicio = ObtenerInicioDeLineaHeapSort(paso);
+            int longitud = pasosAlgortimoHeapSort[paso].Length;
+
+            richTextBox.Select(inicio, longitud);
+            richTextBox.SelectionBackColor = Color.LightBlue;
+            richTextBox.ScrollToCaret(); // Desplaza el texto para que el paso sea visible
+        }
+
+        private int ObtenerInicioDeLineaHeapSort(int linea)
+        {
+            int inicio = 0;
+            for (int i = 0; i < linea; i++)
+            {
+                inicio += pasosAlgortimoHeapSort[i].Length + Environment.NewLine.Length;
+            }
+            return inicio;
+        }
+
+        public void AvanzarPasoManualHeapSort(int paso)
+        {
+            // Método para avanzar manualmente el paso desde otro punto
+            if (paso >= 0 && paso < pasosAlgortimoHeapSort.Length)
+            {
+                ResaltarPasoHeapSort(paso);
+            }
+        }
+
         public void IniciarHeapSortDes()
         {
             // Muestra todo el texto del algoritmo
-            MostrarAlgoritmoCompleto();
+            MostrarAlgoritmoCompletoHeapSortDescendente();
 
             pasoActual = 0;
             textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
@@ -839,7 +1219,7 @@ namespace ProyectoFinal
             {
                 if (pasoActual < AlgoritmoHeapSortDescendente.Length)
                 {
-                    ResaltarPaso(pasoActual);
+                    ResaltarPasoHeapSortDescendente(pasoActual);
                     pasoActual++;
                 }
                 else
@@ -850,10 +1230,53 @@ namespace ProyectoFinal
             textoTimer.Start();
         }
 
+        private void MostrarAlgoritmoCompletoHeapSortDescendente()
+        {
+            richTextBox.Clear();
+            foreach (string paso in AlgoritmoHeapSortDescendente)
+            {
+                richTextBox.AppendText(paso + Environment.NewLine);
+            }
+        }
+
+        private void ResaltarPasoHeapSortDescendente(int paso)
+        {
+            // Remueve cualquier resaltado previo
+            richTextBox.SelectAll();
+            richTextBox.SelectionBackColor = Color.White;
+
+            // Resalta el paso actual
+            int inicio = ObtenerInicioDeLineaHeapSortDescendente(paso);
+            int longitud = AlgoritmoHeapSortDescendente[paso].Length;
+
+            richTextBox.Select(inicio, longitud);
+            richTextBox.SelectionBackColor = Color.LightBlue;
+            richTextBox.ScrollToCaret(); // Desplaza el texto para que el paso sea visible
+        }
+
+        private int ObtenerInicioDeLineaHeapSortDescendente(int linea)
+        {
+            int inicio = 0;
+            for (int i = 0; i < linea; i++)
+            {
+                inicio += AlgoritmoHeapSortDescendente[i].Length + Environment.NewLine.Length;
+            }
+            return inicio;
+        }
+
+        public void AvanzarPasoManualHeapSortDescendente(int paso)
+        {
+            // Método para avanzar manualmente el paso desde otro punto
+            if (paso >= 0 && paso < AlgoritmoHeapSortDescendente.Length)
+            {
+                ResaltarPasoHeapSortDescendente(paso);
+            }
+        }
+
         public void BarajaAsc()
         {
             // Muestra todo el texto del algoritmo
-            MostrarAlgoritmoCompleto();
+            MostrarAlgoritmoCompletoBaraja();
 
             pasoActual = 0;
             textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
@@ -861,7 +1284,7 @@ namespace ProyectoFinal
             {
                 if (pasoActual < pasosAlgoritmoBaraja.Length)
                 {
-                    ResaltarPaso(pasoActual);
+                    ResaltarPasoBaraja(pasoActual);
                     pasoActual++;
                 }
                 else
@@ -872,10 +1295,53 @@ namespace ProyectoFinal
             textoTimer.Start();
         }
 
+        private void MostrarAlgoritmoCompletoBaraja()
+        {
+            richTextBox.Clear();
+            foreach (string paso in pasosAlgoritmoBaraja)
+            {
+                richTextBox.AppendText(paso + Environment.NewLine);
+            }
+        }
+
+        private void ResaltarPasoBaraja(int paso)
+        {
+            // Remueve cualquier resaltado previo
+            richTextBox.SelectAll();
+            richTextBox.SelectionBackColor = Color.White;
+
+            // Resalta el paso actual
+            int inicio = ObtenerInicioDeLineaBaraja(paso);
+            int longitud = pasosAlgoritmoBaraja[paso].Length;
+
+            richTextBox.Select(inicio, longitud);
+            richTextBox.SelectionBackColor = Color.LightBlue;
+            richTextBox.ScrollToCaret(); // Desplaza el texto para que el paso sea visible
+        }
+
+        private int ObtenerInicioDeLineaBaraja(int linea)
+        {
+            int inicio = 0;
+            for (int i = 0; i < linea; i++)
+            {
+                inicio += pasosAlgoritmoBaraja[i].Length + Environment.NewLine.Length;
+            }
+            return inicio;
+        }
+
+        public void AvanzarPasoManualBaraja(int paso)
+        {
+            // Método para avanzar manualmente el paso desde otro punto
+            if (paso >= 0 && paso < pasosAlgoritmoBaraja.Length)
+            {
+                ResaltarPasoBaraja(paso);
+            }
+        }
+
         public void BarajaDes()
         {
             // Muestra todo el texto del algoritmo
-            MostrarAlgoritmoCompleto();
+            MostrarAlgoritmoCompletoBarajaDescendente();
 
             pasoActual = 0;
             textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
@@ -883,7 +1349,7 @@ namespace ProyectoFinal
             {
                 if (pasoActual < AlgoritmoBarajaDescendente.Length)
                 {
-                    ResaltarPaso(pasoActual);
+                    ResaltarPasoBarajaDescendente(pasoActual);
                     pasoActual++;
                 }
                 else
@@ -893,10 +1359,54 @@ namespace ProyectoFinal
             };
             textoTimer.Start();
         }
+
+        private void MostrarAlgoritmoCompletoBarajaDescendente()
+        {
+            richTextBox.Clear();
+            foreach (string paso in AlgoritmoBarajaDescendente)
+            {
+                richTextBox.AppendText(paso + Environment.NewLine);
+            }
+        }
+
+        private void ResaltarPasoBarajaDescendente(int paso)
+        {
+            // Remueve cualquier resaltado previo
+            richTextBox.SelectAll();
+            richTextBox.SelectionBackColor = Color.White;
+
+            // Resalta el paso actual
+            int inicio = ObtenerInicioDeLineaBarajaDescendente(paso);
+            int longitud = AlgoritmoBarajaDescendente[paso].Length;
+
+            richTextBox.Select(inicio, longitud);
+            richTextBox.SelectionBackColor = Color.LightBlue;
+            richTextBox.ScrollToCaret(); // Desplaza el texto para que el paso sea visible
+        }
+
+        private int ObtenerInicioDeLineaBarajaDescendente(int linea)
+        {
+            int inicio = 0;
+            for (int i = 0; i < linea; i++)
+            {
+                inicio += AlgoritmoBarajaDescendente[i].Length + Environment.NewLine.Length;
+            }
+            return inicio;
+        }
+
+        public void AvanzarPasoManualBarajaDescendente(int paso)
+        {
+            // Método para avanzar manualmente el paso desde otro punto
+            if (paso >= 0 && paso < AlgoritmoBarajaDescendente.Length)
+            {
+                ResaltarPasoBarajaDescendente(paso);
+            }
+        }
+
         public void BusqBin()
         {
             // Muestra todo el texto del algoritmo
-            MostrarAlgoritmoCompleto();
+            MostrarAlgoritmoCompletoBusquedaBinaria();
 
             pasoActual = 0;
             textoTimer.Interval = 1000; // Tiempo entre pasos (1 segundo)
@@ -904,7 +1414,7 @@ namespace ProyectoFinal
             {
                 if (pasoActual < AlgoritmoBusquedaBinaria.Length)
                 {
-                    ResaltarPaso(pasoActual);
+                    ResaltarPasoBusquedaBinaria(pasoActual);
                     pasoActual++;
                 }
                 else
@@ -915,47 +1425,48 @@ namespace ProyectoFinal
             textoTimer.Start();
         }
 
-        private void MostrarAlgoritmoCompleto()
+        private void MostrarAlgoritmoCompletoBusquedaBinaria()
         {
             richTextBox.Clear();
-            foreach (string paso in pasosAlgoritmo)
+            foreach (string paso in AlgoritmoBusquedaBinaria)
             {
                 richTextBox.AppendText(paso + Environment.NewLine);
             }
         }
 
-        private void ResaltarPaso(int paso)
+        private void ResaltarPasoBusquedaBinaria(int paso)
         {
             // Remueve cualquier resaltado previo
             richTextBox.SelectAll();
             richTextBox.SelectionBackColor = Color.White;
 
             // Resalta el paso actual
-            int inicio = ObtenerInicioDeLinea(paso);
-            int longitud = pasosAlgoritmo[paso].Length;
+            int inicio = ObtenerInicioDeLineaBusquedaBinaria(paso);
+            int longitud = AlgoritmoBusquedaBinaria[paso].Length;
 
             richTextBox.Select(inicio, longitud);
             richTextBox.SelectionBackColor = Color.LightBlue;
             richTextBox.ScrollToCaret(); // Desplaza el texto para que el paso sea visible
         }
 
-        private int ObtenerInicioDeLinea(int linea)
+        private int ObtenerInicioDeLineaBusquedaBinaria(int linea)
         {
             int inicio = 0;
             for (int i = 0; i < linea; i++)
             {
-                inicio += pasosAlgoritmo[i].Length + Environment.NewLine.Length;
+                inicio += AlgoritmoBusquedaBinaria[i].Length + Environment.NewLine.Length;
             }
             return inicio;
         }
 
-        public void AvanzarPasoManual(int paso)
+        public void AvanzarPasoManualBusquedaBinaria(int paso)
         {
             // Método para avanzar manualmente el paso desde otro punto
-            if (paso >= 0 && paso < pasosAlgoritmo.Length)
+            if (paso >= 0 && paso < AlgoritmoBusquedaBinaria.Length)
             {
-                ResaltarPaso(paso);
+                ResaltarPasoBusquedaBinaria(paso);
             }
         }
+
     }
 }
