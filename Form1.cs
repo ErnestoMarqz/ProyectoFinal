@@ -114,7 +114,7 @@ namespace ProyectoFinal
                 bool ascendente = rbAsendente.Checked;
 
                 Metodos metodos = new Metodos(); // Tu clase que contiene los algoritmos
-                await metodos.OrdenarInsercionBinariaConAnimacion(flowLayoutPanel1, ascendente);
+                await metodos.OrdenarInsercionBinariaConAnimacion(flowLayoutPanel1, arreglo,ascendente);
 
             }
 
