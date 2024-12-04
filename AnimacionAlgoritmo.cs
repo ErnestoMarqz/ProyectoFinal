@@ -15,7 +15,153 @@ namespace ProyectoFinal
         private Timer textoTimer;
         private RichTextBox richTextBox;
 
-        public AnimacionAlgoritmo(RichTextBox richTextBox)
+        public async Task OrdenarBurbujaMejoradoConAlgoritmoAnimado(FlowLayoutPanel parent, RichTextBox richTextBox, bool ascendente)
+        {
+            // Paso 1: Mostrar el algoritmo en el RichTextBox
+            List<string> algoritmo = new List<string>
+    {
+        "for (int i = 0; i < valores.Count - 1; i++)",
+        "{",
+        "    bool intercambio = false;",
+        "    for (int j = 0; j < valores.Count - 1 - i; j++)",
+        "    {",
+        "        if (ascendente ? valores[j] > valores[j + 1] : valores[j] < valores[j + 1])",
+        "        {",
+        "            Intercambiar(valores[j], valores[j + 1]);",
+        "            intercambio = true;",
+        "        }",
+        "    }",
+        "    if (!intercambio) break;",
+        "}"
+    };
+
+            MostrarAlgoritmoRichTextBox(algoritmo, richTextBox, -1);
+
+            // Paso 2: Ejecutar el algoritmo mientras se actualiza el RichTextBox
+            List<int> valores = parent.Controls.Cast<Panel>()
+                .Select(cuadro => int.Parse((cuadro.Controls[0] as Label).Text))
+                .ToList();
+
+            for (int i = 0; i < valores.Count - 1; i++)
+            {
+                // Resaltar línea del primer bucle
+                MostrarAlgoritmoRichTextBox(algoritmo, richTextBox, 0);
+                await Task.Delay(500);
+
+                bool intercambio = false;
+
+                MostrarAlgoritmoRichTextBox(algoritmo, richTextBox, 2); // Línea de inicialización de "intercambio"
+                await Task.Delay(500);
+
+                for (int j = 0; j < valores.Count - 1 - i; j++)
+                {
+                    MostrarAlgoritmoRichTextBox(algoritmo, richTextBox, 3); // Línea del segundo bucle
+                    await Task.Delay(500);
+
+                    bool intercambiar = ascendente ? valores[j] > valores[j + 1] : valores[j] < valores[j + 1];
+                    MostrarAlgoritmoRichTextBox(algoritmo, richTextBox, 5); // Condición de intercambio
+                    await Task.Delay(500);
+
+                    if (intercambiar)
+                    {
+                        // Resaltar la línea del intercambio
+                        MostrarAlgoritmoRichTextBox(algoritmo, richTextBox, 6);
+                        (valores[j], valores[j + 1]) = (valores[j + 1], valores[j]);
+
+                        await Cuadritos.IntercambiarCuadrosAnimado(parent, j, j + 1);
+
+                        intercambio = true;
+                        MostrarAlgoritmoRichTextBox(algoritmo, richTextBox, 7); // Línea donde "intercambio" se actualiza
+                        await Task.Delay(500);
+                    }
+                }
+
+                MostrarAlgoritmoRichTextBox(algoritmo, richTextBox, 10); // Línea del "if (!intercambio)"
+                if (!intercambio) break;
+            }
+
+            MostrarAlgoritmoRichTextBox(algoritmo, richTextBox, -1); // Restablecer (ninguna línea resaltada)
+        }
+
+        private void MostrarAlgoritmoRichTextBox(List<string> algoritmo, RichTextBox richTextBox, int lineaActual)
+        {
+            richTextBox.Clear();
+
+            for (int i = 0; i < algoritmo.Count; i++)
+            {
+                if (i == lineaActual)
+                {
+                    richTextBox.SelectionColor = Color.Red; // Resaltar la línea actual
+                }
+                else
+                {
+                    richTextBox.SelectionColor = Color.Black;
+                }
+
+                richTextBox.AppendText(algoritmo[i] + Environment.NewLine);
+            }
+
+            richTextBox.SelectionStart = richTextBox.Text.Length;
+            richTextBox.ScrollToCaret();
+        }
+
+        public async Task OrdenarBurbujaEstándarConAlgoritmoAnimado(FlowLayoutPanel parent, RichTextBox richTextBox, bool ascendente)
+        {
+            // Paso 1: Mostrar el algoritmo en el RichTextBox
+            List<string> algoritmo = new List<string>
+    {
+        "for (int i = 0; i < valores.Count - 1; i++)",
+        "{",
+        "    for (int j = 0; j < valores.Count - 1 - i; j++)",
+        "    {",
+        "        if (ascendente ? valores[j] > valores[j + 1] : valores[j] < valores[j + 1])",
+        "        {",
+        "            Intercambiar(valores[j], valores[j + 1]);",
+        "        }",
+        "    }",
+        "}"
+    };
+
+            MostrarAlgoritmoRichTextBox(algoritmo, richTextBox, -1);
+
+            // Paso 2: Ejecutar el algoritmo mientras se actualiza el RichTextBox
+            List<int> valores = parent.Controls.Cast<Panel>()
+                .Select(cuadro => int.Parse((cuadro.Controls[0] as Label).Text))
+                .ToList();
+
+            for (int i = 0; i < valores.Count - 1; i++)
+            {
+                // Resaltar línea del primer bucle
+                MostrarAlgoritmoRichTextBox(algoritmo, richTextBox, 0);
+                await Task.Delay(500);
+
+                for (int j = 0; j < valores.Count - 1 - i; j++)
+                {
+                    MostrarAlgoritmoRichTextBox(algoritmo, richTextBox, 2); // Línea del segundo bucle
+                    await Task.Delay(500);
+
+                    bool intercambiar = ascendente ? valores[j] > valores[j + 1] : valores[j] < valores[j + 1];
+                    MostrarAlgoritmoRichTextBox(algoritmo, richTextBox, 4); // Condición de intercambio
+                    await Task.Delay(500);
+
+                    if (intercambiar)
+                    {
+                        // Resaltar la línea del intercambio
+                        MostrarAlgoritmoRichTextBox(algoritmo, richTextBox, 6);
+                        (valores[j], valores[j + 1]) = (valores[j + 1], valores[j]);
+
+                        await Cuadritos.IntercambiarCuadrosAnimado(parent, j, j + 1);
+                        await Task.Delay(500);
+                    }
+                }
+            }
+
+            MostrarAlgoritmoRichTextBox(algoritmo, richTextBox, -1); // Restablecer (ninguna línea resaltada)
+        }
+
+
+
+        public AnimacionAlgoritmo (RichTextBox richTextBox)
         {
             // Algoritmo de ordenamiento burbuja
             pasosAlgoritmo = new string[]

@@ -89,7 +89,7 @@ namespace ProyectoFinal
         }
 
 
-        public async Task OrdenarBurbujaConAnimacion(FlowLayoutPanel parent, bool ascendente)
+        public static async Task OrdenarBurbujaConAnimacion(FlowLayoutPanel parent, bool ascendente)
         {
             for (int i = 0; i < parent.Controls.Count - 1; i++)
             {
@@ -185,10 +185,56 @@ namespace ProyectoFinal
             }
         }
 
+
+        private async Task ResaltarCodigoAsync(RichTextBox richTextBox, int linea)
+        {
+            // Configura el color para resaltar la línea seleccionada
+            richTextBox.SelectionStart = richTextBox.GetFirstCharIndexFromLine(linea);
+            richTextBox.SelectionLength = richTextBox.Lines[linea].Length;
+            richTextBox.SelectionBackColor = Color.LightBlue;
+
+            // Deja un tiempo para que la animación sea visible
+            await Task.Delay(1000); // Tiempo de resalte para cada línea (ajustar si es necesario)
+
+            // Restaura el color original
+            richTextBox.SelectionBackColor = Color.White;
+        }
+
         private Cuadritos creador = new Cuadritos();
 
-        public async Task MergeSortConAnimacion(FlowLayoutPanel parent, bool ascendente)
+        public async Task MergeSortConAnimacion(FlowLayoutPanel parent, bool ascendente, RichTextBox richTextBox)
         {
+            // Código fuente del algoritmo (líneas divididas para el RichTextBox)
+            string codigoFuente = @"
+private async Task MergeSortAnimado(...)
+{
+    if (inicio >= fin) return; // Caso base
+
+    int medio = (inicio + fin) / 2;
+
+    ResaltarRango(parent, inicio, fin, Color.Yellow); // Resaltar partición
+    await MergeSortAnimado(...); // Llamada recursiva izquierda
+    await MergeSortAnimado(...); // Llamada recursiva derecha
+
+    await MergeAnimado(...); // Combinar las mitades
+}
+
+private async Task MergeAnimado(...)
+{
+    ResaltarRango(...); // Resaltar particiones
+
+    while (i <= medio && j <= fin) { ... } // Combinar elementos
+
+    for (int k = 0; k < temp.Count; k++) { ... } // Actualizar visualmente
+}";
+
+            // Configurar el RichTextBox
+            richTextBox.Clear();
+            richTextBox.Text = codigoFuente.Trim();
+            richTextBox.SelectAll();
+            richTextBox.SelectionColor = Color.Black;
+            richTextBox.DeselectAll();
+
             // Convertir los bloques a una lista de valores enteros
             List<int> valores = new List<int>();
             foreach (Panel panel in parent.Controls)
@@ -198,29 +244,36 @@ namespace ProyectoFinal
             }
 
             // Llamar a la función recursiva con animación
-            await MergeSortAnimado(parent, valores, 0, valores.Count - 1, ascendente);
+            await MergeSortAnimado(parent, valores, 0, valores.Count - 1, ascendente, richTextBox);
         }
 
-        private async Task MergeSortAnimado(FlowLayoutPanel parent, List<int> valores, int inicio, int fin, bool ascendente)
+
+        public async Task MergeSortAnimado(FlowLayoutPanel parent, List<int> valores, int inicio, int fin, bool ascendente, RichTextBox richTextBox)
         {
-            // Caso base: si la sublista tiene un solo elemento
             if (inicio >= fin) return;
 
             int medio = (inicio + fin) / 2;
 
-            // Animar la división (resaltar la partición actual)
-            ResaltarRango(parent, inicio, fin, System.Drawing.Color.Yellow);
-            await Task.Delay(1000);
+            // Resaltar la partición actual en el código
+            await ResaltarCodigoAsync(richTextBox, 5); // Línea de "ResaltarRango"
 
-            // Llamar recursivamente a las mitades
-            await MergeSortAnimado(parent, valores, inicio, medio, ascendente);
-            await MergeSortAnimado(parent, valores, medio + 1, fin, ascendente);
+            // Resaltar visualmente el rango en el panel
+            ResaltarRango(parent, inicio, fin, Color.Yellow);
+            await Task.Delay(1000); // Asegura que el resaltado se vea
+
+            // Llamadas recursivas
+            await ResaltarCodigoAsync(richTextBox, 6); // Línea de "await MergeSortAnimado (izquierda)"
+            await MergeSortAnimado(parent, valores, inicio, medio, ascendente, richTextBox);
+
+            await ResaltarCodigoAsync(richTextBox, 7); // Línea de "await MergeSortAnimado (derecha)"
+            await MergeSortAnimado(parent, valores, medio + 1, fin, ascendente, richTextBox);
 
             // Combinar las dos mitades
-            await MergeAnimado(parent, valores, inicio, medio, fin, ascendente);
+            await ResaltarCodigoAsync(richTextBox, 10); // Línea de "await MergeAnimado"
+            await MergeAnimado(parent, valores, inicio, medio, fin, ascendente, richTextBox);
         }
 
-        private async Task MergeAnimado(FlowLayoutPanel parent, List<int> valores, int inicio, int medio, int fin, bool ascendente)
+        private async Task MergeAnimado(FlowLayoutPanel parent, List<int> valores, int inicio, int medio, int fin, bool ascendente, RichTextBox richTextBox)
         {
             int i = inicio, j = medio + 1;
             List<int> temp = new List<int>();
@@ -261,21 +314,25 @@ namespace ProyectoFinal
                 Size tamañoInicial = cuadro.Size;
                 Size tamañoFinal = new Size(nuevoValor * 10, nuevoValor * 10);
 
-                // Animar el cambio de tamaño
+                // Animar el cambio de tamaño y actualización del valor
                 int pasos = 20;
                 for (int paso = 0; paso <= pasos; paso++)
                 {
                     cuadro.Invoke((MethodInvoker)(() =>
                     {
+                        // Interpolamos el tamaño de forma suave
                         cuadro.Size = new Size(
                             Interpolar(tamañoInicial.Width, tamañoFinal.Width, paso, pasos),
                             Interpolar(tamañoInicial.Height, tamañoFinal.Height, paso, pasos)
                         );
-                        cuadro.BackColor = Color.Green;
+
+                        // Actualizar el valor en el Label del Panel
                         (cuadro.Controls[0] as Label).Text = nuevoValor.ToString();
+                        cuadro.BackColor = Color.Green;
                         cuadro.Refresh();
                     }));
 
+                    // Mostrar animación en el RichTextBox
                     await Task.Delay(20); // Pausa para que la animación sea visible
                 }
             }

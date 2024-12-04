@@ -123,6 +123,10 @@ namespace ProyectoFinal
             int numeroA = int.Parse((cuadroA.Controls[0] as Label).Text);
             int numeroB = int.Parse((cuadroB.Controls[0] as Label).Text);
 
+            // Resaltar cuadros
+            Color colorOriginalA = (Color)cuadroA.Tag;
+            Color colorOriginalB = (Color)cuadroB.Tag;
+
             // Resaltar en amarillo para indicar comparación
             cuadroA.BackColor = Color.Yellow;
             cuadroB.BackColor = Color.Yellow;
@@ -169,8 +173,8 @@ namespace ProyectoFinal
             (cuadroB.Controls[0] as Label).Text = numeroA.ToString();
 
             // Restaurar colores
-            cuadroA.BackColor = Color.Black;
-            cuadroB.BackColor = Color.Black;
+            cuadroA.BackColor = colorOriginalA;
+            cuadroB.BackColor = colorOriginalB;
             cuadroA.Refresh();
             cuadroB.Refresh();
         }

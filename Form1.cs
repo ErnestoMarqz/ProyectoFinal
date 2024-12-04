@@ -25,7 +25,7 @@ namespace ProyectoFinal
             //poner el forms en el centro de la pantalla
             this.StartPosition = FormStartPosition.Manual;
             this.Location = new Point(250, 10); // Cambia a la posición deseada
-            animacionTexto = new AnimacionAlgoritmo(richTextBox2);
+            animacionTexto = new AnimacionAlgoritmo();
 
         }
 
@@ -65,6 +65,10 @@ namespace ProyectoFinal
 
         }
 
+
+        
+
+
         private void button1_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Creado por el equipo: NyE Squad");
@@ -81,11 +85,8 @@ namespace ProyectoFinal
 
             if (comboBox1.SelectedItem.ToString() == "Burbuja")
             {
-                // Determinar si es ascendente o descendente
-                bool ascendente = rbAsendente.Checked;
-
-                // Llamar al método de ordenamiento
-                metodos.OrdenarBurbujaConAnimacion(flowLayoutPanel1, ascendente);
+                bool ascendente = rbAsendente.Checked; // Verificar si es orden ascendente o descendente
+                await animacionTexto.OrdenarBurbujaEstándarConAlgoritmoAnimado(flowLayoutPanel1, richTextBox2, ascendente);
             }
 
             if (comboBox1.SelectedItem.ToString() == "Burbuja Mejorado")
@@ -94,18 +95,17 @@ namespace ProyectoFinal
                 bool ascendente = rbAsendente.Checked;
 
                 // Llamar al método de ordenamiento optimizado
-                metodos.OrdenarBurbujaConAnimacionMejorado(flowLayoutPanel1, ascendente);
+                await animacionTexto.OrdenarBurbujaMejoradoConAlgoritmoAnimado(flowLayoutPanel1, richTextBox2, ascendente);
                 
             }
 
             if (comboBox1.SelectedItem.ToString() == "Merges")
             {
-                // Determinar si es ascendente o descendente
                 bool ascendente = rbAsendente.Checked;
 
-                Metodos metodos = new Metodos(); // Tu clase que contiene los algoritmos
-                await metodos.MergeSortConAnimacion(flowLayoutPanel1, ascendente);
-
+                // Llamar al método de MergeSortAnimado
+                Metodos metodos = new Metodos();
+                await metodos.MergeSortConAnimacion(flowLayoutPanel1, ascendente, richTextBox2);
             }
 
             if (comboBox1.SelectedItem.ToString() == "Baraja")
@@ -216,16 +216,16 @@ namespace ProyectoFinal
 
         private int currentLineIndex = 0;
 
-        private async void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-            if (comboBox1.SelectedItem.ToString() == "Burbuja")
-            {
-                animacionTexto.Iniciar();
-                await Task.Delay(300);
-            }
-                animacionTexto.Iniciar();
-            await Task.Delay(300);
+            //if (comboBox1.SelectedItem.ToString() == "Burbuja")
+            //{
+            //    animacionTexto.Iniciar();
+            //    await Task.Delay(300);
+            //}
+            //    animacionTexto.Iniciar();
+            //await Task.Delay(300);
 
             if (comboBox1.SelectedItem.ToString() == "Cubeta")
             {
