@@ -222,13 +222,90 @@ namespace ProyectoFinal
     };
 
             pasosAlgortimoHeapSort = new string[]
+             {
+
+                    "for (int I = 1; I < N; I++)",
+                    "{",
+                        "int K = I + 1;",
+                      "  bool BAND = true;",
+
+                        "while (K > 1 && BAND)",
+                       " {",
+                           " BAND = false;",
+                           " int padre = (K - 1) / 2;",
+
+                           " if (A[K - 1] > A[padre])",
+                            "{",
+                               " int AUX = A[padre];",
+                                "A[padre] = A[K - 1];",
+                                "A[K - 1] = AUX;",
+
+                               " K = padre + 1;",
+                                "BAND = true;",
+                           " }",
+                       " }",
+                   " }",
+                "}",
+               " EliminarMonticulo(A, N);",
+            "}",
+
+
+            "EliminarMonticulo(int[] A, int N)",
+                "{",
+                "for (int I = N - 1; I >= 1; I--)",
+               " {",
+                   " int AUX = A[I];",
+                    "A[I] = A[0];",
+                    "int IZQ = 1, DER = 2, K = 0;",
+                    "bool BOOL = true;",
+
+                    "while ((IZQ < I) && (BOOL == true))",
+                   " {",
+                        "int MAYOR = A[IZQ];",
+                        "int AP = IZQ;",
+
+                       " if ((DER < I) && (MAYOR < A[DER]))",
+                      "  {",
+                           " MAYOR = A[DER];",
+                           " AP = DER;",
+                        "}",
+
+                       " if (AUX < MAYOR)",
+                       " {",
+                           " A[K] = A[AP];",
+                           " K = AP;",
+                      "  }",
+                        "else",
+                        "{",
+                           " BOOL = false;",
+                        "}",
+
+                        "IZQ = 2 * K + 1;",
+                        "DER = IZQ + 1;",
+                    "}",
+
+                   " A[K] = AUX;",
+                "}",
+            "}",
+                };
+
+            pasosAlgoritmoCubeta = new string[]
     {
-        "Construye un heap máximo desde el arreglo",
-        "Intercambia el primer elemento (máximo) con el último",
-        "Reduce el tamaño del heap",
-        "Recursivamente ajusta el heap para restaurar la propiedad de heap máximo",
-        "Repite hasta que el heap esté vacío y el arreglo esté ordenado"
-    };
+            "int N = A.Length;",
+            "for (int I = 1; I < N; I++) ",
+            "{",
+            "int AUX = A[I];",
+                "int K = I - 1;",
+
+                "while (K >= 0 && AUX > A[K])",
+                "{",
+                    "A[K + 1] = A[K];",
+                    "K--;",
+                "}",
+                "A[K + 1] = AUX;",
+            "}"
+        };
+
 
             this.richTextBox = richTextBox;
             textoTimer = new Timer();
